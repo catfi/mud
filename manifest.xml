@@ -1,0 +1,6 @@
+<project name="domain-basic" author="arton" signature="" version="0.0.0.1" bundle_type="native">
+    <dependency>
+        <native_object name="Input.o" lpath="./native"/>
+        <native_object name="IndexableString.o" lpath="./native"/>
+    </dependency>
+</project>
