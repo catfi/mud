@@ -8,17 +8,7 @@ function handle_user_coming( a_client:Domain ):void
     server_state.addClient( a_client );
 }
 
-// the real entry function on server
-@server
-function server_main( client : Domain ) : void
-{
-    // call client's entry function
-    @remote { domain = client }
-    client_main();
-    
-    print( "hi this is server.\n" );
 
-}
 
 class ServerState
 {
