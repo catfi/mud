@@ -1,15 +1,17 @@
 PROJECT_ROOT = $(CURDIR)
 NATIVE_DIR   = $(PROJECT_ROOT)/native
 
-.PHONY: native
-.PHONY: thorsript
+.PHONY: t
 .PHONY: s
 .PHONY: c
+.PHONY: debug
+.PHONY: release
+.PHONY: native
 
 
-all: thorscript
+all: debug
 
-test: thorscript
+t: debug
 	tsc run test
 
 s:
@@ -18,8 +20,11 @@ s:
 c:
 	tsc run client_entry --domain=mt --transport="tcp://0.0.0.0:1234" -c
 
-thorscript: native
+debug: native
 	tsc build debug
+
+release: native
+	tsc build release
 
 native:
 	$(MAKE) -C $(NATIVE_DIR)
