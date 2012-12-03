@@ -1,19 +1,46 @@
-PROJECT_DIR=$(CURDIR)/..
+PROJECT_ROOT = $(CURDIR)/..
+INCLUDE_DIR  = $(PROJECT_ROOT)/include
+LIB_DIR      = $(PROJECT_ROOT)/lib
+TEMP_DIR     = tmp
 
-CC=g++
-INCLUDE_DIR=${PROJECT_DIR}/include
-COMPILE_FLAGS=-std=c++0x -fPIC -g
+CC        = gcc
+CXX       = g++
+DEBUG     = -g
+CFLAGS    =
+CXXFLAGS  = -std=c++0x -fPIC
+LFLAGS    = 
+AR        = ar
+RM        = rm
 
-TEMP_DIR=tmp
+SOURCE_EXT = cpp
+OBJECT_EXT = o
+LIB_EXT    = a
 
-all: Input IndexableString
-	rm -rf ${TEMP_DIR}
+OBJS     = $(TEMP_DIR)/Input.$(OBJECT_EXT) $(TEMP_DIR)/IndexableString.$(OBJECT_EXT)
+OBJLIB   = $(LIB_DIR)/libmud.$(LIB_EXT)
 
-IndexableString: before-build IndexableString.cpp 
-	${CC} -c IndexableString.cpp -o ${TEMP_DIR}/IndexableString.o -I${INCLUDE_DIR} ${COMPILE_FLAGS}
+.PHONY: before-build
+.PHONY: clean
 
-Input: before-build Input.cpp
-	${CC} -c Input.cpp -o ${TEMP_DIR}/Input.o -I${INCLUDE_DIR} ${COMPILE_FLAGS}
+
+
+all: $(OBJLIB)
+	$(MAKE) clean
+
+$(OBJLIB): $(OBJS)
+	$(AR) -r $(OBJLIB) $(OBJS)
+
+$(TEMP_DIR)/IndexableString.$(OBJECT_EXT): IndexableString.$(SOURCE_EXT)
+	$(MAKE) before-build
+	$(CXX) -c IndexableString.$(SOURCE_EXT) -o $(TEMP_DIR)/IndexableString.$(OBJECT_EXT) -I$(INCLUDE_DIR) $(CXXFLAGS) $(DEBUG)
+
+$(TEMP_DIR)/Input.$(OBJECT_EXT): Input.$(SOURCE_EXT)
+	$(MAKE) before-build
+	$(CXX) -c Input.$(SOURCE_EXT) -o $(TEMP_DIR)/Input.$(OBJECT_EXT) -I$(INCLUDE_DIR) $(CXXFLAGS) $(DEBUG)
 
 before-build:
-	mkdir -p tmp
+	mkdir -p $(TEMP_DIR)
+	mkdir -p $(LIB_DIR)
+
+clean:
+	$(RM) -rf $(TEMP_DIR) 
