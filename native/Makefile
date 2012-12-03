@@ -12,12 +12,8 @@ LFLAGS    =
 AR        = ar
 RM        = rm
 
-SOURCE_EXT = cpp
-OBJECT_EXT = o
-LIB_EXT    = a
-
-OBJS     = $(TEMP_DIR)/Input.$(OBJECT_EXT) $(TEMP_DIR)/IndexableString.$(OBJECT_EXT)
-OBJLIB   = $(LIB_DIR)/libmud.$(LIB_EXT)
+OBJS     = $(TEMP_DIR)/Input.o $(TEMP_DIR)/IndexableString.o
+OBJLIB   = $(LIB_DIR)/libmud.a
 
 .PHONY: before-build
 .PHONY: clean
@@ -30,13 +26,13 @@ all: $(OBJLIB)
 $(OBJLIB): $(OBJS)
 	$(AR) -r $(OBJLIB) $(OBJS)
 
-$(TEMP_DIR)/IndexableString.$(OBJECT_EXT): IndexableString.$(SOURCE_EXT)
+$(TEMP_DIR)/IndexableString.o: IndexableString.cpp
 	$(MAKE) before-build
-	$(CXX) -c IndexableString.$(SOURCE_EXT) -o $(TEMP_DIR)/IndexableString.$(OBJECT_EXT) -I$(INCLUDE_DIR) $(CXXFLAGS) $(DEBUG)
+	$(CXX) -c IndexableString.cpp -o $(TEMP_DIR)/IndexableString.o -I$(INCLUDE_DIR) $(CXXFLAGS) $(DEBUG)
 
-$(TEMP_DIR)/Input.$(OBJECT_EXT): Input.$(SOURCE_EXT)
+$(TEMP_DIR)/Input.o: Input.cpp
 	$(MAKE) before-build
-	$(CXX) -c Input.$(SOURCE_EXT) -o $(TEMP_DIR)/Input.$(OBJECT_EXT) -I$(INCLUDE_DIR) $(CXXFLAGS) $(DEBUG)
+	$(CXX) -c Input.cpp -o $(TEMP_DIR)/Input.o -I$(INCLUDE_DIR) $(CXXFLAGS) $(DEBUG)
 
 before-build:
 	mkdir -p $(TEMP_DIR)
