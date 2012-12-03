@@ -1,0 +1,41 @@
+/**
+ * Copyright (C) 2008-2012 Zillians, Inc. <http://www.zillians.com/>
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef THOR_PLATFORM_H_
+#define THOR_PLATFORM_H_
+
+//////////////////////////////////////////////////////////////////////////
+#define _REENTRANT 1
+#define __THOR_PLATFORM_SUPPORT_MEMORY_REALLOC 1
+
+#if defined _WIN32 || defined __WIN32__
+	#define __THOR_PLATFORM_WINDOWS__
+#elif defined __APPLE__
+#define __THOR_PLATFORM_MAC__
+#else
+	#define __THOR_PLATFORM_LINUX__
+
+	#ifndef _GLIBCXX_USE_WCHAR_T
+		#define _GLIBCXX_USE_WCHAR_T
+	#endif
+#endif
+
+#ifdef __THOR_PLATFORM_WINDOWS__
+	#define NOMINMAX
+#endif
+
+#endif /* THOR_PLATFORM_H_ */
