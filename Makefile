@@ -12,10 +12,10 @@ all: thorscript
 test: thorscript
 	tsc run test
 
-s: thorscript
+s:
 	tsc run server_main --transport="tcp://*:1234" -s 
 
-c: thorscript
+c:
 	tsc run client_main --transport="tcp://0.0.0.0:1234" -c
 
 thorscript: native
