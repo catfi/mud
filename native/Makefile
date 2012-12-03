@@ -1,14 +1,14 @@
-PROJECT_ROOT = $(CURDIR)/..
-INCLUDE_DIR  = $(PROJECT_ROOT)/include
-LIB_DIR      = $(PROJECT_ROOT)/lib
-TEMP_DIR     = tmp
+PROJECT_ROOT              = $(CURDIR)/..
+INCLUDE_DIRS              = -I$(PROJECT_ROOT)/include -I$(THORSCRIPT_BUNDLE_SRC)
+LIB_DIR                   = $(PROJECT_ROOT)/lib
+TEMP_DIR                  = tmp
 
 CC        = gcc
 CXX       = g++
 DEBUG     = -g
 CFLAGS    =
 CXXFLAGS  = -std=c++0x -fPIC
-LFLAGS    = 
+LFLAGS    =
 AR        = ar
 RM        = rm
 
@@ -28,15 +28,15 @@ $(OBJLIB): $(OBJS)
 
 $(TEMP_DIR)/IndexableString.o: IndexableString.cpp
 	$(MAKE) before-build
-	$(CXX) -c IndexableString.cpp -o $(TEMP_DIR)/IndexableString.o -I$(INCLUDE_DIR) $(CXXFLAGS) $(DEBUG)
+	$(CXX) -c IndexableString.cpp -o $(TEMP_DIR)/IndexableString.o $(INCLUDE_DIRS) $(CXXFLAGS) $(DEBUG)
 
 $(TEMP_DIR)/Input.o: Input.cpp
 	$(MAKE) before-build
-	$(CXX) -c Input.cpp -o $(TEMP_DIR)/Input.o -I$(INCLUDE_DIR) $(CXXFLAGS) $(DEBUG)
+	$(CXX) -c Input.cpp -o $(TEMP_DIR)/Input.o $(INCLUDE_DIRS) $(CXXFLAGS) $(DEBUG)
 
 before-build:
 	mkdir -p $(TEMP_DIR)
 	mkdir -p $(LIB_DIR)
 
 clean:
-	$(RM) -rf $(TEMP_DIR) 
+	$(RM) -rf $(TEMP_DIR)

@@ -17,7 +17,7 @@
 
 #include <sstream>
 #include <iostream>
-#include "mud/IndexableString.h"
+#include "IndexableString.h"
 
 using namespace thor;
 using namespace thor::lang;

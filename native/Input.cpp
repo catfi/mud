@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
+#include "Input.h"
 
 using namespace thor;
 using namespace thor::lang;
