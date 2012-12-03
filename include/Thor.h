@@ -15,23 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
+#ifndef THOR_H_
+#define THOR_H_
 
-using namespace thor;
-using namespace thor::lang;
+#include "PrimitiveTypes.h"
 
-String* raw_input()
-{
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
-
-}
-
-int64 input()
-{
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
-}
+#endif

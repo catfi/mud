@@ -15,23 +15,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
+#ifndef THOR_LANG_DEBUG_H_
+#define THOR_LANG_DEBUG_H_
 
-using namespace thor;
-using namespace thor::lang;
+#include "Thor.h"
+#include "thor/lang/String.h"
 
-String* raw_input()
-{
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
+namespace thor { namespace lang {
 
-}
+void print(bool v);
+void print(int8 v);
+void print(int16 v);
+void print(int32 v);
+void print(int64 v);
+void print(float32 v);
+void print(float64 v);
+void print(String* v);
+void trace(String* v);
 
-int64 input()
-{
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
-}
+} }
+
+#endif /* THOR_LANG_DEBUG_H_ */

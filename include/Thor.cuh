@@ -15,23 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
+#ifndef THOR_CUH_
+#define THOR_CUH_
 
-using namespace thor;
-using namespace thor::lang;
+#undef _GLIBCXX_ATOMIC_BUILTINS
+#undef _GLIBCXX_USE_INT128
 
-String* raw_input()
-{
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
+#include "PrimitiveTypes.h"
+#include <cuda_runtime.h>
+#include <cuda_runtime_api.h>
+//#include <device_fuinctions.h>
 
-}
+#define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
 
-int64 input()
-{
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
-}
+#endif /* THOR_CUH_ */

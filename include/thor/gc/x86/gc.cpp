@@ -15,23 +15,37 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
+#include "thor/gc/gc.h"
+#include "framework/service/object/ObjectServiceMT.h"
+#include "framework/service/object/gc/GarbageCollectorBufferMT.h"
 
-using namespace thor;
+namespace thor {
+
+extern zillians::framework::service::ObjectServiceMT* gObjectService;
+
+namespace gc {
+
 using namespace thor::lang;
+using namespace thor::container;
 
-String* raw_input()
+int64 getGenerationId()
 {
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
-
+    return gObjectService->getGCGenerationId();
 }
 
-int64 input()
+bool isGCWorking()
 {
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
+    return gObjectService->isGCWorking();
 }
+
+void setGCEnable(bool enable)
+{
+	gObjectService->setGCEnable(enable);
+}
+
+void getActiveObjectInternal(Vector<Object>* objects)
+{
+	gObjectService->getActiveObjectInternal(objects);
+}
+
+} }

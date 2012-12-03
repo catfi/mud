@@ -14,24 +14,36 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+import . = thor.lang;
+import . = thor.unmanaged;
 
-#include "mud/Input.h"
-
-using namespace thor;
-using namespace thor::lang;
-
-String* raw_input()
+@cpu
+@native
+class Time extends Object
 {
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
+    @native
+    private function new():void;
 
-}
+    @native
+    public virtual function delete():void;
 
-int64 input()
-{
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
+	@native
+	public static function current():Time;
+	
+	@native
+	public function seconds():int64;
+	
+	@native
+	public function milliseconds():int64;
+	
+	@native
+	public function microseconds():int64;
+
+    private static function create():Time
+    {
+        return new Time();
+    }
+	
+	private var _internal: ptr_<int8>;
 }

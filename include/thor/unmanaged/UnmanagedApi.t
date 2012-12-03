@@ -15,23 +15,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
+import . = thor.lang;
 
-using namespace thor;
-using namespace thor::lang;
+@cpu
+class ptr_<T> extends Object { }
 
-String* raw_input()
-{
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
+@cpu
+class ref_<T> extends Object { }
 
-}
+@cpu
+class const_<T> extends Object { }
 
-int64 input()
-{
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
-}
+@cpu
+@system
+function deref<P, V>(pointer:P):V;
+
+@cpu
+@system
+function addressof<V, P>(value:V):P;

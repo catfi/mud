@@ -15,23 +15,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
+#ifndef THOR_PLATFORM_H_
+#define THOR_PLATFORM_H_
 
-using namespace thor;
-using namespace thor::lang;
+//////////////////////////////////////////////////////////////////////////
+#define _REENTRANT 1
+#define __THOR_PLATFORM_SUPPORT_MEMORY_REALLOC 1
 
-String* raw_input()
-{
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
+#if defined _WIN32 || defined __WIN32__
+	#define __THOR_PLATFORM_WINDOWS__
+#elif defined __APPLE__
+#define __THOR_PLATFORM_MAC__
+#else
+	#define __THOR_PLATFORM_LINUX__
 
-}
+	#ifndef _GLIBCXX_USE_WCHAR_T
+		#define _GLIBCXX_USE_WCHAR_T
+	#endif
+#endif
 
-int64 input()
-{
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
-}
+#ifdef __THOR_PLATFORM_WINDOWS__
+	#define NOMINMAX
+#endif
+
+#endif /* THOR_PLATFORM_H_ */
