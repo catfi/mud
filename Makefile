@@ -13,10 +13,10 @@ test: thorscript
 	tsc run test
 
 s:
-	tsc run server_entry --transport="tcp://*:1234" -s 
+	tsc run server_entry --domain=mt --transport="tcp://*:1234" -s 
 
 c:
-	tsc run client_entry --transport="tcp://0.0.0.0:1234" -c
+	tsc run client_entry --domain=mt --transport="tcp://0.0.0.0:1234" -c
 
 thorscript: native
 	tsc build debug
