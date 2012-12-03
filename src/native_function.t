@@ -16,8 +16,7 @@
  */
 
 @native
-function raw_input():String;
+function raw_input() : String;
 
 @native
-function input():int64;
-
+function input() : int64;
