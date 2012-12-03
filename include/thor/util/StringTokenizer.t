@@ -14,24 +14,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+/*
 
-#include "mud/Input.h"
+import . = thor.lang;
 
-using namespace thor;
-using namespace thor::lang;
-
-String* raw_input()
+@native
+class StringTokenizer extends Object
 {
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
+	@native
+	private function new():void;
+	
+	@native
+	public function new(s:String, delim:String):void;
+	 
+	@native
+	public function delete():void; 
 
+	@native 
+	public function countTokens():int32;
+	
+	@native
+	public function hasMoreTokens():bool;
+	
+	@native
+	public function nextToken():String;
 }
 
-int64 input()
-{
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
-}
+*/

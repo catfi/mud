@@ -15,23 +15,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
+#include "thor/util/Random.h"
 
-using namespace thor;
-using namespace thor::lang;
+namespace thor { namespace util {
 
-String* raw_input()
+Uniform::Uniform() 
 {
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
-
 }
 
-int64 input()
+Uniform::~Uniform()
 {
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
 }
+
+Normal::Normal()
+{
+}
+
+Normal::~Normal()
+{
+}
+
+} }
+
+

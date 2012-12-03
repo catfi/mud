@@ -15,23 +15,44 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
+@cpu
+@gpu
+@system
+function print(value:bool):void;
 
-using namespace thor;
-using namespace thor::lang;
+@cpu
+@gpu
+@system
+function print(value:int8):void;
 
-String* raw_input()
-{
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
+@cpu
+@gpu
+@system
+function print(value:int16):void;
 
-}
+@cpu
+@gpu
+@system
+function print(value:int32):void;
 
-int64 input()
-{
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
-}
+@cpu
+@system
+function print(value:int64):void;
+
+@cpu
+@gpu
+@system
+function print(value:float32):void;
+
+@cpu
+@gpu
+@system
+function print(value:float64):void;
+
+@cpu
+@system
+function print(value:String):void;
+
+@cpu
+@system
+function trace(value:String):void;

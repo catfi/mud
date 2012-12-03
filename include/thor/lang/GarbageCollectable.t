@@ -15,23 +15,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
-
-using namespace thor;
-using namespace thor::lang;
-
-String* raw_input()
+@cpu
+function thread_init_gc_root() : void
 {
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
+    // each thread should call this function before any calling any thorscript function
 
+    // Well, currently, it's a place holder
+    // The llvm gc root will be placed here
 }
 
-int64 input()
+@cpu
+@native
+interface GarbageCollectable
 {
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
+	@native
+	public function getContainedObjects(o: CollectableObject): void;
 }
+
+@cpu
+@native
+class CollectableObject; 
+

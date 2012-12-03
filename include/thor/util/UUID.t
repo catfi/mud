@@ -15,23 +15,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mud/Input.h"
+import . = thor.lang;
 
-using namespace thor;
-using namespace thor::lang;
-
-String* raw_input()
+@cpu
+@native
+class UUID extends Object 
 {
-    String* obj = String::create();
-    // std::wcin >> *(obj->data);
-    std::getline( std::wcin, *(obj->data) );
-    return obj;
-
+    @cpu
+	@native
+	public function new():void;
+	
+	@cpu
+	@native
+	public function new(s:String):void;
+	
+	@cpu
+	@native
+	public function random():void;
+	
+	@cpu
+	@native
+	public function invalidate():void;
+	
+	@cpu
+	@native
+	public function toString():String;
+	
+	@cpu
+	private var _dummy_placeholder0:int64;
+	@cpu
+	private var _dummy_placeholder1:int64;
 }
 
-int64 input()
-{
-    int64 result = 0;
-    std::wcin >> result;
-    return result;
-}
