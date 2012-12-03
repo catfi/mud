@@ -1,12 +1,14 @@
-PROJECT_DIR=$(CURDIR)
+PROJECT_ROOT = $(CURDIR)
+NATIVE_DIR   = $(PROJECT_ROOT)/native
 
-all: native thorscript
+.PHONY: native
+.PHONY: thorsript
 
-thorscript:
+all: thorscript
+
+thorscript: native
 	tsc build debug
 
 native:
-	cd native
-	make
-	cd ${PROJECT_DIR}
+	$(MAKE) -C $(NATIVE_DIR)
 
