@@ -8,18 +8,16 @@ function handle_user_coming( a_client:Domain ):void
     server_state.addClient( a_client );
 }
 
-@entry
+// the real entry function on server
 @server
-function server_main():int32
+function server_main( client : Domain ) : void
 {
-    // server_state = new ServerState();
-    Domain.watch(0, lambda(target:Domain):void {
-            handle_user_coming( target );
-            new SendString( server_state.hello_msg(), target );
-            });
-    daemonize();
+    // call client's entry function
+    @remote { domain = client }
+    client_main();
+    
+    print( "hi this is server.\n" );
 
-    return 0;
 }
 
 class ServerState

@@ -1,9 +1,9 @@
-@entry
 @client
-function client_main():int32
+function client_main() : void
 {
-    daemonize();
-    return 0;
+    var server : Domain = Domain.caller();
+
+    print( "hi this is client.\n" );
 }
 
 @client
