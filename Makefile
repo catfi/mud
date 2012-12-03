@@ -3,7 +3,7 @@ PROJECT_DIR=$(CURDIR)
 all: native thorscript
 
 thorscript:
-	tsc b d
+	tsc build debug
 
 native:
 	cd native
