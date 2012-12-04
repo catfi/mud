@@ -20,3 +20,6 @@ function raw_input() : String;
 
 @native
 function input() : int64;
+
+@native
+function sleep_for_msec(msec:int32) : void;

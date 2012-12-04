@@ -13,7 +13,7 @@ LFLAGS    =
 AR        = ar
 RM        = rm
 
-OBJS     = $(TEMP_DIR)/Input.o $(TEMP_DIR)/IndexableString.o $(TEMP_DIR)/NativeThreadInput.o
+OBJS     = $(TEMP_DIR)/Input.o $(TEMP_DIR)/IndexableString.o $(TEMP_DIR)/NativeThreadInput.o $(TEMP_DIR)/Sleep.o
 OBJLIB   = $(LIB_DIR)/libmud.a
 
 .PHONY: before-build
@@ -38,6 +38,10 @@ $(TEMP_DIR)/IndexableString.o: $(SRC_DIR)/IndexableString.cpp
 $(TEMP_DIR)/NativeThreadInput.o: $(SRC_DIR)/NativeThreadInput.cpp
 	$(MAKE) before-build
 	$(CXX) -c $< -o $@ $(INCLUDE_DIRS) $(CXXFLAGS) $(DEBUG)
+
+$(TEMP_DIR)/Sleep.o: $(SRC_DIR)/Sleep.cpp
+	$(MAKE) before-build
+	$(CXX) -c $< -o $@ $(INCLUDE_DIRS) $(CXXFLAGS) $(DEBUG) -pthread
 
 before-build:
 	mkdir -p $(TEMP_DIR)
