@@ -19,3 +19,46 @@ function test():int32
     return 0;
 
 }
+
+function print_func():void
+{
+    var x : int64 = 0;
+    while(true)
+    {
+        print(" print_func \{x}\n");
+        var sleep_workaround : int32 = 1000000;
+        while ( sleep_workaround-- );
+        x++;
+    }
+}
+
+function input_loop():void
+{
+    while(true)
+    {
+        var s : String;
+        s = input_in_native_thread.getInput();
+
+        if ( s.length() != 0 )
+        {
+            print( s );
+            print("there are something in in put buffer\n");
+        }
+
+        var sleep_workaround : int32 = 1000000;
+        while ( sleep_workaround-- );
+    }
+}
+
+var input_in_native_thread : NativeThreadInput = new NativeThreadInput();
+@entry
+function testInput():int32
+{
+
+    input_in_native_thread.start();
+    @async print_func();
+    @async input_loop();
+
+    daemonize();
+    return 0;
+}

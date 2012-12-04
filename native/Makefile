@@ -1,5 +1,6 @@
 PROJECT_ROOT              = $(CURDIR)/..
-INCLUDE_DIRS              = -I$(PROJECT_ROOT)/include -I$(THORSCRIPT_BUNDLE_SRC)
+INCLUDE_DIRS              = -I$(PROJECT_ROOT)/native/include -I$(THORSCRIPT_BUNDLE_SRC)
+SRC_DIR                   = $(PROJECT_ROOT)/native/src
 LIB_DIR                   = $(PROJECT_ROOT)/lib
 TEMP_DIR                  = tmp
 
@@ -26,17 +27,17 @@ all: $(OBJLIB)
 $(OBJLIB): $(OBJS)
 	$(AR) -r $(OBJLIB) $(OBJS)
 
-$(TEMP_DIR)/IndexableString.o: IndexableString.cpp
+$(TEMP_DIR)/Input.o: $(SRC_DIR)/Input.cpp
 	$(MAKE) before-build
-	$(CXX) -c IndexableString.cpp -o $(TEMP_DIR)/IndexableString.o $(INCLUDE_DIRS) $(CXXFLAGS) $(DEBUG)
+	$(CXX) -c $< -o $@ $(INCLUDE_DIRS) $(CXXFLAGS) $(DEBUG)
 
-$(TEMP_DIR)/Input.o: Input.cpp
+$(TEMP_DIR)/IndexableString.o: $(SRC_DIR)/IndexableString.cpp
 	$(MAKE) before-build
-	$(CXX) -c Input.cpp -o $(TEMP_DIR)/Input.o $(INCLUDE_DIRS) $(CXXFLAGS) $(DEBUG)
+	$(CXX) -c $< -o $@ $(INCLUDE_DIRS) $(CXXFLAGS) $(DEBUG)
 
-$(TEMP_DIR)/NativeThreadInput.o: NativeThreadInput.cpp
+$(TEMP_DIR)/NativeThreadInput.o: $(SRC_DIR)/NativeThreadInput.cpp
 	$(MAKE) before-build
-	$(CXX) -c NativeThreadInput.cpp -o $(TEMP_DIR)/NativeThreadInput.o $(INCLUDE_DIRS) $(CXXFLAGS) $(DEBUG)
+	$(CXX) -c $< -o $@ $(INCLUDE_DIRS) $(CXXFLAGS) $(DEBUG)
 
 before-build:
 	mkdir -p $(TEMP_DIR)
