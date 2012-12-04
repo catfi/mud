@@ -1,0 +1,56 @@
+From 311b6c4a6171d1fa637c75ae44e3c5b609dd1239 Mon Sep 17 00:00:00 2001
+From: Arton Chang <arton0306@gmail.com>
+Date: Tue, 4 Dec 2012 16:29:23 +0800
+Subject: [PATCH] add isEqual in Domain class
+
+---
+ bundle/system/src/thor/lang/Domain.h       |    2 +-
+ bundle/system/src/thor/lang/Domain.t       |    4 ++++
+ bundle/system/src/thor/lang/x86/Domain.cpp |    4 ++++
+ 3 files changed, 9 insertions(+), 1 deletions(-)
+
+diff --git a/bundle/system/src/thor/lang/Domain.h b/bundle/system/src/thor/lang/Domain.h
+index 8055214..a8f4a57 100644
+--- a/bundle/system/src/thor/lang/Domain.h
++++ b/bundle/system/src/thor/lang/Domain.h
+@@ -59,8 +59,8 @@ public:
+ 	void setId(thor::util::UUID* id);
+ 	thor::util::UUID* getId();
+ 	DomainType type();
+-
+     void setSessionId(int64 id);
++    bool isEqual(Domain* aDomain);
+ 
+ public:
+ //	typedef void (*DomainEventCallback)(Domain*);
+diff --git a/bundle/system/src/thor/lang/Domain.t b/bundle/system/src/thor/lang/Domain.t
+index 6ec40f1..50beb5d 100644
+--- a/bundle/system/src/thor/lang/Domain.t
++++ b/bundle/system/src/thor/lang/Domain.t
+@@ -85,6 +85,10 @@ class Domain extends Object
+     @native
+     public function setSessionId(id: int64):void;
+ 
++    @cpu
++	@native
++	public function isEqual(target:Domain):bool;
++
+ 	//@native
+ 	//public static function watch(e:DomainEvent, callback:function(Domain):void):void;	
+ 	
+diff --git a/bundle/system/src/thor/lang/x86/Domain.cpp b/bundle/system/src/thor/lang/x86/Domain.cpp
+index 1cb31ad..2fbb816 100644
+--- a/bundle/system/src/thor/lang/x86/Domain.cpp
++++ b/bundle/system/src/thor/lang/x86/Domain.cpp
+@@ -123,4 +123,8 @@ void Domain::watch(int32 e, Lambda1<void, Domain>* callback)
+ 	gRuntimeServiceBuffer->addDomainEventCallback((int32)e, callback);
+ }
+ 
++bool Domain::isEqual(Domain* aDomain)
++{
++    return hash() == aDomain->hash();
++}
+ } }
+-- 
+1.7.4.1
+

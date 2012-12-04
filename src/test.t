@@ -1,3 +1,4 @@
+/*
 @entry
 function test():int32
 {
@@ -26,9 +27,7 @@ function print_func():void
     while(true)
     {
         print(" print_func \{x}\n");
-        var sleep_workaround : int32 = 1000000;
-        while ( sleep_workaround-- );
-        x++;
+        sleep_for_msec( 1000 );
     }
 }
 
@@ -45,8 +44,7 @@ function input_loop():void
             print("there are something in in put buffer\n");
         }
 
-        var sleep_workaround : int32 = 1000000;
-        while ( sleep_workaround-- );
+        sleep_for_msec( 1000 );
     }
 }
 
@@ -62,3 +60,4 @@ function testInput():int32
     daemonize();
     return 0;
 }
+*/

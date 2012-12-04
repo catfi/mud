@@ -11,9 +11,7 @@ function client_entry() : int32
 function server_entry() : int32
 {
     Domain.watch( 0, lambda( client : Domain ) : void {
-        
-        // call the real entry function on server
-        server_main( client );    
+        handle_client_connect( client );
 
     });
     daemonize();
