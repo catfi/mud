@@ -1,14 +1,9 @@
-// objects
-var input_in_native_thread : NativeThreadInput = new NativeThreadInput();
+import .= thor.lang;
+import .= thor.container;
 
-// functions
-@client
-function receive_ascii( a_ascii : int8 ):void
-{
-    var is : IndexableString = new IndexableString();
-    is.addAscii( a_ascii );
-    print( cast<MutableString>(is) );
-}
+var input_in_native_thread : NativeThreadInput = new NativeThreadInput();
+var receive_encoded_char_count : int32 = 0; // do not include msg length info
+var receive_buffer : Vector<int32> = new Vector<int32>(1000);
 
 @client
 function input_loop():void
@@ -48,4 +43,51 @@ function is_command_valid( a_command : String ) : bool
 function issue_command( a_command : String ) : void
 {
     print( "I issueed a command \{a_command}\n" );
+}
+
+@client
+function receive_encoded_char( encoded_char : int64 ):void
+{
+    // assert the receive buffer is clear
+    var index : int32 = encoded_char / power32;
+    var decoded_char : int32 = encoded_char % power32;
+
+    /* test if we don't sync them, can be removed
+    {
+        var is : IndexableString = new IndexableString();
+        is.addAscii( decoded_char );
+        print( is );
+    }
+    */
+
+    // accumulate the received char count
+    if ( index != 0 )
+    {
+        atomic () {
+            receive_encoded_char_count++;
+        }
+    }
+
+    // remember that index 0 is real message's length
+    receive_buffer.set( index, decoded_char );
+
+    // if all encoded char is received
+    if ( receive_buffer.get( 0 ) == receive_encoded_char_count )
+    {
+        var is : IndexableString = new IndexableString();
+        for ( var i:int32 = 1; i <= receive_buffer.get(0); ++i )
+        {
+            is.addAscii( receive_buffer.get(i) );
+        }
+
+        // handle it
+        print( "\n\{is}\n" );
+
+        // clear the receive buffer
+        for ( var i:int32 = 0; i <= receive_buffer.get(0); ++i )
+        {
+            receive_buffer.set( i, 0 );
+        }
+        receive_encoded_char_count = 0;
+    }
 }
