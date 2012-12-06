@@ -9,6 +9,8 @@ function handle_client_connect( client : Domain ) : void
     var user_count = server_state.getClientCount();
     print( "current user count: \{user_count}\n" );
     new SendString( welcome_client(), client );
+    //sleep_for_msec( 1000 );
+    //new SendString( welcome_client(), client );
 
     // call client's entry function
     @remote { domain = client }

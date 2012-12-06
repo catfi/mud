@@ -72,10 +72,12 @@ function receive_encoded_char( encoded_char : int64 ):void
     receive_buffer.set( index, decoded_char );
 
     // if all encoded char is received
-    if ( receive_buffer.get( 0 ) == receive_encoded_char_count )
+    var msg_length : int32 = receive_buffer.get( 0 );
+    var need_clear_buffer : bool = false;
+    if ( msg_length == receive_encoded_char_count )
     {
         var is : IndexableString = new IndexableString();
-        for ( var i:int32 = 1; i <= receive_buffer.get(0); ++i )
+        for ( var i:int32 = 1; i <= msg_length; ++i )
         {
             is.addAscii( receive_buffer.get(i) );
         }
@@ -84,10 +86,21 @@ function receive_encoded_char( encoded_char : int64 ):void
         print( "\n\{is}\n" );
 
         // clear the receive buffer
-        for ( var i:int32 = 0; i <= receive_buffer.get(0); ++i )
+        need_clear_buffer = true;
+    }
+    else if ( msg_length != 0 && receive_encoded_char_count > msg_length )
+    {
+        print( "oh the sender send too quick! i'm just a work around!" );
+        need_clear_buffer = true;
+    }
+
+    if ( need_clear_buffer )
+    {
+        for ( var i:int32 = 0; i <= msg_length; ++i )
         {
             receive_buffer.set( i, 0 );
         }
         receive_encoded_char_count = 0;
+        need_clear_buffer = false;
     }
 }
