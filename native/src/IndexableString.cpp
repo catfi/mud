@@ -17,13 +17,14 @@
 
 #include <sstream>
 #include <iostream>
+
 #include "IndexableString.h"
 
 using namespace thor;
 using namespace thor::lang;
 
 IndexableString::IndexableString()
-    : MutableString( new String() )
+    : MutableString( thor::lang::String::create() )
 {
 }
 
