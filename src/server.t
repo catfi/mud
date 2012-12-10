@@ -1,4 +1,4 @@
-var server_state : ServerState = new ServerState();
+var server_state : ServerState = new ServerState;
 
 // the real entry function on server
 @server

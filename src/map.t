@@ -26,12 +26,12 @@ class Map
     }
 }
 
-class Point<T>
+class Point
 {
-    public var x : T;
-    public var y : T;
+    public var x : int64;
+    public var y : int64;
 
-    public function new( i : T, j : T ) : void
+    public function new( i : int64, j : int64 ) : void
     {
         this.x = i;
         this.y = j;

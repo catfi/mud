@@ -3,18 +3,23 @@ import . = thor.container;
 class ServerState
 {
     // connection info
-    private var id_domain_table : HashMap<int32, Domain>;  // id => Domain
-    private var domain_id_table : HashMap<Domain, int32>;  // Domain => id
+    private var id_domain_table : HashMap< int32, Domain >;  // id => Domain
+    private var domain_id_table : HashMap< Domain, int32 >;  // Domain => id
     private var client_connected_count : int32;
      
     // map
     private var map : Map;
 
+    // client information
+    private var client_infos : HashMap< Domain, ClientInfo >;
+
     public function new()
     {
         id_domain_table = new HashMap<int32, Domain>;
         domain_id_table = new HashMap<Domain, int32>;
+
         map = new Map( 9, 9 );
+        client_infos = new HashMap< Domain, ClientInfo >;
 
         client_connected_count = 0;
     }
