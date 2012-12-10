@@ -25,3 +25,15 @@ class Map
         map.set( y, x, value );
     }
 }
+
+class Point<T>
+{
+    public var x : T;
+    public var y : T;
+
+    public function new( i : T, j : T ) : void
+    {
+        this.x = i;
+        this.y = j;
+    } 
+}
