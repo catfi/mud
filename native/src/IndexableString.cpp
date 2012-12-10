@@ -18,6 +18,9 @@
 #include <sstream>
 #include <iostream>
 
+#include "Thor.h"
+#include "thor/lang/String.h"
+
 #include "IndexableString.h"
 
 using namespace thor;
