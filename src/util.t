@@ -22,3 +22,6 @@ class SendString
         }
     }
 }
+
+@native
+function charToString( ch : int64 ) : String;
