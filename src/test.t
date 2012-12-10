@@ -1,6 +1,23 @@
-/*
+import .= thor.container;
+
 @entry
-function test():int32
+function test() : int32
+{
+    test_split();
+    return 0;
+}
+
+function test_split()
+{
+    var str : String = " hello, qq apple ";
+    
+    var tokens = split( str ); 
+    for( var token in tokens )
+        print( token + "\n" );
+
+}
+
+function test_accessor()
 {
     var s : String;
     s = raw_input();
@@ -11,16 +28,13 @@ function test():int32
     is.addAscii( 98 );
     is.concate( 987 );
     print( cast<MutableString>(is) );
-    print( is.getEncodedNumAt( 0 ) );
-    print( is.getEncodedNumAt( 1 ) );
-    print( is.getEncodedNumAt( 2 ) );
-    print( is.getEncodedNumAt( 3 ) );
-    print( is.getEncodedNumAt( 4 ) );
-
-    return 0;
-
+    print( is[ 0 ] );
+    print( is[ 1 ] );
+    print( is[ 2 ] );
+    print( is[ 3 ] );
+    print( is[ 4 ] );
 }
-
+/*
 function print_func():void
 {
     var x : int64 = 0;
