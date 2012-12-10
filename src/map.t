@@ -4,15 +4,25 @@ class Map
 {
     private var map : Array2D<int32>;
     
-    public function new( height : int64, width : int64 ) : void
+    public function new( h : int64, w : int64 ) : void
     {
-        map = new Array2D<int32>( height, width );
+        map = new Array2D<int32>( h, w );
+    }
+
+    public function height() : int64 
+    {
+        return map.size(0); 
+    }
+
+    public function width() : int64
+    {
+        return map.size(1);    
     }
 
     public function valid( x : int64, y : int64 ) : bool
     {
-        return ( 0 <= y && y < map.size(0) ) &&
-               ( 0 <= x && x < map.size(1) );
+        return ( 0 <= y && y < this.height() ) &&
+               ( 0 <= x && x < this.width() );
     }
 
     public function get( x : int64, y : int64 ) : int32
