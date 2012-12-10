@@ -7,9 +7,10 @@ class Command
         return false;
     }
 
-    public virtual function execute( str : String, client : Domain ) : void
+    public virtual function execute( str : String, client : Domain ) : bool 
     {
         // do nothing
+        return false;
     }
 }
 
@@ -62,8 +63,22 @@ class MoveCmd extends UnaryCmd
         return false;
     }
 
-    public virtual function execute( str : String, client : Domain ) : void
+    public virtual function execute( str : String, client : Domain ) : bool 
     {
+        var tokens = split( str );     
         
+        if( tokens[ 0 ].equals( "Left" ) )
+            server_state.move( client, 1 );
+    
+        if( tokens[ 0 ].equals( "Right" ) )
+            server_state.move( client, 2 );
+
+        if( tokens[ 0 ].equals( "Up" ) )
+            server_state.move( client, 3 );
+
+        if( tokens[ 0 ].equals( "Down" ) )
+            server_state.move( client, 4 );
+
+        return true;
     }
 }
