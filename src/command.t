@@ -1,19 +1,36 @@
-interface Command
-{
-    public function accept( str : String ) : bool;
-    public function execute( client : Domain ) : void; 
-}
-
-class DefaultCmd implements Command
+class Command
 {
     public virtual function accept( str : String ) : bool
     {
-        return false;    
+        return false;
     }
 
-    public virtual function execute( client : Domain ) : void
+    public virtual function execute( str : String, client : Domain ) : void
     {
-        // do nothing    
+        // do nothing
     }
 }
 
+class UnaryCmd extends Command
+{
+    public virtual function accept( str : String ) : bool
+    {
+        return split( str ).size() == 1;
+    }
+}
+
+class BinaryCmd extends Command
+{
+    public virtual function accept( str : String ) : bool
+    {
+        return split( str ).size() == 2;
+    }
+}
+
+class TernaryCmd extends Command
+{
+    public virtual function accept( str : String ) : bool
+    {
+        return split( str ).size() == 3;
+    }
+}
