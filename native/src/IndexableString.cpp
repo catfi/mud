@@ -24,11 +24,11 @@ using namespace thor;
 using namespace thor::lang;
 
 IndexableString::IndexableString()
-    : MutableString( thor::lang::String::create() )
-{
-}
+: MutableString( thor::lang::String::create() )
+{ }
 
-IndexableString::~IndexableString(){}
+IndexableString::~IndexableString()
+{ }
 
 IndexableString* IndexableString::addAscii( int8 a_ascii )
 {
@@ -43,8 +43,14 @@ IndexableString* IndexableString::addAscii( int8 a_ascii )
     return this;
 }
 
-int64 IndexableString::getEncodedNumAt( int32 a_index )
+int64 IndexableString::get( int32 index )
 {
-    string_type::const_iterator begin = data->begin();
-    return *(begin + a_index);
+    string_type::const_iterator begin = data->cbegin();
+    return *(begin + index);
+}
+
+void IndexableString::set( int32 index, int64 value )
+{
+    string_type::iterator begin = data->begin();
+    *(begin + index) = value; 
 }

@@ -28,7 +28,8 @@ public:
     virtual ~IndexableString();
 
     IndexableString* addAscii( thor::int8 a_ascii );
-    thor::int64 getEncodedNumAt( thor::int32 a_index );
+    thor::int64 get( thor::int32 index );
+    void set( thor::int32 index, thor::int64 value );
 };
 
 #endif /* INDEXABLE_STRING_H */

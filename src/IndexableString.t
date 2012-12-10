@@ -11,5 +11,8 @@ class IndexableString extends MutableString
     public function addAscii( a_ascii:int8 ): IndexableString;
 
     @native
-    public function getEncodedNumAt( a_index:int32 ): int64;
+    public function get( index : int32 ) : int64;
+
+    @native
+    public function set( index : int32, value : int64 ) : void;
 }
