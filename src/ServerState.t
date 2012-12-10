@@ -91,10 +91,14 @@ class ServerState
 
         if( !map.valid( next_x, next_y ) )
             return;
-
+        
         // clear previous mark on map
         map.set( client_info.position.x, client_info.position.y, MapSpace );
         map.set( next_x, next_y, client_info.id ); 
+    
+        // update positions
+        client_info.position.x = next_x;
+        client_info.position.y = next_y;
     }
 
     public function getClientCount() : int32

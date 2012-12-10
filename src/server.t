@@ -9,16 +9,16 @@ var commands : Vector<Command> = new Vector<Command>;
 function handle_client_connect( client : Domain ) : void
 {
     // update server state
-    server_state.addClient( client );
-    var user_count = server_state.getClientCount();
-    print( "current user count: \{user_count}\n" );
-    new SendString( welcome_client(), client );
+    //server_state.addClient( client );
+    server_state.addClient( Domain.local() );
+    //var user_count = server_state.getClientCount();
+    //print( "current user count: \{user_count}\n" );
+    //new SendString( welcome_client(), client );
 
     // call client's entry function
     //@remote { domain = client }
     //client_main();
-
-    @async 
+    @async
     simulate_client();
 }
 
@@ -47,16 +47,16 @@ function simulate_client() : void
         var i : int32 = gen.next();
         process_command( cmds[ i ] );
 
-        sleep_for_msec( 1500 );        
+        sleep_for_msec( 500 );
     }
 }
 
 @server
 function process_command( str : String ) : void
 {
-    var client : Domain = Domain.caller();    
+    var client : Domain = Domain.local();
 
-    for( var i : int32 = 0; i != commands.size(); ++i )
+    for( var i : int64 = 0; i < commands.size(); ++i )
     {
         if( commands[ i ].accept( str ) )
         {
@@ -69,7 +69,7 @@ function process_command( str : String ) : void
             return;
         }
     } 
-    
+
     print( "invalid command!\n" );
 }
 

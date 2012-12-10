@@ -44,22 +44,26 @@ class MoveCmd extends UnaryCmd
 
     public function new() : void
     {
-        directions.push_back( "Left" );    
-        directions.push_back( "Right" );    
-        directions.push_back( "Up" );    
-        directions.push_back( "Down" );    
+        directions.push_back( "Left" );
+        directions.push_back( "Right" );
+        directions.push_back( "Up" );
+        directions.push_back( "Down" );
     }
 
     public virtual function accept( str : String ) : bool
     {
-        if( !super.accept(str) )
-            return false;
-        
         var tokens = split( str ); 
-        for( var direction in directions )
-            if( direction.equals( tokens[ 0 ] ) )
-                return true;
 
+        if( tokens.size() != 1 )
+            return false;
+
+        for( var direction in directions ) 
+        {
+            if( direction.equals( tokens[ 0 ] ) ) 
+            {
+                return true;
+            }
+        }
         return false;
     }
 

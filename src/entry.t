@@ -10,6 +10,8 @@ function client_entry() : int32
 @server
 function server_entry() : int32
 {
+    init_commands();
+
     Domain.watch( 0, lambda( client : Domain ) : void {
         handle_client_connect( client );
     });
