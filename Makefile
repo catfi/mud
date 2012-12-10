@@ -11,7 +11,7 @@ NATIVE_DIR   = $(PROJECT_ROOT)/native
 
 all: debug
 
-t: debug
+t:
 	tsc run test
 
 s:
