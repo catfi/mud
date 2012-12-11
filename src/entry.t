@@ -1,3 +1,5 @@
+import .= Server;
+
 @entry
 @client
 function client_entry() : int32

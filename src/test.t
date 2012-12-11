@@ -1,4 +1,5 @@
 import .= thor.container;
+import .= util;
 
 @entry
 function test() : int32

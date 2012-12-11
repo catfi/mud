@@ -1,5 +1,6 @@
 import .= thor.lang;
 import .= thor.container;
+import .= util;
 
 var client_msg_buffer : HashMap<Domain, MsgBuffer> = new HashMap<Domain, MsgBuffer>();
 

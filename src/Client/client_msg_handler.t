@@ -1,3 +1,5 @@
+import .= util;
+
 @client
 function welcome( user_count:int32 ):void
 {
@@ -8,6 +10,7 @@ function welcome( user_count:int32 ):void
 
     var query_name_msg : String = "Please type your name: ";
     print( query_name_msg );
+
     input_in_native_thread.start();
     var player_name : String = get_name();
 

@@ -23,6 +23,8 @@
 #include "Thor.h"
 #include "thor/lang/String.h"
 
+namespace util {
+
 class NativeThreadInput : public thor::lang::Object
 {
 public:
@@ -40,5 +42,7 @@ private:
     thor::lang::String * mInputString;
     bool mLastInput;
 };
+
+}
 
 #endif /* NATIVE_THREAD_INPUT_H */

@@ -20,13 +20,14 @@
 
 using namespace thor;
 using namespace thor::lang;
+using namespace util;
 
 String*
 charToString( ch : int64 )
 {
     String * result = String::create();
-    
+
     result->data->puch_back( ch );
-    
-    return result;  
+
+    return result;
 }

@@ -21,6 +21,8 @@
 #include "Thor.h"
 #include "thor/lang/String.h"
 
+namespace util {
+
 class IndexableString : public thor::lang::MutableString
 {
 public:
@@ -31,5 +33,7 @@ public:
     thor::int64 get( thor::int32 index );
     void set( thor::int32 index, thor::int64 value );
 };
+
+}
 
 #endif /* INDEXABLE_STRING_H */

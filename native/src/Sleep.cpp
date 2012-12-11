@@ -4,7 +4,7 @@
 #include <chrono>
 #include "Sleep.h"
 
-void sleep_for_msec(thor::int32 msec)
+void util::sleep_for_msec(thor::int32 msec)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(msec));
 }

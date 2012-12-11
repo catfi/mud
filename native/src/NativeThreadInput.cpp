@@ -5,6 +5,7 @@
 
 using namespace thor;
 using namespace thor::lang;
+using namespace util;
 
 NativeThreadInput::NativeThreadInput()
     : mThread( nullptr )

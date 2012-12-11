@@ -25,6 +25,7 @@
 
 using namespace thor;
 using namespace thor::lang;
+using namespace util;
 
 IndexableString::IndexableString()
 : MutableString( thor::lang::String::create() )
@@ -55,5 +56,5 @@ int64 IndexableString::get( int32 index )
 void IndexableString::set( int32 index, int64 value )
 {
     string_type::iterator begin = data->begin();
-    *(begin + index) = value; 
+    *(begin + index) = value;
 }

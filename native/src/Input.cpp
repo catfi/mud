@@ -20,7 +20,7 @@
 using namespace thor;
 using namespace thor::lang;
 
-String* raw_input()
+String* util::raw_input()
 {
     String* obj = String::create();
     // std::wcin >> *(obj->data);
@@ -29,7 +29,7 @@ String* raw_input()
 
 }
 
-int64 input()
+int64 util::input()
 {
     int64 result = 0;
     std::wcin >> result;

@@ -1,5 +1,7 @@
 import .= thor.container;
 import .= thor.util;
+import .= util;
+import Client;
 
 var server_state : ServerState = new ServerState;
 var commands : Vector<Command> = new Vector<Command>;
@@ -11,7 +13,7 @@ function handle_client_connect( client : Domain ) : void
     // update server state
     server_state.addClient( client );
     @remote { domain = client }
-        welcome( server_state.getClientCount() );
+        Client.welcome( server_state.getClientCount() );
 
     /*
     //server_state.addClient( Domain.local() );
