@@ -9,27 +9,15 @@ var commands : Vector<Command> = new Vector<Command>;
 function handle_client_connect( client : Domain ) : void
 {
     // update server state
-    //server_state.addClient( client );
-    server_state.addClient( Domain.local() );
-    //var user_count = server_state.getClientCount();
-    //print( "current user count: \{user_count}\n" );
-    //new SendString( welcome_client(), client );
+    server_state.addClient( client );
+    @remote { domain = client }
+        welcome( server_state.getClientCount() );
 
-    // call client's entry function
-    //@remote { domain = client }
-    //client_main();
+    /*
+    //server_state.addClient( Domain.local() );
     @async
     simulate_client();
-}
-
-@server
-function welcome_client() : IndexableString
-{
-    var user_count = server_state.getClientCount();
-    var welcome_client_msg : String = "welcome! current online user count: \{user_count}\n";
-    var hello: IndexableString = new IndexableString();
-    hello.concate( welcome_client_msg );
-    return hello;
+    */
 }
 
 @server

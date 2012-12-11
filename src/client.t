@@ -22,6 +22,21 @@ function input_loop():void
 }
 
 @client
+function get_name():String
+{
+    while(true)
+    {
+        var name : String;
+        name = input_in_native_thread.getInput();
+        if ( name.length() != 0 )
+            return name;
+        sleep_for_msec( 50 );
+    }
+    var dummy : String;
+    return dummy;
+}
+
+@client
 function print_func():void
 {
     var x : int64 = 0;
@@ -45,6 +60,7 @@ function issue_command( a_command : String ) : void
     print( "I issueed a command \{a_command}\n" );
 }
 
+/*
 @client
 function receive_encoded_char( encoded_char : int64 ):void
 {
@@ -52,13 +68,12 @@ function receive_encoded_char( encoded_char : int64 ):void
     var index : int32 = encoded_char / power32;
     var decoded_char : int32 = encoded_char % power32;
 
-    /* test if we don't sync them, can be removed
-    {
-        var is : IndexableString = new IndexableString();
-        is.addAscii( decoded_char );
-        print( is );
-    }
-    */
+    // test if we don't sync them, can be removed
+    // {
+    //     var is : IndexableString = new IndexableString();
+    //     is.addAscii( decoded_char );
+    //     print( is );
+    // }
 
     // accumulate the received char count
     if ( index != 0 )
@@ -104,3 +119,4 @@ function receive_encoded_char( encoded_char : int64 ):void
         need_clear_buffer = false;
     }
 }
+*/

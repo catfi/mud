@@ -6,5 +6,4 @@ function client_main() : void
 
     input_in_native_thread.start();
     @async input_loop();
-    @async print_func();
 }

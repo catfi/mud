@@ -65,6 +65,7 @@ class ServerState
 
         // insert an entry of client inforamtion         
         client_infos.set( client, new ClientInfo( getId(client) ) );
+        client_msg_buffer.set( client, new MsgBuffer( 1000 ) );
  
         // dump for debug
         print( " a client coming!\n" );
