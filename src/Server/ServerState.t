@@ -34,6 +34,18 @@ class ServerState
         initMap();
     }
 
+    public function getAllClientDomain() : Vector<Domain>
+    {
+        var result : Vector<Domain> = new Vector<Domain>;
+        var iter : HashMapIterator<Domain, int32> = domain_id_table.iter();
+        while ( iter.hasNext() )
+        {
+            result.push_back( iter.get().key );
+            iter.next();
+        }
+        return result;
+    }
+
     public function setClientName( client: Domain, clientName: String )
     {
         client_infos.get( client ).name = clientName;

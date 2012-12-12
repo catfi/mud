@@ -24,6 +24,28 @@ function server_receive_encoded_char( encoded_char : int64 ):void
         {
             var clientName : String = server_state.getClientName( client );
             print( "recv client \{clientName}'s message: \{msg}\n" );
+            broadcast( client, msg );
+        }
+    }
+}
+
+@server
+function broadcast( from_client : Domain, msg : IndexableString ) : void
+{
+    var from_client_name : String = server_state.getClientName( from_client );
+    var all_client : Vector<Domain> = server_state.getAllClientDomain();
+
+    // print( "broadcast request !\n" );
+    for ( var i : int32 = 0; i < all_client.size(); ++i )
+    {
+        // print( "to_client #\{i}\n" );
+        var to_client : Domain = all_client[i];
+        var result_msg : IndexableString = new IndexableString();
+        result_msg.concate( from_client_name );
+        result_msg.concate(  " said: \{msg}\n" );
+        // if ( to_client != from_client )
+        {
+            new SendStringToClient( result_msg, to_client );
         }
     }
 }
