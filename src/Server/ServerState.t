@@ -32,6 +32,12 @@ class ServerState
         initMap();
     }
 
+    public function setClientName( client: Domain, clientName: String )
+    {
+        client_infos.get( client ).name = clientName;
+        client_infos.get( client ).dump();
+    }
+
     // helper functions
     private function getId( client : Domain ) : int32
     {
@@ -69,7 +75,7 @@ class ServerState
         client_msg_buffer.set( client, new MsgBuffer( 1000 ) );
  
         // dump for debug
-        print( " a client coming!\n" );
+        print( "A new client coming! Querying client's name...\n" );
     }
     
     public function move( client : Domain, direction : int32 ) : void
