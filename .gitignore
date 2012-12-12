@@ -12,7 +12,14 @@
 *.la
 *.a
 
-# Ingore temporary directories
+# Ignore temporary directories
 build
 bin
 lib
+
+# Ignore llvm files
+*.ll
+
+# Ignore misc files
+*.vim
+.*.swp
