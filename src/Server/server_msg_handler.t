@@ -5,7 +5,7 @@ import .= util;
 var client_msg_buffer : HashMap<Domain, MsgBuffer> = new HashMap<Domain, MsgBuffer>();
 
 @server
-function receive_encoded_char( encoded_char : int64 ):void
+function server_receive_encoded_char( encoded_char : int64 ):void
 {
     var client : Domain = Domain.caller();
     var msg_buffer : MsgBuffer = client_msg_buffer.get( client );
@@ -16,5 +16,6 @@ function receive_encoded_char( encoded_char : int64 ):void
         msg = msg_buffer.get_msg();
         print( "client \{msg} is added\n" );
         server_state.setClientName( client, msg );
+        new SendStringToClient( msg, client );
     }
 }

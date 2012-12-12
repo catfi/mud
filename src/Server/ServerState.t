@@ -3,6 +3,8 @@ import .= util;
 
 class ServerState
 {
+    private static const CLIENT_MSG_BUFFER_SIZE : int32 = 1000;
+
     // connection info
     private var domain_id_table : HashMap< Domain, int32 >;
     private var client_connected_count : int32;
@@ -36,6 +38,11 @@ class ServerState
     {
         client_infos.get( client ).name = clientName;
         client_infos.get( client ).dump();
+    }
+
+    public function getClientName( client: Domain ) : String
+    {
+        return client_infos.get( client ).name;
     }
 
     // helper functions
@@ -72,7 +79,7 @@ class ServerState
 
         // insert an entry of client inforamtion         
         client_infos.set( client, new ClientInfo( getId(client) ) );
-        client_msg_buffer.set( client, new MsgBuffer( 1000 ) );
+        client_msg_buffer.set( client, new MsgBuffer( CLIENT_MSG_BUFFER_SIZE ) );
  
         // dump for debug
         print( "A new client coming! Querying client's name...\n" );
