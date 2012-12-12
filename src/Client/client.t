@@ -58,5 +58,8 @@ function is_command_valid( a_command : String ) : bool
 @client
 function issue_command( a_command : String ) : void
 {
-    print( "I issueed a command \{a_command}\n" );
+    var msg : IndexableString = new IndexableString();
+    msg.concate( a_command );
+    new SendStringToServer( msg, g_server );
+    // print( "I issueed a command \{a_command}\n" );
 }

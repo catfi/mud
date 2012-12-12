@@ -5,7 +5,7 @@ class ClientInfo
     public var name : String;
 
     // client states
-    private var is_name_complete : bool;
+    public var is_name_complete : bool;
 
     public function new( identifier : int32 ) : void
     {

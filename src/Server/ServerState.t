@@ -37,12 +37,18 @@ class ServerState
     public function setClientName( client: Domain, clientName: String )
     {
         client_infos.get( client ).name = clientName;
+        client_infos.get( client ).is_name_complete = true;
         client_infos.get( client ).dump();
     }
 
     public function getClientName( client: Domain ) : String
     {
         return client_infos.get( client ).name;
+    }
+
+    public function isClientNameComplete( client: Domain ) : bool
+    {
+        return client_infos.get( client ).is_name_complete;
     }
 
     // helper functions

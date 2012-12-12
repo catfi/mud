@@ -14,8 +14,16 @@ function server_receive_encoded_char( encoded_char : int64 ):void
     if ( msg_buffer.is_msg_complete() )
     {
         msg = msg_buffer.get_msg();
-        print( "client \{msg} is added\n" );
-        server_state.setClientName( client, msg );
-        new SendStringToClient( msg, client );
+        if ( server_state.isClientNameComplete( client ) == false )
+        {
+            print( "client \{msg} is added\n" );
+            server_state.setClientName( client, msg );
+            // new SendStringToClient( msg, client );
+        }
+        else
+        {
+            var clientName : String = server_state.getClientName( client );
+            print( "recv client \{clientName}'s message: \{msg}\n" );
+        }
     }
 }
