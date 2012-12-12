@@ -11,9 +11,9 @@ class MsgBuffer
     public function new( buffer_size:int32 ) : void
     {
         buffer = new Vector<int32>(buffer_size);
-        receive_encoded_char_count = 0;
         msg_complete_flag = false;
         msg = new IndexableString();
+        clear();
     }
 
     public function add_encoded_char( encoded_char : int64 ) : void
@@ -26,21 +26,31 @@ class MsgBuffer
         buffer.set( index, decoded_char );
 
         // accumulate the received char count
+        var current_char_count : int32 = 0;
         if ( index != 0 )
         {
             // issue: we don't have different mutex for each client msg box
             atomic () {
                 receive_encoded_char_count++;
+                current_char_count = receive_encoded_char_count;
             }
         }
 
         // if all encoded char is received
         var msg_length : int32 = buffer.get( 0 );
-        if ( msg_length == receive_encoded_char_count )
+        // hack atomic bug issue #922
+        var hack_char_count : int32 = current_char_count + 1;
+
+        /*
+        var flag : int32 = ( msg_complete_flag == true ? 1 : 0 );
+        print( "index=\{index} hack_char_count=\{hack_char_count} flag=\{flag}\n" );
+        */
+
+        if ( msg_length == hack_char_count )
         {
             if ( msg_complete_flag == true )
             {
-                print( "oh the sender send too quick! i'm just a work around!" );
+                print( "*** oh the sender send too quick! i'm just a work around!" );
                 clear();
             }
 
@@ -53,9 +63,9 @@ class MsgBuffer
             msg_complete_flag = true;
             clear();
         }
-        else if ( msg_length < receive_encoded_char_count )
+        else if ( msg_length != 0 && msg_length < hack_char_count )
         {
-            print( "oh the sender send too quick! i'm just a work around!" );
+            print( "=== oh the sender send too quick! i'm just a work around!" );
             clear();
         }
     }
