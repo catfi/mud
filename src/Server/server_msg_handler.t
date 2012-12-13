@@ -1,6 +1,8 @@
 import .= thor.lang;
 import .= thor.container;
+import .= Game;
 import .= util;
+import .= Client;
 
 var client_msg_buffer : HashMap<Domain, MsgBuffer> = new HashMap<Domain, MsgBuffer>();
 
@@ -18,6 +20,10 @@ function server_receive_encoded_char( encoded_char : int64 ):void
         {
             print( "client \{msg} is added\n" );
             server_state.setClientName( client, msg );
+
+            var pos : Point = new Point( 2,2 );
+            @remote { domain=client }
+                update_position( pos.toEncodedPos() );
             // new SendStringToClient( msg, client );
         }
         else

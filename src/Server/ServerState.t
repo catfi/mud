@@ -79,9 +79,9 @@ class ServerState
     {
         map = new GameMap( 9, 9 );
 
-        for( var h : int64 = 0; h != map.height(); ++h )
+        for( var h : int32 = 0; h != map.height(); ++h )
         {
-            for( var w : int64 = 0; w != map.width(); ++w ) 
+            for( var w : int32 = 0; w != map.width(); ++w ) 
             {
                 map.set( h, w, MapSpace );  
             }
@@ -143,9 +143,9 @@ class ServerState
     public function show() : void
     {
         print( "--------------------------------------\n" );
-        for( var h : int64 = 0; h != map.height(); ++h )
+        for( var h : int32 = 0; h != map.height(); ++h )
         {
-            for( var w : int64 = 0; w != map.width(); ++w )
+            for( var w : int32 = 0; w != map.width(); ++w )
             {
                 var value : int32 = map.get(h, w);
                 switch( value )

@@ -5,33 +5,33 @@ class GameMap
 {
     private var map : Array2D<int32>;
 
-    public function new( h : int64, w : int64 ) : void
+    public function new( h : int32, w : int32 ) : void
     {
         map = new Array2D<int32>( h, w );
     }
 
-    public function height() : int64
+    public function height() : int32
     {
         return map.size(0);
     }
 
-    public function width() : int64
+    public function width() : int32
     {
         return map.size(1);
     }
 
-    public function valid( r : int64, c : int64 ) : bool
+    public function valid( r : int32, c : int32 ) : bool
     {
         return ( 0 <= r && r < this.height() ) &&
                ( 0 <= c && c < this.width() );
     }
 
-    public function get( r : int64, c : int64 ) : int32
+    public function get( r : int32, c : int32 ) : int32
     {
         return map.get( r, c );
     }
 
-    public function set( r : int64, c : int64, value : int32 ) : void
+    public function set( r : int32, c : int32, value : int32 ) : void
     {
         map.set( r, c, value );
     }

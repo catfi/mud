@@ -22,14 +22,20 @@ function welcome( user_count:int32 ):void
     input_in_native_thread.start();
     var player_name : String = get_name();
 
+    client_game = new ClientGame();
+
     var p : IndexableString = new IndexableString();
     p.concate( player_name );
     new SendStringToServer( p, g_server );
 
-    client_game = new ClientGame( new Point( 2,2 ) );
-    client_game.showMap();
-
     @async input_loop();
+}
+
+@client
+function update_position( pos:int64 ) : void
+{
+    client_game.update_position( new Point( pos ) );
+    client_game.showMap();
 }
 
 @client
