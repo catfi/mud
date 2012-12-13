@@ -19,8 +19,8 @@ function welcome( user_count:int32 ):void
     var query_name_msg : String = "Please type your name: ";
     print( query_name_msg );
 
-    input_in_native_thread.start();
-    var player_name : String = get_name();
+    ClientInput.create();
+    var player_name : String = ClientInput.get_name();
 
     client_game = new ClientGame();
 
@@ -38,8 +38,7 @@ function update_position( pos:int64 ) : void
     if ( client_game.get_progress() == ClientGame.INIT )
     {
         client_game.set_progress( ClientGame.INPUT_LOOP );
-        @async
-            input_loop();
+        @async ClientInput.input_loop();
     }
 }
 
