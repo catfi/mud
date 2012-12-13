@@ -27,8 +27,6 @@ function welcome( user_count:int32 ):void
     var p : IndexableString = new IndexableString();
     p.concate( player_name );
     new SendStringToServer( p, g_server );
-
-    @async input_loop();
 }
 
 @client
@@ -36,6 +34,13 @@ function update_position( pos:int64 ) : void
 {
     client_game.update_position( new Point( pos ) );
     client_game.showMap();
+
+    if ( client_game.get_progress() == ClientGame.INIT )
+    {
+        client_game.set_progress( ClientGame.INPUT_LOOP );
+        @async
+            input_loop();
+    }
 }
 
 @client
