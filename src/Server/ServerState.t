@@ -108,31 +108,31 @@ class ServerState
     {
         var client_info : ClientInfo = getInfo( client );
         
-        var next_x : int32 = client_info.position.x;
-        var next_y : int32 = client_info.position.y;
+        var next_row : int32 = client_info.position.row;
+        var next_col : int32 = client_info.position.col;
 
         switch( direction )
         {
-        case 1: // DirectLeft
-            next_x -= 1; 
-        case 2: // DirectRight 
-            next_x += 1;
-        case 3: // DirectUp
-            next_y -= 1;
-        case 4: // DirectDown
-            next_y += 1;
+        case 1: // DirectUp
+            next_row -= 1;
+        case 2: // DirectDown
+            next_row += 1;
+        case 3: // DirectLeft
+            next_col -= 1;
+        case 4: // DirectRight
+            next_col += 1;
         }
 
-        if( !map.valid( next_x, next_y ) )
+        if( !map.valid( next_row, next_col ) )
             return;
-        
+
         // clear previous mark on map
-        map.set( client_info.position.x, client_info.position.y, MapSpace );
-        map.set( next_x, next_y, client_info.id ); 
-    
+        map.set( client_info.position.row, client_info.position.col, MapSpace );
+        map.set( next_row, next_col, client_info.id );
+
         // update positions
-        client_info.position.x = next_x;
-        client_info.position.y = next_y;
+        client_info.position.row = next_row;
+        client_info.position.col = next_col;
     }
 
     public function getClientCount() : int32
@@ -145,7 +145,7 @@ class ServerState
         print( "--------------------------------------\n" );
         for( var h : int64 = 0; h != map.height(); ++h )
         {
-            for( var w : int64 = 0; w != map.width(); ++w ) 
+            for( var w : int64 = 0; w != map.width(); ++w )
             {
                 var value : int32 = map.get(h, w);
                 switch( value )

@@ -20,19 +20,19 @@ class GameMap
         return map.size(1);
     }
 
-    public function valid( x : int64, y : int64 ) : bool
+    public function valid( r : int64, c : int64 ) : bool
     {
-        return ( 0 <= y && y < this.height() ) &&
-               ( 0 <= x && x < this.width() );
+        return ( 0 <= r && r < this.height() ) &&
+               ( 0 <= c && c < this.width() );
     }
 
-    public function get( x : int64, y : int64 ) : int32
+    public function get( r : int64, c : int64 ) : int32
     {
-        return map.get( y, x );
+        return map.get( r, c );
     }
 
-    public function set( x : int64, y : int64, value : int32 ) : void
+    public function set( r : int64, c : int64, value : int32 ) : void
     {
-        map.set( y, x, value );
+        map.set( r, c, value );
     }
 }

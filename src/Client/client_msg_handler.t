@@ -1,9 +1,12 @@
 import .= thor.lang;
 import .= thor.container;
+import .= Game;
 import .= util;
 
 var g_server : Domain;
 var msg_buffer : MsgBuffer = new MsgBuffer(1000);
+
+var client_game : ClientGame;
 
 @client
 function welcome( user_count:int32 ):void
@@ -22,6 +25,9 @@ function welcome( user_count:int32 ):void
     var p : IndexableString = new IndexableString();
     p.concate( player_name );
     new SendStringToServer( p, g_server );
+
+    client_game = new ClientGame( new Point( 2,2 ) );
+    client_game.showMap();
 
     @async input_loop();
 }

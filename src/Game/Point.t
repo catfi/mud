@@ -1,11 +1,17 @@
 class Point
 {
-    public var x : int64;
-    public var y : int64;
+    public var row : int64;
+    public var col : int64;
 
     public function new( i : int64, j : int64 ) : void
     {
-        this.x = i;
-        this.y = j;
+        this.row = i;
+        this.col = j;
+    }
+
+    public function isEqual( aPoint: Point ) : bool
+    {
+        return ( this.row == aPoint.row ) &&
+               ( this.col == aPoint.col );
     }
 }
