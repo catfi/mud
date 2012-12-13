@@ -1,3 +1,5 @@
+import .= Game;
+
 class ClientInfo
 {
     public var id : int32;

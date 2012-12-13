@@ -1,5 +1,6 @@
 import .= thor.container;
 import .= util;
+import .= Game;
 
 class ServerState
 {
@@ -10,7 +11,7 @@ class ServerState
     private var client_connected_count : int32;
      
     // world map
-    private var map : Map;
+    private var map : GameMap;
 
     // client information
     private var client_infos : HashMap< Domain, ClientInfo >;
@@ -76,7 +77,7 @@ class ServerState
 
     private function initMap()
     {
-        map = new Map( 9, 9 );
+        map = new GameMap( 9, 9 );
 
         for( var h : int64 = 0; h != map.height(); ++h )
         {

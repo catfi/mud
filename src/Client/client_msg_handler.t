@@ -34,6 +34,6 @@ function client_receive_encoded_char( encoded_char : int64 ):void
     if ( msg_buffer.is_msg_complete() )
     {
         msg = msg_buffer.get_msg();
-        print( "recv server msg: \{msg}\n" );
+        print( "[server] \{msg}\n" );
     }
 }
