@@ -4,7 +4,6 @@ import .= util;
 import .= Client;
 import .= Game;
 
-var server_state : ServerState = new ServerState;
 var commands : Vector<Command> = new Vector<Command>;
 
 // the real entry function on server

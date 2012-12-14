@@ -9,19 +9,19 @@ class ServerState
     // connection info
     private var domain_id_table : HashMap< Domain, int32 >;
     private var client_connected_count : int32;
-     
+
     // world map
     private var map : GameMap;
 
     // client information
     private var client_infos : HashMap< Domain, ClientInfo >;
-    
+
     // move command code
     public const DirectLeft : int32 = 1;
     public const DirectRight : int32 = 2;
     public const DirectUp : int32 = 3;
     public const DirectDown : int32 = 4;
-    
+
     // map info
     public const MapSpace : int32 = -1;
 
@@ -29,7 +29,7 @@ class ServerState
     {
         domain_id_table = new HashMap<Domain, int32>;
         client_infos = new HashMap< Domain, ClientInfo >;
-        
+
         client_connected_count = 0;
 
         initMap();
@@ -67,10 +67,10 @@ class ServerState
     // helper functions
     private function getId( client : Domain ) : int32
     {
-        return domain_id_table.get( client ); 
-    }    
+        return domain_id_table.get( client );
+    }
 
-    private function getInfo( client : Domain ) : ClientInfo 
+    private function getInfo( client : Domain ) : ClientInfo
     {
         return client_infos.get( client );
     }
@@ -81,13 +81,13 @@ class ServerState
 
         for( var h : int32 = 0; h != map.height(); ++h )
         {
-            for( var w : int32 = 0; w != map.width(); ++w ) 
+            for( var w : int32 = 0; w != map.width(); ++w )
             {
-                map.set( h, w, MapSpace );  
+                map.set( h, w, MapSpace );
             }
         }
-    }    
-    
+    }
+
     // engine interfaces
     public function addClient( client : Domain ) : void
     {
@@ -96,18 +96,18 @@ class ServerState
         domain_id_table.set( client, client_connected_count );
         ++client_connected_count;
 
-        // insert an entry of client inforamtion         
+        // insert an entry of client inforamtion
         client_infos.set( client, new ClientInfo( getId(client) ) );
         client_msg_buffer.set( client, new MsgBuffer( CLIENT_MSG_BUFFER_SIZE ) );
- 
+
         // dump for debug
         print( "A new client coming! Querying client's name...\n" );
     }
-    
+
     public function move( client : Domain, direction : int32 ) : void
     {
         var client_info : ClientInfo = getInfo( client );
-        
+
         var next_row : int32 = client_info.position.row;
         var next_col : int32 = client_info.position.col;
 
@@ -161,3 +161,5 @@ class ServerState
         print( "--------------------------------------\n" );
     }
 }
+
+var server_state : ServerState = new ServerState;
