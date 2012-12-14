@@ -43,7 +43,7 @@ class ClientInput
             var command : String;
             command = input_in_native_thread.getInput();
 
-            if ( is_command_valid( command ) )
+            if ( command.length() != 0 && is_command_valid( command ) )
                 issue_command( command );
 
             sleep_for_msec( 50 );
