@@ -8,7 +8,7 @@ class Command
         return false;
     }
 
-    public virtual function execute( str : String, client : Domain ) : bool 
+    public virtual function execute( str : String, client : Domain ) : bool
     {
         // do nothing
         return false;
@@ -53,14 +53,14 @@ class MoveCmd extends UnaryCmd
 
     public virtual function accept( str : String ) : bool
     {
-        var tokens = split( str ); 
+        var tokens = split( str );
 
         if( tokens.size() != 1 )
             return false;
 
-        for( var direction in directions ) 
+        for( var direction in directions )
         {
-            if( direction.equals( tokens[ 0 ] ) ) 
+            if( direction.equals( tokens[ 0 ] ) )
             {
                 return true;
             }
@@ -68,21 +68,21 @@ class MoveCmd extends UnaryCmd
         return false;
     }
 
-    public virtual function execute( str : String, client : Domain ) : bool 
+    public virtual function execute( str : String, client : Domain ) : bool
     {
-        var tokens = split( str );     
-        
+        var tokens = split( str );
+
         if( tokens[ 0 ].equals( "Left" ) )
-            server_state.move( client, 1 );
-    
+            serverState.move( client, 1 );
+
         if( tokens[ 0 ].equals( "Right" ) )
-            server_state.move( client, 2 );
+            serverState.move( client, 2 );
 
         if( tokens[ 0 ].equals( "Up" ) )
-            server_state.move( client, 3 );
+            serverState.move( client, 3 );
 
         if( tokens[ 0 ].equals( "Down" ) )
-            server_state.move( client, 4 );
+            serverState.move( client, 4 );
 
         return true;
     }

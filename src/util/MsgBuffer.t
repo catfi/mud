@@ -1,6 +1,8 @@
 import .= thor.lang;
 import .= thor.container;
 
+import .= Common;
+
 class MsgBuffer
 {
     private var buffer : Vector<int32>;

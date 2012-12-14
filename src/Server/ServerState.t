@@ -162,4 +162,4 @@ class ServerState
     }
 }
 
-var server_state : ServerState = new ServerState;
+var serverState : ServerState = new ServerState;
