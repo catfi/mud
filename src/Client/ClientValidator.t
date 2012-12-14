@@ -5,7 +5,7 @@ class CommandValidator
 {
     private static var allCommands : Vector<String> = null;
 
-    private static function initLookupTable() 
+    private static function initLookupTable()
     {
         allCommands = new Vector<String>;
         allCommands.push_back( "say" );
@@ -23,8 +23,11 @@ class CommandValidator
         {
             initLookupTable();
         }
-
+        
         var tokens = split( str );
+        if( tokens.size() == 0 )
+            return false;
+
         for( var i : int32 = 0; i < allCommands.size(); ++i )
         {
             if( allCommands[ i ].isEqual( tokens[0] ) )

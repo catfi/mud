@@ -4,7 +4,7 @@ import .= Server;
 
 class SendStringToServer
 {
-    public function new( msg: IndexableString, target: Domain ):void
+    public function new( msg: String, target: Domain ):void
     {
         /*
         The receiver may run in multi-thread mode,
@@ -20,7 +20,8 @@ class SendStringToServer
 
         for ( var i:int64 = 0; i < msg.length(); ++i )
         {
-            @remote { domain = target } server_receive_encoded_char( (i+1) * power32 + msg[ i ] );
+            var value : int16 = msg[ i ];
+            @remote { domain = target } server_receive_encoded_char( (i+1) * power32 + value );
         }
     }
 }

@@ -1,6 +1,5 @@
 import .= util;
 
-// TODO: should be singleton
 class ClientInput
 {
     private static var input_in_native_thread : NativeThreadInput;
@@ -37,30 +36,21 @@ class ClientInput
 
     public static function input_loop():void
     {
-        while(true)
+        while( true )
         {
             // TODO: use Command class
             var command : String;
             command = input_in_native_thread.getInput();
 
-            if ( command.length() != 0 && is_command_valid( command ) )
-                issue_command( command );
+            if ( command.length() != 0 )
+            {
+                if(  CommandValidator.accept( command ) )
+                    new SendStringToServer( command, gServer );
+                else
+                    print( "invalid command!\n" );
+            }
 
             sleep_for_msec( 50 );
         }
-    }
-
-    // check each command before sending to the server to reduce the loading of server
-    private static function is_command_valid( a_command : String ) : bool
-    {
-        return ( a_command.length() != 0 );
-    }
-
-    private static function issue_command( a_command : String ) : void
-    {
-        var msg : IndexableString = new IndexableString();
-        msg.concate( a_command );
-        new SendStringToServer( msg, gServer );
-        // print( "I issueed a command \{a_command}\n" );
     }
 }

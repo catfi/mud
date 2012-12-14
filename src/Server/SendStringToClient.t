@@ -4,7 +4,7 @@ import .= Client;
 
 class SendStringToClient
 {
-    public function new( msg: IndexableString, target: Domain ):void
+    public function new( msg: String, target: Domain ):void
     {
         var clientName : String = serverState.getClientName( target );
         print( "send \{msg} to client \{clientName}\n" );
