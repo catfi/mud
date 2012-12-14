@@ -1,14 +1,14 @@
-import .= util;
+import .= Common;
 
 class Point
 {
     public var row : int32;
     public var col : int32;
 
-    public function new( i : int32, j : int32 ) : void
+    public function new( theRow : int32, theCol : int32 ) : void
     {
-        this.row = i;
-        this.col = j;
+        this.row = theRow;
+        this.col = theCol;
     }
 
     public function isEqual( aPoint: Point ) : bool
