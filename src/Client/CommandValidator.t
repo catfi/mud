@@ -30,7 +30,7 @@ class CommandValidator
 
         for( var i : int32 = 0; i < allCommands.size(); ++i )
         {
-            if( allCommands[ i ].isEqual( tokens[0] ) )
+            if( allCommands[ i ].toLowerCase().isEqual( tokens[0] ) )
             {
                 return true;
             }
