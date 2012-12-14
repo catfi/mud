@@ -1,18 +1,42 @@
 import .= thor.container;
 import .= util;
+import .= Game;
 
 @entry
 function test() : int32
 {
-    test_split();
+    //test_split();
+    if( !test_serialize() )
+        return -1;
+
     return 0;
+}
+
+function test_serialize() : bool
+{
+    var str : String = "(123,456)";
+    var point : Point = Point.from( str );
+    if ( !point.toString().equals(str) )
+        return false;
+
+    str = "99,qqqq,(654,321)";
+    var info : ObjectInfo = ObjectInfo.from( str );
+    if( !info.toString().equals(str) )
+        return false;
+
+    str = "1,first,(1,2):2,second,(3,4)";
+    var objects = VectorConverter.fromString( str );
+    if( !VectorConverter.toString( objects ).equals(str) )
+        return false;
+
+    return true;
 }
 
 function test_split()
 {
     var str : String = " hello, qq apple ";
-    
-    var tokens = split( str ); 
+
+    var tokens = split( str );
     for( var token in tokens )
         print( token + "\n" );
 

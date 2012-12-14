@@ -1,3 +1,5 @@
+import .= thor.util;
+
 import .= Common;
 
 class Point
@@ -26,5 +28,34 @@ class Point
     public function toEncodedPos() : int64
     {
         return row * power32 + col;
+    }
+
+    public static function from( str : String ) : Point
+    {
+        str = str.trim();
+
+        var left : int32 = str.indexOf("(");
+        var right : int32 = str.indexOf(")");
+
+        // invalid format
+        if( left != 0  || right != str.length()-1 )
+            return null;
+
+        str = str.substring( 1, str.length()-1 );
+        var comma : int32 = str.indexOf(",");
+        if( comma == -1 )
+            return null;
+
+        var result : Point = new Point(
+                                        Convert.toInt32( str.substring(0, comma) ),
+                                        Convert.toInt32( str.substring(comma+1) )
+                                      );
+
+        return result;
+    }
+
+    public function toString() : String
+    {
+        return "(" + row + "," + col + ")";
     }
 }
