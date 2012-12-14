@@ -7,13 +7,13 @@ class ClientInfo
     public var name : String;
 
     // client states
-    public var is_name_complete : bool;
+    public var isNameComplete : bool;
 
     public function new( identifier : int32 ) : void
     {
         this.id = identifier;
         this.position = new Point( 0, 0 );
-        this.is_name_complete = false;
+        this.isNameComplete = false;
     }
 
     public function dump() : void

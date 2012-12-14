@@ -7,14 +7,14 @@ class ServerState
     private static const CLIENT_MSG_BUFFER_SIZE : int32 = 1000;
 
     // connection info
-    private var domain_id_table : HashMap< Domain, int32 >;
-    private var client_connected_count : int32;
+    private var domainIdTable : HashMap< Domain, int32 >;
+    private var clientConnectedCount : int32;
 
     // world map
     private var map : GameMap;
 
     // client information
-    private var client_infos : HashMap< Domain, ClientInfo >;
+    private var clientInfos : HashMap< Domain, ClientInfo >;
 
     // move command code
     public const DirectLeft : int32 = 1;
@@ -27,10 +27,10 @@ class ServerState
 
     public function new()
     {
-        domain_id_table = new HashMap<Domain, int32>;
-        client_infos = new HashMap< Domain, ClientInfo >;
+        domainIdTable = new HashMap<Domain, int32>;
+        clientInfos = new HashMap< Domain, ClientInfo >;
 
-        client_connected_count = 0;
+        clientConnectedCount = 0;
 
         initMap();
     }
@@ -38,7 +38,7 @@ class ServerState
     public function getAllClientDomain() : Vector<Domain>
     {
         var result : Vector<Domain> = new Vector<Domain>;
-        var iter : HashMapIterator<Domain, int32> = domain_id_table.iter();
+        var iter : HashMapIterator<Domain, int32> = domainIdTable.iter();
         while ( iter.hasNext() )
         {
             result.push_back( iter.get().key );
@@ -49,30 +49,30 @@ class ServerState
 
     public function setClientName( client: Domain, clientName: String )
     {
-        client_infos.get( client ).name = clientName;
-        client_infos.get( client ).is_name_complete = true;
-        client_infos.get( client ).dump();
+        clientInfos.get( client ).name = clientName;
+        clientInfos.get( client ).isNameComplete = true;
+        clientInfos.get( client ).dump();
     }
 
     public function getClientName( client: Domain ) : String
     {
-        return client_infos.get( client ).name;
+        return clientInfos.get( client ).name;
     }
 
     public function isClientNameComplete( client: Domain ) : bool
     {
-        return client_infos.get( client ).is_name_complete;
+        return clientInfos.get( client ).isNameComplete;
     }
 
     // helper functions
     private function getId( client : Domain ) : int32
     {
-        return domain_id_table.get( client );
+        return domainIdTable.get( client );
     }
 
     private function getInfo( client : Domain ) : ClientInfo
     {
-        return client_infos.get( client );
+        return clientInfos.get( client );
     }
 
     private function initMap()
@@ -92,12 +92,12 @@ class ServerState
     public function addClient( client : Domain ) : void
     {
         // TODO: atomic
-        //id_domain_table.set( client_connected_count, client );
-        domain_id_table.set( client, client_connected_count );
-        ++client_connected_count;
+        //id_domain_table.set( clientConnectedCount, client );
+        domainIdTable.set( client, clientConnectedCount );
+        ++clientConnectedCount;
 
         // insert an entry of client inforamtion
-        client_infos.set( client, new ClientInfo( getId(client) ) );
+        clientInfos.set( client, new ClientInfo( getId(client) ) );
         client_msg_buffer.set( client, new MsgBuffer( CLIENT_MSG_BUFFER_SIZE ) );
 
         // dump for debug
@@ -106,10 +106,10 @@ class ServerState
 
     public function move( client : Domain, direction : int32 ) : void
     {
-        var client_info : ClientInfo = getInfo( client );
+        var clientInfo : ClientInfo = getInfo( client );
 
-        var next_row : int32 = client_info.position.row;
-        var next_col : int32 = client_info.position.col;
+        var next_row : int32 = clientInfo.position.row;
+        var next_col : int32 = clientInfo.position.col;
 
         switch( direction )
         {
@@ -127,17 +127,17 @@ class ServerState
             return;
 
         // clear previous mark on map
-        map.set( client_info.position.row, client_info.position.col, MapSpace );
-        map.set( next_row, next_col, client_info.id );
+        map.set( clientInfo.position.row, clientInfo.position.col, MapSpace );
+        map.set( next_row, next_col, clientInfo.id );
 
         // update positions
-        client_info.position.row = next_row;
-        client_info.position.col = next_col;
+        clientInfo.position.row = next_row;
+        clientInfo.position.col = next_col;
     }
 
     public function getClientCount() : int32
     {
-        return client_connected_count;
+        return clientConnectedCount;
     }
 
     public function show() : void
