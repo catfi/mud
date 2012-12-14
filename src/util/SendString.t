@@ -30,7 +30,7 @@ class SendStringToClient
 {
     public function new( msg: IndexableString, target: Domain ):void
     {
-        var clientName : String = server_state.getClientName( target );
+        var clientName : String = serverState.getClientName( target );
         print( "send \{msg} to client \{clientName}\n" );
 
         /*

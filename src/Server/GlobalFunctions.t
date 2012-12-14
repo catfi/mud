@@ -11,12 +11,12 @@ var commands : Vector<Command> = new Vector<Command>;
 function handle_client_connect( client : Domain ) : void
 {
     // update server state
-    server_state.addClient( client );
+    serverState.addClient( client );
     @remote { domain = client }
-        Client.welcome( server_state.getClientCount() );
+        Client.welcome( serverState.getClientCount() );
 
     /*
-    //server_state.addClient( Domain.local() );
+    //serverState.addClient( Domain.local() );
     @async
     simulate_client();
     */
@@ -55,7 +55,7 @@ function process_command( str : String ) : void
             if( !result )
                 print( "execution error!\n" );
 
-            server_state.show();
+            serverState.show();
             return;
         }
     }
@@ -81,10 +81,10 @@ function server_receive_encoded_char( encoded_char : int64 ):void
     if ( msg_buffer.is_msg_complete() )
     {
         msg = msg_buffer.get_msg();
-        if ( server_state.isClientNameComplete( client ) == false )
+        if ( serverState.isClientNameComplete( client ) == false )
         {
             print( "client \{msg} is added\n" );
-            server_state.setClientName( client, msg );
+            serverState.setClientName( client, msg );
 
             var pos : Point = new Point( 2,2 );
             @remote { domain=client }
@@ -93,7 +93,7 @@ function server_receive_encoded_char( encoded_char : int64 ):void
         }
         else
         {
-            var clientName : String = server_state.getClientName( client );
+            var clientName : String = serverState.getClientName( client );
             print( "recv client \{clientName}'s message: \{msg}\n" );
             broadcast( client, msg );
         }
@@ -103,8 +103,8 @@ function server_receive_encoded_char( encoded_char : int64 ):void
 @server
 function broadcast( from_client : Domain, msg : IndexableString ) : void
 {
-    var from_client_name : String = server_state.getClientName( from_client );
-    var all_client : Vector<Domain> = server_state.getAllClientDomain();
+    var from_client_name : String = serverState.getClientName( from_client );
+    var all_client : Vector<Domain> = serverState.getAllClientDomain();
 
     // print( "broadcast request !\n" );
     for ( var i : int32 = 0; i < all_client.size(); ++i )
