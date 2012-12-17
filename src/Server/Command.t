@@ -44,7 +44,7 @@ class MoveCmd extends Command
                 serverState.playerMove( client, direction );
         }
 
-        new SendStringToClient( "map: " + VectorConverter.toString(serverState.getPlayers()), client );
+        new SendStringToClient( "map: " + VectorConverter.toString(serverState.mAllObjects), client );
         return true;
     }
 }

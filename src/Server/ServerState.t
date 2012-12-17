@@ -9,24 +9,24 @@ class ServerState
     private static const CLIENT_MSG_BUFFER_SIZE : int32 = 1000;
 
     // connection info
-    private var clientConnectedCount : int32 = 0;
+    private var mConnectedPlayerCount : int32 = 0;
 
     // client information
-    public var clientInfos : HashMap< Domain, ClientInfo > = new HashMap< Domain, ClientInfo >;
+    public var mDomainPlayerMap : HashMap< Domain, PlayerInfo > = new HashMap< Domain, PlayerInfo >;
+
+    // player information
+    public var mPlayers : Vector< PlayerInfo > = new Vector< PlayerInfo >;
 
     // mob information
-    public var mobs : Vector< ObjectInfo > = new Vector< ObjectInfo >;
+    public var mMobs : Vector< ObjectInfo > = new Vector< ObjectInfo >;
 
     // all objects
-    public var allObjects : Vector< ObjectInfo > = new Vector< ObjectInfo >;
-
-    // map info
-    public const MapSpace : int32 = -1;
+    public var mAllObjects : Vector< ObjectInfo > = new Vector< ObjectInfo >;
 
     public function getAllClientDomain() : Vector<Domain>
     {
         var result : Vector<Domain> = new Vector<Domain>;
-        var iter : HashMapIterator<Domain, ClientInfo> = clientInfos.iter();
+        var iter : HashMapIterator<Domain, PlayerInfo> = mDomainPlayerMap.iter();
         while ( iter.hasNext() )
         {
             result.push_back( iter.get().key );
@@ -37,53 +37,41 @@ class ServerState
 
     public function setClientName( client: Domain, clientName: String )
     {
-        clientInfos.get( client ).name = clientName;
-        clientInfos.get( client ).isNameComplete = true;
-        clientInfos.get( client ).dump();
+        mDomainPlayerMap.get( client ).name = clientName;
+        mDomainPlayerMap.get( client ).isNameComplete = true;
+        mDomainPlayerMap.get( client ).dump();
     }
 
     public function getClientName( client: Domain ) : String
     {
-        return clientInfos.get( client ).name;
+        return mDomainPlayerMap.get( client ).name;
     }
 
     public function isClientNameComplete( client: Domain ) : bool
     {
-        return clientInfos.get( client ).isNameComplete;
+        return mDomainPlayerMap.get( client ).isNameComplete;
     }
 
-    private function getInfo( client : Domain ) : ClientInfo
+    private function getInfo( client : Domain ) : PlayerInfo
     {
-        return clientInfos.get( client );
-    }
-
-    public function getPlayers() : Vector<ObjectInfo>
-    {
-        var players : Vector<ObjectInfo> = new Vector<ObjectInfo>;
-
-        var iter : HashMapIterator< Domain, ClientInfo > = clientInfos.iter();
-        while ( iter.hasNext() )
-        {
-            players.push_back( iter.get().value );
-            iter.next();
-        }
-
-        return players;
+        return mDomainPlayerMap.get( client );
     }
 
     // engine interfaces
-    public function addClient( client : Domain ) : void
+    public function addPlayer( client : Domain ) : void
     {
         // TODO: atomic
-        ++clientConnectedCount;
+        ++mConnectedPlayerCount;
 
         // generate random position of the client
-        var clientInfo = new ClientInfo( clientConnectedCount, generatePos() );
+        var playerInfo = new PlayerInfo( getPlayerCount(), generatePos() );
 
-        // insert an entry of client inforamtion
-        clientInfos.set( client, clientInfo );
+        // insert an entry of player inforamtion
+        mDomainPlayerMap.set( client, playerInfo );
+        mPlayers.push_back( playerInfo );
+        mAllObjects.push_back( playerInfo );
+
         client_msg_buffer.set( client, new MsgBuffer( CLIENT_MSG_BUFFER_SIZE ) );
-
 
         // dump for debug
         print( "A new client coming! Querying client's name...\n" );
@@ -91,7 +79,7 @@ class ServerState
 
     public function playerMove( client : Domain, direction : int32 ) : void
     {
-        var clientInfo : ClientInfo = getInfo( client );
+        var clientInfo : PlayerInfo = getInfo( client );
 
         var nextRow : int32 = clientInfo.position.row;
         var nextCol : int32 = clientInfo.position.col;
@@ -115,15 +103,13 @@ class ServerState
         clientInfo.position.col = nextCol;
     }
 
-    public function getClientCount() : int32
+    public function getPlayerCount() : int32
     {
-        return clientConnectedCount;
+        return mConnectedPlayerCount;
     }
 
     private function generatePos() : Point
     {
-        var players : Vector<ObjectInfo> = this.getPlayers();
-
         var rowGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, 12-1 );
         var colGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, 25-1 );
 
@@ -147,11 +133,10 @@ class ServerState
             return false;
         }
 
-        var players : Vector<ObjectInfo> = this.getPlayers();
         // find if any other players had occupied the position
-        for( var i = 0; i != players.size(); ++i )
+        for( var i = 0; i != mAllObjects.size(); ++i )
         {
-            if( players[i].position.row == row && players[i].position.col == col )
+            if( mAllObjects[i].position.row == row && mAllObjects[i].position.col == col )
             {
                 return false;
             }

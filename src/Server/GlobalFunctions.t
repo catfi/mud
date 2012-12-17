@@ -10,10 +10,10 @@ import .= Game;
 function handle_client_connect( client : Domain ) : void
 {
     // update server state
-    serverState.addClient( client );
+    serverState.addPlayer( client );
 
     @remote { domain = client }
-    Client.welcome( serverState.getClientCount() );
+    Client.welcome( serverState.getPlayerCount() );
 
     /*
     //serverState.addClient( Domain.local() );
@@ -74,13 +74,8 @@ function server_receive_encoded_char( encoded_char : int64 ):void
             print( "client \{msg} is added\n" );
             serverState.setClientName( client, msg );
 
-            // collect monster infos
-            //
-            // collect player infos
-            var players : Vector<ObjectInfo> = serverState.getPlayers();
-
             // send string to client
-            new SendStringToClient( "map: " + VectorConverter.toString(players), client );
+            new SendStringToClient( "map: " + VectorConverter.toString(serverState.mAllObjects), client );
         }
         else
         {

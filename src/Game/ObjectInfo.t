@@ -53,7 +53,7 @@ class ObjectInfo
     }
 }
 
-class ClientInfo extends ObjectInfo
+class PlayerInfo extends ObjectInfo
 {
     // client states
     public var isNameComplete : bool = false;
