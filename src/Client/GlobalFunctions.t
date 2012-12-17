@@ -44,8 +44,12 @@ function client_receive_encoded_char( encoded_char : int64 ):void
         print( "[server] \{msg}\n" );
 
         // test show map
-        var mapObjectInfo : Vector<ObjectInfo> = VectorConverter.fromString( msg );
-        gClientGame.showAllMapInfo( mapObjectInfo );
+        var mapHeader : int32 = msg.indexOf( "map:" );
+        if( mapHeader != -1 )
+        {
+            var mapObjectInfo : Vector<ObjectInfo> = VectorConverter.fromString( msg.substring(mapHeader+4) );
+            gClientGame.showAllMapInfo( mapObjectInfo );
+        }
 
         if ( gClientGame.get_progress() == ClientGame.INIT )
         {
