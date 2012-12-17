@@ -1,13 +1,20 @@
 import .= thor.container;
 import .= util;
 
-interface Command
+class Command
 {
-    public function accept( str : String ) : bool;
-    public function execute( str : String, client : Domain ) : bool;
+    public virtual function accept( str : String ) : bool
+    {
+        return false;
+    }
+
+    public virtual function execute( str : String, client : Domain ) : bool
+    {
+        return false;
+    }
 }
 
-class MoveCmd implements Command
+class MoveCmd extends Command
 {
     private var directions : Vector<String> = new Vector<String>;
 
@@ -56,7 +63,7 @@ class MoveCmd implements Command
     }
 }
 
-class SayCmd implements Command
+class SayCmd extends Command
 {
     public virtual function accept( str : String ) : bool
     {
