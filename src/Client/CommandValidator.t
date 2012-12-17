@@ -23,7 +23,7 @@ class CommandValidator
         {
             initLookupTable();
         }
-        
+
         var tokens = split( str );
         if( tokens.size() == 0 )
             return false;

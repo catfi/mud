@@ -68,6 +68,7 @@ function process_command( str : String ) : void
 function init_commands() : void
 {
     commands.push_back( new MoveCmd );
+    commands.push_back( new SayCmd );
 }
 
 var client_msg_buffer : HashMap<Domain, MsgBuffer> = new HashMap<Domain, MsgBuffer>();
@@ -102,15 +103,32 @@ function server_receive_encoded_char( encoded_char : int64 ):void
         }
         else
         {
-            var clientName : String = serverState.getClientName( client );
-            print( "recv client \{clientName}'s message: \{msg}\n" );
-            broadcast( client, msg );
+            // validate command first
+            var foundCommand : bool = false;
+            // for each command, find a command can execute
+            for( var i : int64 = 0; i < commands.size(); ++i )
+            {
+                if( commands[ i ].accept( msg ) )
+                {
+                    foundCommand = true;
+                    var result : bool = commands[ i ].execute( msg, client );
+
+                    if( !result )
+                        new SendStringToClient( "execute falied!", client );
+
+                    break;
+                }
+            }
+
+            // send error message when find no proper command
+            if( !foundCommand )
+                new SendStringToClient( "invalid command!", client );
         }
     }
 }
 
 @server
-function broadcast( from_client : Domain, msg : IndexableString ) : void
+function broadcast( from_client : Domain, msg : String ) : void
 {
     var from_client_name : String = serverState.getClientName( from_client );
     var all_client : Vector<Domain> = serverState.getAllClientDomain();
@@ -120,7 +138,7 @@ function broadcast( from_client : Domain, msg : IndexableString ) : void
     {
         // print( "to_client #\{i}\n" );
         var to_client : Domain = all_client[i];
-        var result_msg : IndexableString = new IndexableString();
+        var result_msg : String = "";
         result_msg.concate( from_client_name );
         result_msg.concate(  " said: \{msg}\n" );
         // if ( to_client != from_client )

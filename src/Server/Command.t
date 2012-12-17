@@ -87,3 +87,33 @@ class MoveCmd extends UnaryCmd
         return true;
     }
 }
+
+class SayCmd extends UnaryCmd
+{
+    public virtual function accept( str : String ) : bool
+    {
+        var tokens = split( str );
+
+        if( tokens.size() < 2 )
+            return false;
+
+        if( tokens[ 0 ].toLowerCase().equals( "say" ) )
+            return true;
+
+        return false;
+    }
+
+    public virtual function execute( str : String, client : Domain ) : bool
+    {
+        str = str.trim();
+        var space : int64 = " "[ 0 ];
+        var msg_begin = 0;
+        // ignore 'say' command
+        while( msg_begin < str.length() && str[msg_begin] != space )
+            ++msg_begin;
+
+        broadcast( client, str.substring( msg_begin ).trim() );
+
+        return true;
+    }
+}
