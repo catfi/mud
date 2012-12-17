@@ -69,7 +69,7 @@ class ServerState
         return clientInfos.get( client );
     }
 
-    private function getPlayers() : Vector<ObjectInfo>
+    public function getPlayers() : Vector<ObjectInfo>
     {
         var players : Vector<ObjectInfo> = new Vector<ObjectInfo>;
 
@@ -114,35 +114,31 @@ class ServerState
         print( "A new client coming! Querying client's name...\n" );
     }
 
-    public function move( client : Domain, direction : int32 ) : void
+    public function playerMove( client : Domain, direction : int32 ) : void
     {
         var clientInfo : ClientInfo = getInfo( client );
 
-        var next_row : int32 = clientInfo.position.row;
-        var next_col : int32 = clientInfo.position.col;
+        var nextRow : int32 = clientInfo.position.row;
+        var nextCol : int32 = clientInfo.position.col;
 
         switch( direction )
         {
         case 1: // DirectUp
-            next_row -= 1;
+            nextRow -= 1;
         case 2: // DirectDown
-            next_row += 1;
+            nextRow += 1;
         case 3: // DirectLeft
-            next_col -= 1;
+            nextCol -= 1;
         case 4: // DirectRight
-            next_col += 1;
+            nextCol += 1;
         }
 
-        if( !map.valid( next_row, next_col ) )
+        if( !validatePlayerPos(nextRow, nextCol) )
             return;
 
-        // clear previous mark on map
-        map.set( clientInfo.position.row, clientInfo.position.col, MapSpace );
-        map.set( next_row, next_col, clientInfo.id );
-
         // update positions
-        clientInfo.position.row = next_row;
-        clientInfo.position.col = next_col;
+        clientInfo.position.row = nextRow;
+        clientInfo.position.col = nextCol;
     }
 
     public function getClientCount() : int32
@@ -181,27 +177,34 @@ class ServerState
         var generatedRow : int32 = 0;
         var generatedCol : int32 = 0;
 
-        var duplicate : bool = true;
-
-        while( duplicate != false )
+        do
         {
             generatedRow = rowGenerator.next();
             generatedCol = colGenerator.next();
-
-            var overlap : bool = false;
-            for( var i = 0; i != players.size(); ++i )
-            {
-                if( players[i].position.row == generatedRow && players[i].position.col == generatedCol )
-                {
-                    overlap = true;
-                    break;
-                }
-            }
-
-            duplicate = overlap;
-        }
+        } while( !validatePlayerPos(generatedRow, generatedCol) );
 
         return new Point( generatedRow, generatedCol );
+    }
+
+    private function validatePlayerPos( row : int32, col : int32 ) : bool
+    {
+        if( !( (0 <= row && row < 12) &&
+               (0 <= col && col < 25) ) )
+        {
+            return false;
+        }
+
+        var players : Vector<ObjectInfo> = this.getPlayers();
+        // find if any other players had occupied the position
+        for( var i = 0; i != players.size(); ++i )
+        {
+            if( players[i].position.row == row && players[i].position.col == col )
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function generateMonsterPos() : Point

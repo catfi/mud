@@ -21,10 +21,10 @@ class MoveCmd extends Command
 
     public function new() : void
     {
-        directions.push_back( "Left" );
-        directions.push_back( "Right" );
-        directions.push_back( "Up" );
-        directions.push_back( "Down" );
+        directions.push_back( "north" );
+        directions.push_back( "south" );
+        directions.push_back( "west" );
+        directions.push_back( "east" );
     }
 
     public virtual function accept( str : String ) : bool
@@ -36,11 +36,10 @@ class MoveCmd extends Command
 
         for( var direction in directions )
         {
-            if( direction.equals( tokens[ 0 ] ) )
-            {
+            if( tokens[ 0 ].toLowerCase().equals(direction) )
                 return true;
-            }
         }
+
         return false;
     }
 
@@ -48,18 +47,13 @@ class MoveCmd extends Command
     {
         var tokens = split( str );
 
-        if( tokens[ 0 ].equals( "Left" ) )
-            serverState.move( client, 1 );
+        for( var i : int32 = 0; i < directions.size(); ++i )
+        {
+            if( tokens[ 0 ].toLowerCase().equals( directions[i] ) )
+                serverState.playerMove( client, i+1 );
+        }
 
-        if( tokens[ 0 ].equals( "Right" ) )
-            serverState.move( client, 2 );
-
-        if( tokens[ 0 ].equals( "Up" ) )
-            serverState.move( client, 3 );
-
-        if( tokens[ 0 ].equals( "Down" ) )
-            serverState.move( client, 4 );
-
+        new SendStringToClient( "map: " + VectorConverter.toString(serverState.getPlayers()), client );
         return true;
     }
 }

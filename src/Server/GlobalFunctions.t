@@ -88,18 +88,13 @@ function server_receive_encoded_char( encoded_char : int64 ):void
             print( "client \{msg} is added\n" );
             serverState.setClientName( client, msg );
 
-            var objects = new Vector<ObjectInfo>;
             // collect monster infos
             //
             // collect player infos
-            var iter : HashMapIterator<Domain, ClientInfo> = serverState.clientInfos.iter();
-            while ( iter.hasNext() )
-            {
-                objects.push_back( iter.get().value );
-                iter.next();
-            }
+            var players : Vector<ObjectInfo> = serverState.getPlayers();
+
             // send string to client
-            new SendStringToClient( "map: " + VectorConverter.toString(objects), client );
+            new SendStringToClient( "map: " + VectorConverter.toString(players), client );
         }
         else
         {
