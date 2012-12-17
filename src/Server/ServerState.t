@@ -77,6 +77,20 @@ class ServerState
         return clientInfos.get( client );
     }
 
+    private function getPlayers() : Vector<ObjectInfo>
+    {
+        var players : Vector<ObjectInfo> = new Vector<ObjectInfo>;
+
+        var iter : HashMapIterator< Domain, ClientInfo > = clientInfos.iter();
+        while ( iter.hasNext() )
+        {
+            players.push_back( iter.get().value );
+            iter.next();
+        }
+
+        return players;
+    }
+
     private function initMap()
     {
         map = new GameMap( 9, 9 );
@@ -99,10 +113,7 @@ class ServerState
         ++clientConnectedCount;
 
         // generate random position of the client
-        var x_gen : Random<int32,Uniform> = new Random<int32, Uniform>( 0, 12-1 );
-        var y_gen : Random<int32,Uniform> = new Random<int32, Uniform>( 0, 25-1 );
-        var clientInfo = new ClientInfo( getId(client) );
-        clientInfo.position = new Point( x_gen.next(), y_gen.next() );
+        var clientInfo = new ClientInfo( getId(client), generatePlayerPos() );
 
         // insert an entry of client inforamtion
         clientInfos.set( client, clientInfo );
@@ -170,12 +181,40 @@ class ServerState
         print( "--------------------------------------\n" );
     }
 
-    private function generatePlayerPosition() : Point
+    private function generatePlayerPos() : Point
     {
-        return new Point( 0, 0 );
+        var players : Vector<ObjectInfo> = this.getPlayers();
+
+        var rowGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, 12-1 );
+        var colGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, 25-1 );
+
+        var generatedRow : int32 = 0;
+        var generatedCol : int32 = 0;
+
+        var duplicate : bool = true;
+
+        while( duplicate != false )
+        {
+            generatedRow = rowGenerator.next();
+            generatedCol = colGenerator.next();
+
+            var overlap : bool = false;
+            for( var i = 0; i != players.size(); ++i )
+            {
+                if( players[i].position.row == generatedRow && players[i].position.col == generatedCol )
+                {
+                    overlap = true;
+                    break;
+                }
+            }
+
+            duplicate = overlap;
+        }
+
+        return new Point( generatedRow, generatedCol );
     }
 
-    private function generateMonsterPosition() : Point
+    private function generateMonsterPos() : Point
     {
         return new Point( 0, 0 );
     }

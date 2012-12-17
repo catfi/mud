@@ -62,4 +62,9 @@ class ClientInfo extends ObjectInfo
     {
         super( identifer );
     }
+
+    public function new( identifier : int32, thePosition : Point ) : void
+    {
+        super( identifier, thePosition );
+    }
 }
