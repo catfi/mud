@@ -1,45 +1,13 @@
 import .= thor.container;
 import .= util;
 
-class Command
+interface Command
 {
-    public virtual function accept( str : String ) : bool
-    {
-        return false;
-    }
-
-    public virtual function execute( str : String, client : Domain ) : bool
-    {
-        // do nothing
-        return false;
-    }
+    public function accept( str : String ) : bool;
+    public function execute( str : String, client : Domain ) : bool;
 }
 
-class UnaryCmd extends Command
-{
-    public virtual function accept( str : String ) : bool
-    {
-        return split( str ).size() == 1;
-    }
-}
-
-class BinaryCmd extends Command
-{
-    public virtual function accept( str : String ) : bool
-    {
-        return split( str ).size() == 2;
-    }
-}
-
-class TernaryCmd extends Command
-{
-    public virtual function accept( str : String ) : bool
-    {
-        return split( str ).size() == 3;
-    }
-}
-
-class MoveCmd extends UnaryCmd
+class MoveCmd implements Command
 {
     private var directions : Vector<String> = new Vector<String>;
 
@@ -88,7 +56,7 @@ class MoveCmd extends UnaryCmd
     }
 }
 
-class SayCmd extends UnaryCmd
+class SayCmd implements Command
 {
     public virtual function accept( str : String ) : bool
     {
