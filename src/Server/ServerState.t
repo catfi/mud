@@ -14,7 +14,7 @@ class ServerState
     private var map : GameMap;
 
     // client information
-    private var clientInfos : HashMap< Domain, ClientInfo >;
+    public var clientInfos : HashMap< Domain, ClientInfo >;
 
     // move command code
     public const DirectLeft : int32 = 1;
