@@ -17,6 +17,9 @@ class ServerState
     // mob information
     public var mobs : Vector< ObjectInfo > = new Vector< ObjectInfo >;
 
+    // all objects
+    public var allObjects : Vector< ObjectInfo > = new Vector< ObjectInfo >;
+
     // map info
     public const MapSpace : int32 = -1;
 
@@ -75,7 +78,7 @@ class ServerState
         ++clientConnectedCount;
 
         // generate random position of the client
-        var clientInfo = new ClientInfo( clientConnectedCount, generatePlayerPos() );
+        var clientInfo = new ClientInfo( clientConnectedCount, generatePos() );
 
         // insert an entry of client inforamtion
         clientInfos.set( client, clientInfo );
@@ -104,7 +107,7 @@ class ServerState
             nextCol += 1;
 
 
-        if( !validatePlayerPos(nextRow, nextCol) )
+        if( !validatePos(nextRow, nextCol) )
             return;
 
         // update positions
@@ -117,7 +120,7 @@ class ServerState
         return clientConnectedCount;
     }
 
-    private function generatePlayerPos() : Point
+    private function generatePos() : Point
     {
         var players : Vector<ObjectInfo> = this.getPlayers();
 
@@ -131,12 +134,12 @@ class ServerState
         {
             generatedRow = rowGenerator.next();
             generatedCol = colGenerator.next();
-        } while( !validatePlayerPos(generatedRow, generatedCol) );
+        } while( !validatePos(generatedRow, generatedCol) );
 
         return new Point( generatedRow, generatedCol );
     }
 
-    private function validatePlayerPos( row : int32, col : int32 ) : bool
+    private function validatePos( row : int32, col : int32 ) : bool
     {
         if( !( (0 <= row && row < 12) &&
                (0 <= col && col < 25) ) )
@@ -155,10 +158,5 @@ class ServerState
         }
 
         return true;
-    }
-
-    private function generateMonsterPos() : Point
-    {
-        return new Point( 0, 0 );
     }
 }
