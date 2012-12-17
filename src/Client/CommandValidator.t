@@ -30,12 +30,20 @@ class CommandValidator
 
         for( var i : int32 = 0; i < allCommands.size(); ++i )
         {
-            if( allCommands[ i ].toLowerCase().isEqual( tokens[0] ) )
+            if( allCommands[ i ].isEqual( tokens[0].toLowerCase() ) )
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public static function isValidName( str : String ) : bool
+    {
+        if ( str.length() > 15 )
+            return false;
+        else
+            return true;
     }
 }

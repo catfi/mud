@@ -8,6 +8,9 @@ class GameMap
     public function new( h : int32, w : int32 ) : void
     {
         map = new Array2D<int32>( h, w );
+        for ( var r : int32 = 0; r < h; ++r )
+            for ( var c : int32 = 0; c < w; ++c )
+                map.set( r, c, 0 );
     }
 
     public function height() : int32

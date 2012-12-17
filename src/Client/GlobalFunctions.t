@@ -5,7 +5,6 @@ import .= util;
 
 var gServer : Domain;
 var gMsgBuffer : MsgBuffer = new MsgBuffer(1000);
-
 var gClientGame : ClientGame;
 
 @client
@@ -20,26 +19,18 @@ function welcome( user_count:int32 ):void
     print( queryNameMsg );
 
     ClientInput.create();
-    var playerName : String = ClientInput.get_name();
+    var playerName : String;
+    do
+    {
+        playerName = ClientInput.get_name();
+    }
+    while ( !CommandValidator.isValidName( playerName ) );
 
-    gClientGame = new ClientGame();
+    gClientGame = new ClientGame( playerName );
 
     var p : IndexableString = new IndexableString();
     p.concate( playerName );
     new SendStringToServer( p, gServer );
-}
-
-@client
-function update_position( pos:int64 ) : void
-{
-    gClientGame.update_position( new Point( pos ) );
-    gClientGame.showMap();
-
-    if ( gClientGame.get_progress() == ClientGame.INIT )
-    {
-        gClientGame.set_progress( ClientGame.INPUT_LOOP );
-        @async ClientInput.input_loop();
-    }
 }
 
 @client
@@ -51,5 +42,15 @@ function client_receive_encoded_char( encoded_char : int64 ):void
     {
         msg = gMsgBuffer.get_msg();
         print( "[server] \{msg}\n" );
+
+        // test show map
+        var mapObjectInfo : Vector<ObjectInfo> = VectorConverter.fromString( msg );
+        gClientGame.showAllMapInfo( mapObjectInfo );
+
+        if ( gClientGame.get_progress() == ClientGame.INIT )
+        {
+            gClientGame.set_progress( ClientGame.INPUT_LOOP );
+            @async ClientInput.input_loop();
+        }
     }
 }
