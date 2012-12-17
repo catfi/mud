@@ -107,19 +107,19 @@ function server_receive_encoded_char( encoded_char : int64 ):void
 }
 
 @server
-function broadcast( from_client : Domain, msg : String ) : void
+function broadcast( fromClient : Domain, msg : String ) : void
 {
-    var from_client_name : String = serverState.getClientName( from_client );
-    var all_client : Vector<Domain> = serverState.getAllClientDomain();
+    var fromClientName : String = serverState.getClientName( fromClient );
+    var clients : Vector<Domain> = serverState.getConnectedDomains();
 
     // print( "broadcast request !\n" );
-    for ( var i : int32 = 0; i < all_client.size(); ++i )
+    for ( var i : int32 = 0; i < clients.size(); ++i )
     {
         // print( "to_client #\{i}\n" );
-        var to_client : Domain = all_client[i];
+        var client : Domain = clients[ i ];
         // if ( to_client != from_client )
         {
-            new SendStringToClient( "\{from_client_name} said: \{msg}", to_client );
+            new SendStringToClient( "\{fromClientName} said: \{msg}", client );
         }
     }
 }

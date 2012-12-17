@@ -23,7 +23,7 @@ class ServerState
     // all objects
     public var mAllObjects : Vector< ObjectInfo > = new Vector< ObjectInfo >;
 
-    public function getAllClientDomain() : Vector<Domain>
+    public function getConnectedDomains() : Vector<Domain>
     {
         var result : Vector<Domain> = new Vector<Domain>;
         var iter : HashMapIterator<Domain, PlayerInfo> = mDomainPlayerMap.iter();
@@ -120,23 +120,23 @@ class ServerState
         {
             generatedRow = rowGenerator.next();
             generatedCol = colGenerator.next();
-        } while( !validatePos(generatedRow, generatedCol) );
+        } while ( !validatePos(generatedRow, generatedCol) );
 
         return new Point( generatedRow, generatedCol );
     }
 
     private function validatePos( row : int32, col : int32 ) : bool
     {
-        if( !( (0 <= row && row < MAP_ROW_LIMIT) &&
-               (0 <= col && col < MAP_COLUMN_LIMIT) ) )
+        if ( !( (0 <= row && row < MAP_ROW_LIMIT) &&
+                (0 <= col && col < MAP_COLUMN_LIMIT) ) )
         {
             return false;
         }
 
         // find if any other players had occupied the position
-        for( var i = 0; i != mAllObjects.size(); ++i )
+        for ( var i = 0; i != mAllObjects.size(); ++i )
         {
-            if( mAllObjects[i].position.row == row && mAllObjects[i].position.col == col )
+            if ( mAllObjects[i].position.row == row && mAllObjects[i].position.col == col )
             {
                 return false;
             }
