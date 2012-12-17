@@ -5,7 +5,18 @@ import .= Util;
 
 class CommandHandler
 {
-    public static function showMap( objectInfo : Vector<ObjectInfo> ) : void
+    public static function execute( msg : String )
+    {
+        // massage of show map
+        var mapHeader : int32 = msg.indexOf( "map:" );
+        if( mapHeader != -1 )
+        {
+            var mapObjectInfo : Vector<ObjectInfo> = VectorConverter.fromString( msg.substring(mapHeader+4) );
+            showMap( mapObjectInfo );
+        }
+    }
+
+    private static function showMap( objectInfo : Vector<ObjectInfo> ) : void
     {
         var myName : String = gClientGame.getMyName();
         var map : GameMap = gClientGame.getMap();
