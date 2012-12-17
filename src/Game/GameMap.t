@@ -1,12 +1,23 @@
 import .= thor.lang;
-
 import .= Util;
 
 class GameMap
 {
     private var map : Array2D<int32>;
+    public static const DEFAULT_HEIGHT : int32 = 12;
+    public static const DEFAULT_WIDTH : int32 = 25;
+
+    public function new() : void
+    {
+        init( DEFAULT_HEIGHT, DEFAULT_WIDTH );
+    }
 
     public function new( h : int32, w : int32 ) : void
+    {
+        init( h, w );
+    }
+
+    private function init( h : int32, w : int32 ) : void
     {
         map = new Array2D<int32>( h, w );
         for ( var r : int32 = 0; r < h; ++r )
