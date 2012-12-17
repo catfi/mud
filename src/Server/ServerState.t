@@ -1,4 +1,5 @@
 import .= thor.container;
+import .= thor.util;
 import .= util;
 import .= Game;
 
@@ -96,9 +97,16 @@ class ServerState
         domainIdTable.set( client, clientConnectedCount );
         ++clientConnectedCount;
 
+        // generate random position of the client
+        var x_gen : Random<int32,Uniform> = new Random<int32, Uniform>( 0, 12-1 );
+        var y_gen : Random<int32,Uniform> = new Random<int32, Uniform>( 0, 25-1 );
+        var clientInfo = new ClientInfo( getId(client) );
+        clientInfo.position = new Point( x_gen.next(), y_gen.next() );
+
         // insert an entry of client inforamtion
-        clientInfos.set( client, new ClientInfo( getId(client) ) );
+        clientInfos.set( client, clientInfo );
         client_msg_buffer.set( client, new MsgBuffer( CLIENT_MSG_BUFFER_SIZE ) );
+
 
         // dump for debug
         print( "A new client coming! Querying client's name...\n" );
