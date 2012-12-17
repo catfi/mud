@@ -112,7 +112,9 @@ class SayCmd extends UnaryCmd
         while( msg_begin < str.length() && str[msg_begin] != space )
             ++msg_begin;
 
-        broadcast( client, str.substring( msg_begin ).trim() );
+        var msg : String = str.substring( msg_begin ).trim();
+        print( "broadcast: \"\{msg}\"\n" );
+        broadcast( client, msg );
 
         return true;
     }

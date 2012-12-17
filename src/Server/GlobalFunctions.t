@@ -138,12 +138,9 @@ function broadcast( from_client : Domain, msg : String ) : void
     {
         // print( "to_client #\{i}\n" );
         var to_client : Domain = all_client[i];
-        var result_msg : String = "";
-        result_msg.concate( from_client_name );
-        result_msg.concate(  " said: \{msg}\n" );
         // if ( to_client != from_client )
         {
-            new SendStringToClient( result_msg, to_client );
+            new SendStringToClient( "\{from_client_name} said: \{msg}", to_client );
         }
     }
 }
