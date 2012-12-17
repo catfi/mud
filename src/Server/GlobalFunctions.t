@@ -4,9 +4,6 @@ import .= util;
 import .= Client;
 import .= Game;
 
-var commands : Vector<Command> = new Vector<Command>;
-var commandFormats : Vector<String> = new Vector<String>;
-
 // the real entry function on server
 @server
 function handle_client_connect( client : Domain ) : void
@@ -74,8 +71,6 @@ function init_commands() : void
     commandFormats.push_back( "( left | right | up | down )" );
     commandFormats.push_back( "say [message]" );
 }
-
-var client_msg_buffer : HashMap<Domain, MsgBuffer> = new HashMap<Domain, MsgBuffer>();
 
 @server
 function server_receive_encoded_char( encoded_char : int64 ):void
