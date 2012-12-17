@@ -169,4 +169,14 @@ class ServerState
         }
         print( "--------------------------------------\n" );
     }
+
+    private function generatePlayerPosition() : Point
+    {
+        return new Point( 0, 0 );
+    }
+
+    private function generateMonsterPosition() : Point
+    {
+        return new Point( 0, 0 );
+    }
 }
