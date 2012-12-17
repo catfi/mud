@@ -93,17 +93,16 @@ class ServerState
         var nextRow : int32 = clientInfo.position.row;
         var nextCol : int32 = clientInfo.position.col;
 
-        switch( direction )
-        {
-        case 1: // DirectUp
+
+        if( direction == DIRECT_NORTH )
             nextRow -= 1;
-        case 2: // DirectDown
+        else if( direction == DIRECT_SOUTH )
             nextRow += 1;
-        case 3: // DirectLeft
+        else if( direction == DIRECT_WEST )
             nextCol -= 1;
-        case 4: // DirectRight
+        else if( direction == DIRECT_EAST )
             nextCol += 1;
-        }
+
 
         if( !validatePlayerPos(nextRow, nextCol) )
             return;
