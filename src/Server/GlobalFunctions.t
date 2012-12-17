@@ -99,7 +99,7 @@ function server_receive_encoded_char( encoded_char : int64 ):void
                 iter.next();
             }
             // send string to client
-            new SendStringToClient( VectorConverter.toString(objects), client );
+            new SendStringToClient( "map: " + VectorConverter.toString(objects), client );
         }
         else
         {
