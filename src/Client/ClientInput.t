@@ -1,4 +1,4 @@
-import .= util;
+import .= Util;
 
 class ClientInput
 {

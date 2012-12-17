@@ -1,6 +1,7 @@
 import .= thor.container;
 import .= thor.util;
-import .= util;
+
+import .= Util;
 import .= Game;
 
 class ServerState

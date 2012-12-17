@@ -25,7 +25,8 @@
 
 using namespace thor;
 using namespace thor::lang;
-using namespace util;
+
+using namespace Util;
 
 IndexableString::IndexableString()
 : MutableString( thor::lang::String::create() )

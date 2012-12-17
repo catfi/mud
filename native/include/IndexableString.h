@@ -21,7 +21,7 @@
 #include "Thor.h"
 #include "thor/lang/String.h"
 
-namespace util {
+namespace Util {
 
 class IndexableString : public thor::lang::MutableString
 {

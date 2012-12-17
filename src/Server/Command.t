@@ -1,5 +1,6 @@
 import .= thor.container;
-import .= util;
+
+import .= Util;
 
 class Command
 {

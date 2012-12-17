@@ -3,7 +3,7 @@
 
 #include "Thor.h"
 
-namespace util {
+namespace Util {
 
 void sleep_for_msec(thor::int32 msec);
 

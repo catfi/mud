@@ -1,7 +1,8 @@
 import .= thor.lang;
 import .= thor.container;
+
 import .= Game;
-import .= util;
+import .= Util;
 
 class ClientGame
 {

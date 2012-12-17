@@ -1,5 +1,6 @@
 import .= thor.lang;
-import .= util;
+
+import .= Util;
 
 class GameMap
 {

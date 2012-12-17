@@ -1,7 +1,8 @@
 import .= thor.lang;
 import .= thor.container;
+
 import .= Game;
-import .= util;
+import .= Util;
 
 var gServer : Domain;
 var gMsgBuffer : MsgBuffer = new MsgBuffer(1000);

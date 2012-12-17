@@ -21,7 +21,7 @@
 #include "Thor.h"
 #include "thor/lang/String.h"
 
-namespace util {
+namespace Util {
 
 thor::lang::String* raw_input();
 thor::int64 input();

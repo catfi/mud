@@ -23,7 +23,7 @@
 #include "Thor.h"
 #include "thor/lang/String.h"
 
-namespace util {
+namespace Util {
 
 class NativeThreadInput : public thor::lang::Object
 {

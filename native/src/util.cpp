@@ -20,7 +20,8 @@
 
 using namespace thor;
 using namespace thor::lang;
-using namespace util;
+
+using namespace Util;
 
 String*
 charToString( ch : int64 )
