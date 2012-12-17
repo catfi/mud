@@ -9,13 +9,16 @@ class ServerState
     private static const CLIENT_MSG_BUFFER_SIZE : int32 = 1000;
 
     // connection info
-    private var clientConnectedCount : int32;
+    private var clientConnectedCount : int32 = 0;
 
     // world map
     private var map : GameMap;
 
     // client information
-    public var clientInfos : HashMap< Domain, ClientInfo >;
+    public var clientInfos : HashMap< Domain, ClientInfo > = new HashMap< Domain, ClientInfo >;
+
+    // mob information
+    public var mobs : Vector< ObjectInfo > = new Vector< ObjectInfo >;
 
     // move command code
     public const DirectLeft : int32 = 1;
@@ -28,10 +31,6 @@ class ServerState
 
     public function new()
     {
-        clientInfos = new HashMap< Domain, ClientInfo >;
-
-        clientConnectedCount = 0;
-
         initMap();
     }
 
