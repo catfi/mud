@@ -6,8 +6,8 @@ class SendStringToClient
 {
     public function new( msg: String, target: Domain ):void
     {
-        var clientName : String = serverState.getClientName( target );
-        print( "send \{msg} to client \{clientName}\n" );
+        var playerName : String = serverState.getPlayerName( target );
+        print( "send \{msg} to client \{playerName}\n" );
 
         /*
         The receiver may run in multi-thread mode,

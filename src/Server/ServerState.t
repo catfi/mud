@@ -35,19 +35,19 @@ class ServerState
         return result;
     }
 
-    public function setClientName( client: Domain, clientName: String )
+    public function setPlayerName( client: Domain, clientName: String )
     {
         mDomainPlayerMap.get( client ).name = clientName;
         mDomainPlayerMap.get( client ).isNameComplete = true;
         mDomainPlayerMap.get( client ).dump();
     }
 
-    public function getClientName( client: Domain ) : String
+    public function getPlayerName( client: Domain ) : String
     {
         return mDomainPlayerMap.get( client ).name;
     }
 
-    public function isClientNameComplete( client: Domain ) : bool
+    public function isPlayerNameComplete( client: Domain ) : bool
     {
         return mDomainPlayerMap.get( client ).isNameComplete;
     }

@@ -69,10 +69,10 @@ function server_receive_encoded_char( encoded_char : int64 ):void
     if ( msg_buffer.is_msg_complete() )
     {
         msg = msg_buffer.get_msg();
-        if ( serverState.isClientNameComplete( client ) == false )
+        if ( serverState.isPlayerNameComplete( client ) == false )
         {
             print( "client \{msg} is added\n" );
-            serverState.setClientName( client, msg );
+            serverState.setPlayerName( client, msg );
 
             // send string to client
             new SendStringToClient( "map: " + VectorConverter.toString(serverState.mAllObjects), client );
@@ -109,7 +109,7 @@ function server_receive_encoded_char( encoded_char : int64 ):void
 @server
 function broadcast( fromClient : Domain, msg : String ) : void
 {
-    var fromClientName : String = serverState.getClientName( fromClient );
+    var fromPlayerName : String = serverState.getPlayerName( fromClient );
     var clients : Vector<Domain> = serverState.getConnectedDomains();
 
     // print( "broadcast request !\n" );
@@ -119,7 +119,7 @@ function broadcast( fromClient : Domain, msg : String ) : void
         var client : Domain = clients[ i ];
         // if ( to_client != from_client )
         {
-            new SendStringToClient( "\{fromClientName} said: \{msg}", client );
+            new SendStringToClient( "\{fromPlayerName} said: \{msg}", client );
         }
     }
 }
