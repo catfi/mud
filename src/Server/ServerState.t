@@ -11,9 +11,6 @@ class ServerState
     // connection info
     private var clientConnectedCount : int32 = 0;
 
-    // world map
-    private var map : GameMap;
-
     // client information
     public var clientInfos : HashMap< Domain, ClientInfo > = new HashMap< Domain, ClientInfo >;
 
@@ -28,11 +25,6 @@ class ServerState
 
     // map info
     public const MapSpace : int32 = -1;
-
-    public function new()
-    {
-        initMap();
-    }
 
     public function getAllClientDomain() : Vector<Domain>
     {
@@ -80,19 +72,6 @@ class ServerState
         }
 
         return players;
-    }
-
-    private function initMap()
-    {
-        map = new GameMap( 9, 9 );
-
-        for( var h : int32 = 0; h != map.height(); ++h )
-        {
-            for( var w : int32 = 0; w != map.width(); ++w )
-            {
-                map.set( h, w, MapSpace );
-            }
-        }
     }
 
     // engine interfaces
@@ -143,27 +122,6 @@ class ServerState
     public function getClientCount() : int32
     {
         return clientConnectedCount;
-    }
-
-    public function show() : void
-    {
-        print( "--------------------------------------\n" );
-        for( var h : int32 = 0; h != map.height(); ++h )
-        {
-            for( var w : int32 = 0; w != map.width(); ++w )
-            {
-                var value : int32 = map.get(h, w);
-                switch( value )
-                {
-                case -1: // MapSpace
-                    print( " " );
-                default:
-                    print( "*" );
-                }
-            }
-            print( "\n" );
-        }
-        print( "--------------------------------------\n" );
     }
 
     private function generatePlayerPos() : Point
