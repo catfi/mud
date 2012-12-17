@@ -5,6 +5,7 @@ import .= Client;
 import .= Game;
 
 var commands : Vector<Command> = new Vector<Command>;
+var commandFormats : Vector<String> = new Vector<String>;
 
 // the real entry function on server
 @server
@@ -69,6 +70,9 @@ function init_commands() : void
 {
     commands.push_back( new MoveCmd );
     commands.push_back( new SayCmd );
+
+    commandFormats.push_back( "( left | right | up | down )" );
+    commandFormats.push_back( "say [message]" );
 }
 
 var client_msg_buffer : HashMap<Domain, MsgBuffer> = new HashMap<Domain, MsgBuffer>();
@@ -114,7 +118,10 @@ function server_receive_encoded_char( encoded_char : int64 ):void
                     var result : bool = commands[ i ].execute( msg, client );
 
                     if( !result )
-                        new SendStringToClient( "execute falied!", client );
+                    {
+                        var format : String = commandFormats[ i ];
+                        new SendStringToClient( "execute falied! format is: \{format}", client );
+                    }
 
                     break;
                 }
