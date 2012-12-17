@@ -57,141 +57,57 @@ class ClientGame
         progress = x;
     }
 
-    public function showMap() : void
+    public function showMap( objectInfo : Vector<ObjectInfo> ) : void
     {
-        // top horizontal line
-        for( var col : int32 = 0; col <= map.width() + 1; ++col )
-            print( "-" );
-        print( "\n" );
+        var canvas = new Canvas( map.height() + 2, 75 );
 
-        // print map
-        for( var row : int32 = 0; row != map.height(); ++row )
+        // draw map border
+        canvas.drawHVLine( new Point( 0, 0 ), new Point( 0, map.width() + 2 ), "-" );
+        canvas.drawHVLine( new Point( map.height() + 1, 0 ), new Point( map.height() + 1, map.width() + 2 ), "-" );
+        canvas.drawHVLine( new Point( 1, 0 ), new Point( map.height(), 0 ), "|" );
+        canvas.drawHVLine( new Point( 1, map.width() + 2 ), new Point( map.height(), map.width() + 2 ), "|" );
+
+        // draw player token in map
+        for( var i : int32 = 0; i < objectInfo.size(); ++i )
         {
-            print( "|" );
-            for( var col : int32 = 0; col != map.width(); ++col )
+            var r : int32 = objectInfo[i].position.row + 1;
+            var c : int32 = objectInfo[i].position.col + 1;
+            var pos : Point = new Point( r, c );
+            if ( objectInfo[i].name.isEqual( myName ) )
             {
-                var mapPoint : Point = new Point( row, col );
-                if ( isAtMyPos( mapPoint ) )
-                    print( "@" );
-                else if ( isAtOtherPlayerPos( mapPoint ) )
-                    print( "#" );
-                else
-                    print( " " );
+                canvas.draw( pos, "@" );
             }
-            print( "|\n" );
-        }
-
-        // bottom horizontal line
-        for( var col : int32 = 0; col <= map.width() + 1; ++col )
-            print( "-" );
-        print( "\n" );
-    }
-
-    public function showAllMapInfo( aPlayerInfo : Vector<ObjectInfo> ) : void
-    {
-        var mapString : Vector<IndexableString> = mapStringRendering( aPlayerInfo );
-        var playerString : Vector<IndexableString> = playerStringRendering( aPlayerInfo );
-        // assert mapString.size == playerString.size
-        for ( var i : int32 = 0; i < mapString.size(); ++i )
-        {
-            print( mapString[i] );
-            print( "   " );
-            print( playerString[i] );
-            print( "\n" );
-        }
-    }
-
-    private function mapStringRendering( aPlayerInfo : Vector<ObjectInfo> ) : Vector<IndexableString>
-    {
-        var mapString : Vector<IndexableString> = new Vector<IndexableString>;
-        const ROW_COUNT : int32 = map.height() + 2; // +2 for top & bottom horizontal lines
-        for( var i : int32 = 0; i < ROW_COUNT; ++i )
-            mapString.push_back( new IndexableString() );
-
-        // fill player token in the tempMap
-        var tempMap : GameMap = new GameMap(map.height(),map.width());
-        for( var i : int32 = 0; i < aPlayerInfo.size(); ++i )
-        {
-            var r : int32 = aPlayerInfo[i].position.row;
-            var c : int32 = aPlayerInfo[i].position.col;
-            tempMap.set( r, c, 97 + aPlayerInfo[i].id ); // 97 is 'a' ascii
-            if ( aPlayerInfo[i].name.isEqual( myName ) )
+            else
             {
-                tempMap.set( r, c, 64 ); // 64 is '@' ascii
+                var token : IndexableString = new IndexableString();
+                token.addAscii( 97 + objectInfo[i].id ); // 97 is 'a' ascii
+                canvas.draw( pos, token );
             }
         }
 
-        // top horizontal line
-        for( var col : int32 = 0; col <= tempMap.width() + 1; ++col )
-            mapString[0].concate( "-" );
-
-        // map
-        for( var row : int32 = 0; row != tempMap.height(); ++row )
+        // draw player info
+        var showedObjectCount : int32 = 0;
+        const ROW_COUNT : int32 = map.height() + 2; // +2 for border
+        const COL_WIDTH : int32 = 18;
+        const GAP : int32 = 3;
+        for( var i : int32 = 0; i < objectInfo.size(); ++i )
         {
-            mapString[row+1].concate( "|" );
-            for( var col : int32 = 0; col != tempMap.width(); ++col )
+            if ( !objectInfo[i].name.isEqual( myName ) )
             {
-                var gridValue : int32 = tempMap.get( row, col );
-                if ( gridValue != 0 )
-                {
-                    mapString[row+1].addAscii( gridValue );
-                }
-                else
-                {
-                    mapString[row+1].concate( " " );
-                }
+                var r : int32 = showedObjectCount % ROW_COUNT;
+                var c : int32 = showedObjectCount / ROW_COUNT;
+
+                var pos : Point = new Point( r, map.width() + 2 + GAP + c * COL_WIDTH );
+                var token : IndexableString = new IndexableString();
+                token.addAscii( 97 + objectInfo[i].id ); // 97 is 'a' ascii
+                token.concate( "." );
+                token.concate( objectInfo[i].name );
+                canvas.draw( pos, token );
+
+                ++showedObjectCount;
             }
-            mapString[row+1].concate( "|" );
         }
 
-        // bottom horizontal line
-        for( var col : int32 = 0; col <= tempMap.width() + 1; ++col )
-            mapString[ROW_COUNT - 1].concate( "-" );
-
-        return mapString;
-    }
-
-    private function playerStringRendering( aPlayerInfo : Vector<ObjectInfo> ) : Vector<IndexableString>
-    {
-        var playerString : Vector<IndexableString> = new Vector<IndexableString>;
-        const ROW_COUNT : int32 = map.height() + 2; // +2 for top & bottom horizontal lines
-        const COLUMN_WIDTH : int32 = 18;
-        for( var i : int32 = 0; i < ROW_COUNT; ++i )
-            playerString.push_back( new IndexableString() );
-        var posToShow : int32 = 0;
-        for( var i : int32 = 0; i < aPlayerInfo.size(); ++i )
-        {
-            var row : int32 = posToShow % ROW_COUNT;
-            var col : int32 = posToShow / ROW_COUNT;
-
-            // not show self
-            if ( aPlayerInfo[i].name.isEqual( myName ) )
-                continue;
-            ++posToShow;
-
-            // assert name's length <= 15
-            playerString[row].addAscii( 97 + aPlayerInfo[i].id ); // 97 is 'a' ascii
-            playerString[row].concate( "." );
-            playerString[row].concate( aPlayerInfo[i].name );
-            var spaceNeeded : int32 = COLUMN_WIDTH * ( col + 1 ) - playerString[row].length();
-            for ( var j : int32 = 0; j < spaceNeeded; ++j )
-                playerString[row].concate( " " );
-        }
-        return playerString;
-    }
-
-    private function isAtMyPos( aPoint:Point ) : bool
-    {
-        return aPoint.isEqual( position );
-    }
-
-    private function isAtOtherPlayerPos( aPoint:Point ) : bool
-    {
-        for ( var i : int32 = 0; i < other_players_position.size(); ++i )
-        {
-            if ( aPoint.isEqual( other_players_position[i] ) )
-                return true;
-        }
-        return false;
+        canvas.show();
     }
 }

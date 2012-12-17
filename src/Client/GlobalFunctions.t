@@ -49,7 +49,8 @@ function client_receive_encoded_char( encoded_char : int64 ):void
         if( mapHeader != -1 )
         {
             var mapObjectInfo : Vector<ObjectInfo> = VectorConverter.fromString( msg.substring(mapHeader+4) );
-            gClientGame.showAllMapInfo( mapObjectInfo );
+            // gClientGame.showAllMapInfo( mapObjectInfo );
+            gClientGame.showMap( mapObjectInfo );
         }
 
         if ( gClientGame.get_progress() == ClientGame.INIT )
