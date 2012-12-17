@@ -12,8 +12,9 @@ function handle_client_connect( client : Domain ) : void
 {
     // update server state
     serverState.addClient( client );
+
     @remote { domain = client }
-        Client.welcome( serverState.getClientCount() );
+    Client.welcome( serverState.getClientCount() );
 
     /*
     //serverState.addClient( Domain.local() );
@@ -88,7 +89,7 @@ function server_receive_encoded_char( encoded_char : int64 ):void
 
             var pos : Point = new Point( 2,2 );
             @remote { domain=client }
-                update_position( pos.toEncodedPos() );
+            update_position( pos.toEncodedPos() );
             // new SendStringToClient( msg, client );
         }
         else

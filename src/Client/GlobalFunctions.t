@@ -13,19 +13,19 @@ function welcome( user_count:int32 ):void
 {
     gServer = Domain.caller();
 
-    var welcome_msg : String = "Welcome to Zillians MUD! current online user count: \{user_count}\n";
-    print( welcome_msg );
+    var welcomeMsg : String = "Welcome to Zillians MUD! current online user count: \{user_count}\n";
+    print( welcomeMsg );
 
-    var query_name_msg : String = "Please type your name: ";
-    print( query_name_msg );
+    var queryNameMsg : String = "Please type your name: ";
+    print( queryNameMsg );
 
     ClientInput.create();
-    var player_name : String = ClientInput.get_name();
+    var playerName : String = ClientInput.get_name();
 
     gClientGame = new ClientGame();
 
     var p : IndexableString = new IndexableString();
-    p.concate( player_name );
+    p.concate( playerName );
     new SendStringToServer( p, gServer );
 }
 
