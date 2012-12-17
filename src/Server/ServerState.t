@@ -110,8 +110,8 @@ class ServerState
 
     private function generatePos() : Point
     {
-        var rowGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, 12-1 );
-        var colGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, 25-1 );
+        var rowGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, MAP_ROW_LIMIT-1 );
+        var colGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, MAP_COLUMN_LIMIT-1 );
 
         var generatedRow : int32 = 0;
         var generatedCol : int32 = 0;
@@ -127,8 +127,8 @@ class ServerState
 
     private function validatePos( row : int32, col : int32 ) : bool
     {
-        if( !( (0 <= row && row < 12) &&
-               (0 <= col && col < 25) ) )
+        if( !( (0 <= row && row < MAP_ROW_LIMIT) &&
+               (0 <= col && col < MAP_COLUMN_LIMIT) ) )
         {
             return false;
         }
