@@ -9,7 +9,6 @@ class ServerState
     private static const CLIENT_MSG_BUFFER_SIZE : int32 = 1000;
 
     // connection info
-    private var domainIdTable : HashMap< Domain, int32 >;
     private var clientConnectedCount : int32;
 
     // world map
@@ -29,7 +28,6 @@ class ServerState
 
     public function new()
     {
-        domainIdTable = new HashMap<Domain, int32>;
         clientInfos = new HashMap< Domain, ClientInfo >;
 
         clientConnectedCount = 0;
@@ -40,7 +38,7 @@ class ServerState
     public function getAllClientDomain() : Vector<Domain>
     {
         var result : Vector<Domain> = new Vector<Domain>;
-        var iter : HashMapIterator<Domain, int32> = domainIdTable.iter();
+        var iter : HashMapIterator<Domain, ClientInfo> = clientInfos.iter();
         while ( iter.hasNext() )
         {
             result.push_back( iter.get().key );
@@ -64,12 +62,6 @@ class ServerState
     public function isClientNameComplete( client: Domain ) : bool
     {
         return clientInfos.get( client ).isNameComplete;
-    }
-
-    // helper functions
-    private function getId( client : Domain ) : int32
-    {
-        return domainIdTable.get( client );
     }
 
     private function getInfo( client : Domain ) : ClientInfo
@@ -108,12 +100,10 @@ class ServerState
     public function addClient( client : Domain ) : void
     {
         // TODO: atomic
-        //id_domain_table.set( clientConnectedCount, client );
-        domainIdTable.set( client, clientConnectedCount );
         ++clientConnectedCount;
 
         // generate random position of the client
-        var clientInfo = new ClientInfo( getId(client), generatePlayerPos() );
+        var clientInfo = new ClientInfo( clientConnectedCount, generatePlayerPos() );
 
         // insert an entry of client inforamtion
         clientInfos.set( client, clientInfo );
