@@ -69,7 +69,7 @@ class SayCmd extends Command
     {
         var tokens = split( str );
 
-        if( tokens.size() < 2 )
+        if( tokens.size() == 0 )
             return false;
 
         if( tokens[ 0 ].toLowerCase().equals( "say" ) )
@@ -80,6 +80,11 @@ class SayCmd extends Command
 
     public virtual function execute( str : String, client : Domain ) : bool
     {
+        var tokens = split( str );
+        // miss the message to send
+        if( tokens.size() < 2 )
+            return false;
+
         str = str.trim();
         var space : int64 = " "[ 0 ];
         var msg_begin = 0;
