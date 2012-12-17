@@ -1,37 +1,19 @@
 import .= thor.container;
 
 import .= Util;
+import .= Game;
 
 class CommandValidator
 {
-    private static var allCommands : Vector<String> = null;
-
-    private static function initLookupTable()
-    {
-        allCommands = new Vector<String>;
-        allCommands.push_back( "say" );
-        allCommands.push_back( "talk" );
-        allCommands.push_back( "south" );
-        allCommands.push_back( "north" );
-        allCommands.push_back( "east" );
-        allCommands.push_back( "west" );
-        allCommands.push_back( "quit" );
-    }
-
     public static function accept( str : String ) : bool
     {
-        if ( allCommands == null )
-        {
-            initLookupTable();
-        }
-
         var tokens = split( str );
         if( tokens.size() == 0 )
             return false;
 
-        for( var i : int32 = 0; i < allCommands.size(); ++i )
+        for( var command : int32 = COMMAND_BEGIN; command <= COMMAND_END; ++command )
         {
-            if( allCommands[ i ].isEqual( tokens[0].toLowerCase() ) )
+            if( tokens[0].toLowerCase().equals( gAllCmdStrs.get(command) ) )
             {
                 return true;
             }

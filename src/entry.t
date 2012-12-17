@@ -5,6 +5,8 @@ import .= Util;
 @client
 function client_entry() : int32
 {
+    initCmdStrs();
+
     daemonize();
     return 0;
 }
@@ -13,7 +15,8 @@ function client_entry() : int32
 @server
 function server_entry() : int32
 {
-    init_commands();
+    initCmds();
+    initCmdStrs();
 
     Domain.watch( 0, lambda( client : Domain ) : void {
         handle_client_connect( client );

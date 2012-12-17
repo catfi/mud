@@ -18,16 +18,6 @@ class Command
 
 class MoveCmd extends Command
 {
-    private var directions : Vector<String> = new Vector<String>;
-
-    public function new() : void
-    {
-        directions.push_back( "north" );
-        directions.push_back( "south" );
-        directions.push_back( "west" );
-        directions.push_back( "east" );
-    }
-
     public virtual function accept( str : String ) : bool
     {
         var tokens = split( str );
@@ -35,9 +25,9 @@ class MoveCmd extends Command
         if( tokens.size() != 1 )
             return false;
 
-        for( var direction in directions )
+        for( var direction : int32 = DIRECT_NORTH; direction <= DIRECT_EAST; ++direction )
         {
-            if( tokens[ 0 ].toLowerCase().equals(direction) )
+            if( tokens[ 0 ].toLowerCase().equals( gDirectCmdStrs.get(direction) ) )
                 return true;
         }
 
@@ -48,10 +38,10 @@ class MoveCmd extends Command
     {
         var tokens = split( str );
 
-        for( var i : int32 = 0; i < directions.size(); ++i )
+        for( var direction : int32 = DIRECT_NORTH; direction <= DIRECT_EAST; ++direction )
         {
-            if( tokens[ 0 ].toLowerCase().equals( directions[i] ) )
-                serverState.playerMove( client, i+1 );
+            if( tokens[ 0 ].toLowerCase().equals( gDirectCmdStrs.get(direction) ) )
+                serverState.playerMove( client, direction );
         }
 
         new SendStringToClient( "map: " + VectorConverter.toString(serverState.getPlayers()), client );

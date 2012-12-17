@@ -17,12 +17,6 @@ class ServerState
     // mob information
     public var mobs : Vector< ObjectInfo > = new Vector< ObjectInfo >;
 
-    // move command code
-    public const DirectLeft : int32 = 1;
-    public const DirectRight : int32 = 2;
-    public const DirectUp : int32 = 3;
-    public const DirectDown : int32 = 4;
-
     // map info
     public const MapSpace : int32 = -1;
 
