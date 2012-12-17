@@ -170,5 +170,3 @@ class ServerState
         print( "--------------------------------------\n" );
     }
 }
-
-var serverState : ServerState = new ServerState;
