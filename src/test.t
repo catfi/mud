@@ -101,3 +101,61 @@ function testInput():int32
     return 0;
 }
 */
+
+
+// please run in --domain=mt
+@entry
+function test_timer() : int32
+{
+    print( "create loop timer\n" );
+
+    var e1 : Timer = Timer.loop( 500, lambda() : void {
+        print_in_test_timer( 500 );
+    });
+    e1.start();
+
+    print( "create oneshot timer\n" );
+
+    var e2 : Timer = Timer.oneShot( 1500, lambda() : void {
+        print_in_test_timer( 1500 );
+    });
+    e2.start();
+
+    var e3 : Timer = Timer.loop( 1200, lambda() : void {
+        print_in_test_timer( 1200 );
+    }, 5);
+    e3.start();
+
+    // will work after solving the starvation problem
+    print( "print time... \n" );
+    for ( var i : int32 = 0; i < 5; ++i )
+    {
+        print( "A \{i} second\n" );
+        sleep_for_msec( 100 );
+        print( "B \{i} second\n" );
+    }
+
+    e1.stop();
+    e2.stop();
+    e3.stop();
+
+    for ( var i : int32 = 5; i < 8; ++i )
+    {
+        sleep_for_msec( 1000 );
+        print( "\{i} second\n" );
+    }
+
+    e1.start();
+    e2.start();
+    e3.start();
+
+    print( "enter daemonize\n" );
+
+    daemonize();
+    return 0;
+}
+
+function print_in_test_timer( x:int32 )
+{
+    print( "\{x}\n" );
+}
