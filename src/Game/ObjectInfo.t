@@ -67,4 +67,9 @@ class PlayerInfo extends ObjectInfo
     {
         super( identifier, thePosition );
     }
+
+    public function isEqual( p : PlayerInfo ) : bool
+    {
+        return id == p.id;
+    }
 }

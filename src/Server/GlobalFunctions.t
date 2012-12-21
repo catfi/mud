@@ -6,21 +6,21 @@ import .= Client;
 import .= Game;
 
 // the real entry function on server
-@server
-function handle_client_connect( client : Domain ) : void
-{
-    // update server state
-    gameState.addPlayer( client );
-
-    @remote { domain = client }
-    Client.welcome( gameState.getPlayerCount() );
-
-    /*
-    //gameState.addClient( Domain.local() );
-    @async
-    simulate_client();
-    */
-}
+// @server
+// function handle_client_connect( client : Domain ) : void
+// {
+//     // update server state
+//     gameState.addPlayer( client );
+//
+//     @remote { domain = client }
+//     Client.welcome( gameState.getPlayerCount() );
+//
+//     /*
+//     //gameState.addClient( Domain.local() );
+//     @async
+//     simulate_client();
+//     */
+// }
 
 @server
 function initCmds() : void
