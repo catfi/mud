@@ -36,15 +36,16 @@ class MoveCmd extends Command
 
     public virtual function execute( str : String, client : Domain ) : bool
     {
+        var player : PlayerInfo = gConnectionSystem.getPlayer( client );
+
         var tokens = split( str );
 
         for( var direction : int32 = DIRECT_NORTH; direction <= DIRECT_EAST; ++direction )
         {
             if( tokens[ 0 ].toLowerCase().equals( gDirectCmdStrs.get(direction) ) )
-                gameState.playerMove( client, direction );
+                gObjectSystem.move( player, direction );
         }
 
-        new SendStringToClient( "map: " + VectorConverter.toString(gameState.mAllObjects), client );
         return true;
     }
 }
