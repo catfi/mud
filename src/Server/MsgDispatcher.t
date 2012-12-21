@@ -1,5 +1,7 @@
-import .= Util;
 import .= thor.container;
+
+import .= Util;
+import .= Game;
 
 // messages sent from clients
 var gClientMsgBuffer : HashMap<Domain, MsgBuffer> = new HashMap<Domain, MsgBuffer>();
@@ -19,11 +21,10 @@ function server_receive_encoded_char( encoded_char : int64 ):void
         {
             print( "client \{msg} is added\n" );
             ConnectionSystem.login( client, msg );
-            print( "test 2\n" );
         }
         else
         {
-            /*
+            var player : PlayerInfo = ConnectionSystem.getPlayer( client );
             // validate command first
             var foundCommand : bool = false;
             // for each command, find a command can execute
@@ -37,7 +38,8 @@ function server_receive_encoded_char( encoded_char : int64 ):void
                     if( !result )
                     {
                         var format : String = commandFormats[ i ];
-                        new SendStringToClient( "execute falied! format is: \{format}", client );
+
+                        ConnectionSystem.send( player, "execute falied! format is: \{format}" );
                     }
 
                     break;
@@ -46,8 +48,7 @@ function server_receive_encoded_char( encoded_char : int64 ):void
 
             // send error message when find no proper command
             if( !foundCommand )
-                new SendStringToClient( "invalid command!", client );
-            */
+                ConnectionSystem.send( player, "invalid command!" );
         }
     }
 }

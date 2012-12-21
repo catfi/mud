@@ -73,14 +73,15 @@ class ObjectSystem
         else if( direction == DIRECT_EAST )
             offset.col = 1;
 
-        if( !isValidMove( player, offset ) )
-            return;
-
-        player.position.row += offset.row;
-        player.position.col += offset.col;
+        if( isValidMove( player, offset ) )
+        {
+            player.position.row += offset.row;
+            player.position.col += offset.col;
+        }
 
         var msg : PlayerMessage = new PlayerMessage( player, "map: " + VectorConverter.toString(gGameState.mAllObjects) );
         var msgs : Vector< PlayerMessage > = new Vector< PlayerMessage >;
+
         msgs.push_back( msg );
         ConnectionSystem.send( msgs );
     }
