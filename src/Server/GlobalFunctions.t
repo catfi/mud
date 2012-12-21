@@ -10,13 +10,13 @@ import .= Game;
 function handle_client_connect( client : Domain ) : void
 {
     // update server state
-    serverState.addPlayer( client );
+    gameState.addPlayer( client );
 
     @remote { domain = client }
-    Client.welcome( serverState.getPlayerCount() );
+    Client.welcome( gameState.getPlayerCount() );
 
     /*
-    //serverState.addClient( Domain.local() );
+    //gameState.addClient( Domain.local() );
     @async
     simulate_client();
     */
@@ -69,13 +69,13 @@ function server_receive_encoded_char( encoded_char : int64 ):void
     if ( msg_buffer.is_msg_complete() )
     {
         msg = msg_buffer.get_msg();
-        if ( serverState.isPlayerNameComplete( client ) == false )
+        if ( gameState.isPlayerNameComplete( client ) == false )
         {
             print( "client \{msg} is added\n" );
-            serverState.setPlayerName( client, msg );
+            gameState.setPlayerName( client, msg );
 
             // send string to client
-            new SendStringToClient( "map: " + VectorConverter.toString(serverState.mAllObjects), client );
+            new SendStringToClient( "map: " + VectorConverter.toString(gameState.mAllObjects), client );
         }
         else
         {
@@ -109,8 +109,8 @@ function server_receive_encoded_char( encoded_char : int64 ):void
 @server
 function broadcast( fromClient : Domain, msg : String ) : void
 {
-    var fromPlayerName : String = serverState.getPlayerName( fromClient );
-    var clients : Vector<Domain> = serverState.getConnectedDomains();
+    var fromPlayerName : String = gameState.getPlayerName( fromClient );
+    var clients : Vector<Domain> = gameState.getConnectedDomains();
 
     // print( "broadcast request !\n" );
     for ( var i : int32 = 0; i < clients.size(); ++i )

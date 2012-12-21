@@ -41,10 +41,10 @@ class MoveCmd extends Command
         for( var direction : int32 = DIRECT_NORTH; direction <= DIRECT_EAST; ++direction )
         {
             if( tokens[ 0 ].toLowerCase().equals( gDirectCmdStrs.get(direction) ) )
-                serverState.playerMove( client, direction );
+                gameState.playerMove( client, direction );
         }
 
-        new SendStringToClient( "map: " + VectorConverter.toString(serverState.mAllObjects), client );
+        new SendStringToClient( "map: " + VectorConverter.toString(gameState.mAllObjects), client );
         return true;
     }
 }
