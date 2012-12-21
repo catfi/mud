@@ -1,4 +1,6 @@
 import .= thor.container;
+import .= thor.util;
+
 import .= Game;
 import .= Util;
 
@@ -28,13 +30,34 @@ class ObjectSystem
     private static function isValidMove( player : PlayerInfo, offset : Point ) : bool
     {
 
-        var next : Point = Point( player.position.row + offset.row,
-                                  player.position.col + offset.col );
+        var next : Point = new Point( player.position.row + offset.row,
+                                      player.position.col + offset.col );
 
         if( !isValidPos( next ) )
             return false;
 
         return true;
+    }
+
+    private static function getMapString() : String
+    {
+        return "map: " + VectorConverter.toString(gGameState.mAllObjects);
+    }
+
+
+    private static function getRandomPos() : Point
+    {
+        var rowGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, MAP_ROW_LIMIT-1 );
+        var colGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, MAP_COLUMN_LIMIT-1 );
+
+        var result : Point = new Point( 0, 0 );
+        do
+        {
+            result.row = rowGenerator.next();
+            result.col = colGenerator.next();
+        } while ( !isValidPos(result) );
+
+        return result;
     }
 
     public static function move( player : PlayerInfo, direction : int32 ) : void
@@ -60,5 +83,14 @@ class ObjectSystem
         var msgs : Vector< PlayerMessage > = new Vector< PlayerMessage >;
         msgs.push_back( msg );
         ConnectionSystem.send( msgs );
+    }
+
+    public static function addPlayer( player : PlayerInfo ) : String
+    {
+        var players : Vector< PlayerInfo > = gGameState.mPlayers;
+
+        player.position = getRandomPos();
+        players.push_back( player );
+        return getMapString();
     }
 }
