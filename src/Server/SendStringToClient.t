@@ -6,7 +6,7 @@ class SendStringToClient
 {
     public function new( msg: String, target: Domain ):void
     {
-        var playerName : String = gameState.getPlayerName( target );
+        var playerName : String = gGameState.getPlayerName( target );
         print( "send \{msg} to client \{playerName}\n" );
 
         /*

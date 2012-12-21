@@ -5,9 +5,6 @@ import .= Game;
 @server
 function handle_client_connect( client : Domain ) : void
 {
-    // update server state
-    // ConnectionSystem.addClient( client );
-
     @remote { domain = client }
     Client.welcome( ConnectionSystem.getPlayerCount() );
 }
@@ -19,12 +16,6 @@ class ConnectionSystem
         return sDomainPlayerTable.get( domain );
     }
 
-    /*
-    public static function addClient( domain : Domain ) : void
-    {
-    }
-    */
-
     public static function login( domain : Domain, name : String ) : void
     {
         sConnectedPlayerCount += 1;
@@ -34,7 +25,7 @@ class ConnectionSystem
         sDomainPlayerTable.set( domain, newPlayer );
         sPlayerDomainTable.set( newPlayer, domain );
 
-        // ObjectSystem.addPlayer( player );
+        ObjectSystem.addPlayer( newPlayer );
     }
 
     public static function isLogin( domain : Domain ) : bool

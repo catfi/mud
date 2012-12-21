@@ -69,13 +69,13 @@ function server_receive_encoded_char( encoded_char : int64 ):void
     if ( msg_buffer.is_msg_complete() )
     {
         msg = msg_buffer.get_msg();
-        if ( gameState.isPlayerNameComplete( client ) == false )
+        if ( !ConnectionSystem.isLogin( client ) )
         {
             print( "client \{msg} is added\n" );
-            gameState.setPlayerName( client, msg );
+            ConnectionSystem.login( client, msg );
 
             // send string to client
-            new SendStringToClient( "map: " + VectorConverter.toString(gameState.mAllObjects), client );
+            // new SendStringToClient( "map: " + VectorConverter.toString(gGameState.mAllObjects), client );
         }
         else
         {
@@ -106,11 +106,12 @@ function server_receive_encoded_char( encoded_char : int64 ):void
     }
 }
 
+/*
 @server
 function broadcast( fromClient : Domain, msg : String ) : void
 {
-    var fromPlayerName : String = gameState.getPlayerName( fromClient );
-    var clients : Vector<Domain> = gameState.getConnectedDomains();
+    var fromPlayerName : String = gGameState.getPlayerName( fromClient );
+    var clients : Vector<Domain> = gGameState.getConnectedDomains();
 
     // print( "broadcast request !\n" );
     for ( var i : int32 = 0; i < clients.size(); ++i )
@@ -123,3 +124,4 @@ function broadcast( fromClient : Domain, msg : String ) : void
         }
     }
 }
+*/

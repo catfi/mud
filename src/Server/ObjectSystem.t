@@ -1,3 +1,4 @@
+import .= thor.container;
 import .= Game;
 import .= Util;
 
@@ -55,8 +56,8 @@ class ObjectSystem
         player.position.row += offset.row;
         player.position.col += offset.col;
 
-        var msg : PlayerMessage = new Message( player, "map: " + VectorConverter.toString(gGameState.mAllObjects) );
-        var msgs : Vector< PlayerMessage > new Vector< Message >;
+        var msg : PlayerMessage = new PlayerMessage( player, "map: " + VectorConverter.toString(gGameState.mAllObjects) );
+        var msgs : Vector< PlayerMessage > = new Vector< PlayerMessage >;
         msgs.push_back( msg );
         ConnectionSystem.send( msgs );
     }

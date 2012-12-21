@@ -3,7 +3,7 @@ import .= thor.container;
 import .= Util;
 
 // whole server information
-var gameState : GameState = new GameState;
+var gGameState : GameState = new GameState;
 
 // commands to executa and their formats
 var commands : Vector<Command> = new Vector<Command>;
