@@ -131,7 +131,7 @@ function test_timer() : int32
     for ( var i : int32 = 0; i < 5; ++i )
     {
         print( "A \{i} second\n" );
-        sleep_for_msec( 100 );
+        sleep_for_msec( 1000 );
         print( "B \{i} second\n" );
     }
 

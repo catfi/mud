@@ -79,8 +79,8 @@ class Timer
                 if ( timer.mStopFlag ) break;
                 @async executeCallback( id );
             }
-            timer.mIsRunning = false;
         }
+        timer.mIsRunning = false;
     }
 
     private static function executeCallback( id : int64 )
