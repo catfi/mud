@@ -4,7 +4,7 @@ import .= thor.util;
 import .= Util;
 import .= Game;
 
-class ServerState
+class GameState
 {
     private static const CLIENT_MSG_BUFFER_SIZE : int32 = 1000;
 
