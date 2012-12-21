@@ -1,19 +1,23 @@
 import .= thor.container;
 import Client;
+import .= Util;
 import .= Game;
+import Common;
 
 @server
 function handle_client_connect( client : Domain ) : void
 {
+    ConnectionSystem.handleClientConnect( client );
+
     @remote { domain = client }
     Client.welcome( ConnectionSystem.getPlayerCount() );
 }
 
 class ConnectionSystem
 {
-    public static function getPlayer( domain : Domain ) : PlayerInfo
+    public static function handleClientConnect( client : Domain ) : void
     {
-        return sDomainPlayerTable.get( domain );
+        gClientMsgBuffer.set( client, new MsgBuffer( gCLIENT_MSG_BUFFER_SIZE ) );
     }
 
     public static function login( domain : Domain, name : String ) : void
@@ -38,12 +42,22 @@ class ConnectionSystem
         return sConnectedPlayerCount;
     }
 
+    public static function getPlayer( domain : Domain ) : PlayerInfo
+    {
+        return sDomainPlayerTable.get( domain );
+    }
+
     public static function send( packet : thor.container.Vector<PlayerMessage> ) : void
     {
         for ( var p in packet )
         {
-            new SendStringToClient( p.mMsg, getDomain( p.mPlayer ) );
+            sendStringToClient( p.mMsg, getDomain( p.mPlayer ) );
         }
+    }
+
+    public static function send( player : PlayerInfo, msg : String ) : void
+    {
+        sendStringToClient( msg, getDomain( player ) );
     }
 
     public static function broadcast( msg : String ) : void
@@ -52,7 +66,7 @@ class ConnectionSystem
         while ( iter.hasNext() )
         {
             var client : Domain = iter.get().key;
-            new SendStringToClient( msg, client );
+            sendStringToClient( msg, client );
             iter.next();
         }
     }
@@ -60,6 +74,28 @@ class ConnectionSystem
     private static function getDomain( player : PlayerInfo ) : Domain
     {
         return sPlayerDomainTable.get( player );
+    }
+
+    private static function sendStringToClient( msg: String, target: Domain ):void
+    {
+        var playerName : String = getPlayer( target ).name;
+        print( "send \{msg} to client \{playerName}\n" );
+
+        /*
+        The receiver may run in multi-thread mode,
+        so the execution order is not the same as the order of sender
+
+        We encoded as (0*2^32 + msg_length) (1*2^32 + msg[0]) ... (msg_length*2^32 + msg[msg_length-1])
+        Then the receiver can assemble them. For the time being, we have not added msg id yet.
+        */
+
+        @remote { domain = target }
+        Client.client_receive_encoded_char( msg.length() );
+
+        for ( var i:int64 = 0; i < msg.length(); ++i )
+        {
+            @remote { domain = target } Client.client_receive_encoded_char( (i+1) * Common.power32 + msg[ i ] );
+        }
     }
 
     // connection info

@@ -5,7 +5,7 @@ import .= Game;
 import .= Util;
 
 var gServer : Domain;
-var gMsgBuffer : MsgBuffer = new MsgBuffer(1000);
+var gClientMsgBuffer : MsgBuffer = new MsgBuffer(1000);
 var gClientGame : ClientGame;
 
 @client
@@ -37,11 +37,11 @@ function welcome( user_count:int32 ):void
 @client
 function client_receive_encoded_char( encoded_char : int64 ):void
 {
-    gMsgBuffer.add_encoded_char( encoded_char );
+    gClientMsgBuffer.add_encoded_char( encoded_char );
     var msg : IndexableString = new IndexableString();
-    if ( gMsgBuffer.is_msg_complete() )
+    if ( gClientMsgBuffer.is_msg_complete() )
     {
-        msg = gMsgBuffer.get_msg();
+        msg = gClientMsgBuffer.get_msg();
         print( "[server] \{msg}\n" );
 
         CommandHandler.execute( msg );

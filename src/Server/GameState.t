@@ -6,7 +6,7 @@ import .= Game;
 
 class GameState
 {
-    private static const CLIENT_MSG_BUFFER_SIZE : int32 = 1000;
+    // private static const CLIENT_MSG_BUFFER_SIZE : int32 = 1000;
 
     // connection info
     private var mConnectedPlayerCount : int32 = 0;
@@ -71,7 +71,7 @@ class GameState
         mPlayers.push_back( playerInfo );
         mAllObjects.push_back( playerInfo );
 
-        client_msg_buffer.set( client, new MsgBuffer( CLIENT_MSG_BUFFER_SIZE ) );
+        // client_msg_buffer.set( client, new MsgBuffer( gCLIENT_MSG_BUFFER_SIZE ) );
 
         // dump for debug
         print( "A new client coming! Querying client's name...\n" );

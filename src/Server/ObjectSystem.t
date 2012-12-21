@@ -85,12 +85,13 @@ class ObjectSystem
         ConnectionSystem.send( msgs );
     }
 
-    public static function addPlayer( player : PlayerInfo ) : String
+    public static function addPlayer( player : PlayerInfo )
     {
         var players : Vector< PlayerInfo > = gGameState.mPlayers;
 
         player.position = getRandomPos();
         players.push_back( player );
-        return getMapString();
+        print( "add player A \n " );
+        ConnectionSystem.send( player, getMapString() );
     }
 }
