@@ -40,15 +40,8 @@ class MsgBuffer
 
         // if all encoded char is received
         var msg_length : int32 = buffer.get( 0 );
-        // hack atomic bug issue #922
-        var hack_char_count : int32 = current_char_count + 1;
 
-        /*
-        var flag : int32 = ( msg_complete_flag == true ? 1 : 0 );
-        print( "index=\{index} hack_char_count=\{hack_char_count} flag=\{flag}\n" );
-        */
-
-        if ( msg_length == hack_char_count )
+        if ( msg_length == current_char_count )
         {
             if ( msg_complete_flag == true )
             {
@@ -65,7 +58,7 @@ class MsgBuffer
             msg_complete_flag = true;
             clear();
         }
-        else if ( msg_length != 0 && msg_length < hack_char_count )
+        else if ( msg_length != 0 && msg_length < current_char_count )
         {
             print( "=== oh the sender send too quick! i'm just a work around!" );
             clear();
