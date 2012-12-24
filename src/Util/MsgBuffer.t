@@ -31,7 +31,6 @@ class MsgBuffer
         var current_char_count : int32 = 0;
         if ( index != 0 )
         {
-            // issue: we don't have different mutex for each client msg box
             atomic () {
                 receive_encoded_char_count++;
                 current_char_count = receive_encoded_char_count;
