@@ -1,8 +1,9 @@
 import .= thor.container;
-import Client;
 import .= Util;
 import .= Game;
+
 import Common;
+import Client;
 
 @server
 function handle_client_connect( client : Domain ) : void
