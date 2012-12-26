@@ -1,6 +1,7 @@
 import thor.container;
 
 import Game;
+import Util;
 
 // event base
 interface Event
@@ -38,7 +39,13 @@ function addEventListener( eventType : int32, listener : EventListener ) : void
     }
 }
 
-function handleEvents() : void
+var gEventDispatcher : Util.Timer = Util.Timer.loop( 500,
+                                                     lambda() : void {
+                                                         dispatchEvents();
+                                                     } );
+
+// internal code to consume events in queue
+function dispatchEvents() : void
 {
     while ( gEventQueue.size() != 0 )
     {
@@ -53,6 +60,7 @@ function handleEvents() : void
         else
         {
             print( "ERROR! unknown event type\n" );
+            return;
         }
     }
 }
@@ -60,8 +68,15 @@ function handleEvents() : void
 // real event types
 class MoveEvent implements Event
 {
-    public var mOffset : Game.Point;
     public var mObject : Game.ObjectInfo;
+    public var mOffset : Game.Point;
+
+    public function new( object : Game.ObjectInfo,
+                         offset : Game.Point )
+    {
+        mObject = object;
+        mOffset = offset;
+    }
 
     public virtual function type() : int32
     {
