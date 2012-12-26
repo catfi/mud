@@ -10,7 +10,7 @@ interface Event
 
 interface EventListener
 {
-    public function performed() : void;
+    public function performed( event : Event ) : void;
 }
 
 var gEventQueue : thor.container.Vector<Event> = new thor.container.Vector<Event>;
@@ -28,8 +28,33 @@ function pushEvent( event : Event ) : void
 
 function addEventListener( eventType : int32, listener : EventListener ) : void
 {
-    if( eventType == EVENT_MOVE )
+    if ( eventType == EVENT_MOVE )
+    {
         gMoveEventListeners.push_back( listener );
+    }
+    else
+    {
+        print ( "ERROR! unknown event type\n" );
+    }
+}
+
+function handleEvents() : void
+{
+    while ( gEventQueue.size() != 0 )
+    {
+        var last : int64 = gEventQueue.size() - 1;
+        var event : Event = gEventQueue.get( last );
+        if ( event.type() == EVENT_MOVE )
+        {
+            for ( var listener in gMoveEventListeners )
+                listener.performed( event );
+            gEventQueue.pop_back();
+        }
+        else
+        {
+            print( "ERROR! unknown event type\n" );
+        }
+    }
 }
 
 // real event types
