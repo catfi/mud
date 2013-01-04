@@ -36,15 +36,16 @@ class MoveCmd extends Command
 
     public virtual function execute( str : String, client : Domain ) : bool
     {
+        var player : PlayerInfo = ConnectionSystem.getPlayer( client );
+
         var tokens = split( str );
 
         for( var direction : int32 = DIRECT_NORTH; direction <= DIRECT_EAST; ++direction )
         {
             if( tokens[ 0 ].toLowerCase().equals( gDirectCmdStrs.get(direction) ) )
-                gameState.playerMove( client, direction );
+                ObjectSystem.move( player, direction );
         }
 
-        new SendStringToClient( "map: " + VectorConverter.toString(gameState.mAllObjects), client );
         return true;
     }
 }
@@ -66,6 +67,8 @@ class SayCmd extends Command
 
     public virtual function execute( str : String, client : Domain ) : bool
     {
+        var player : PlayerInfo = ConnectionSystem.getPlayer( client );
+
         var tokens = split( str );
         // miss the message to send
         if( tokens.size() < 2 )
@@ -80,7 +83,8 @@ class SayCmd extends Command
 
         var msg : String = str.substring( msg_begin ).trim();
         print( "broadcast: \"\{msg}\"\n" );
-        broadcast( client, msg );
+        msg = player.name + " says: " + msg;
+        ConnectionSystem.broadcast( msg );
 
         return true;
     }
