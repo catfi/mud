@@ -3,6 +3,7 @@ import .= thor.util;
 
 import .= Game;
 import .= Util;
+import Common;
 
 class ObjectSystem
 {
@@ -27,11 +28,11 @@ class ObjectSystem
         return true;
     }
 
-    private static function isValidMove( player : PlayerInfo, offset : Point ) : bool
+    private static function isValidMove( object : ObjectInfo, offset : Point ) : bool
     {
 
-        var next : Point = new Point( player.position.row + offset.row,
-                                      player.position.col + offset.col );
+        var next : Point = new Point( object.position.row + offset.row,
+                                      object.position.col + offset.col );
 
         if( !isValidPos( next ) )
             return false;
@@ -43,7 +44,6 @@ class ObjectSystem
     {
         return "map: " + VectorConverter.toString(gGameState.mAllObjects);
     }
-
 
     private static function getRandomPos() : Point
     {
@@ -60,7 +60,18 @@ class ObjectSystem
         return result;
     }
 
-    public static function move( player : PlayerInfo, direction : int32 ) : void
+    public static function move( object : ObjectInfo, offset : Game.Point ) : bool
+    {
+        if ( !isValidMove(object, offset) )
+            return false;
+
+        object.position.row += offset.row;
+        object.position.col += offset.col;
+
+        return true;
+    }
+
+    public static function move( object : ObjectInfo, direction : int32 ) : void
     {
         var offset : Point = new Point( 0, 0 );
 
@@ -73,17 +84,8 @@ class ObjectSystem
         else if( direction == DIRECT_EAST )
             offset.col = 1;
 
-        if( isValidMove( player, offset ) )
-        {
-            player.position.row += offset.row;
-            player.position.col += offset.col;
-        }
-
-        var msg : PlayerMessage = new PlayerMessage( player, "map: " + VectorConverter.toString(gGameState.mAllObjects) );
-        var msgs : Vector< PlayerMessage > = new Vector< PlayerMessage >;
-
-        msgs.push_back( msg );
-        ConnectionSystem.send( msgs );
+        var event : Common.Event = new Common.MoveEvent( object, offset );
+        Common.pushEvent( event );
     }
 
     public static function addPlayer( player : PlayerInfo )
