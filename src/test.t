@@ -102,8 +102,6 @@ function testInput():int32
 }
 */
 
-
-// please run in --domain=mt
 @entry
 function test_timer() : int32
 {
@@ -126,7 +124,6 @@ function test_timer() : int32
     }, 5);
     e3.start();
 
-    // will work after solving the starvation problem
     print( "print time... \n" );
     for ( var i : int32 = 0; i < 5; ++i )
     {
