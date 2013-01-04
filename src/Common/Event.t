@@ -4,11 +4,10 @@ import Game;
 import Util;
 
 // event base
-interface Event
-{
-    public function type() : int32;
-}
+class Event
+{ }
 
+// event listener base
 class EventListener
 {
     public virtual function performed( event : Event ) : void
@@ -49,7 +48,7 @@ function dispatchEvents() : void
     {
         var last : int64 = gEventQueue.size() - 1;
         var event : Event = gEventQueue.get( last );
-        if ( event.type() == EVENT_MOVE )
+        if ( isa<MoveEvent>(event) )
         {
             for( var listener in gMoveEventListeners )
                 listener.performed( event );
@@ -65,7 +64,7 @@ function dispatchEvents() : void
 }
 
 // real event types
-class MoveEvent implements Event
+class MoveEvent extends Event
 {
     public var mObject : Game.ObjectInfo;
     public var mOffset : Game.Point;
@@ -75,10 +74,5 @@ class MoveEvent implements Event
     {
         mObject = object;
         mOffset = offset;
-    }
-
-    public virtual function type() : int32
-    {
-        return EVENT_MOVE;
     }
 }
