@@ -36,6 +36,7 @@ class MoveCmd extends Command
 
     public virtual function execute( str : String, client : Domain ) : bool
     {
+        print( "MoveCmd.execute()\n" );
         var player : PlayerInfo = ConnectionSystem.getPlayer( client );
 
         var tokens = split( str );

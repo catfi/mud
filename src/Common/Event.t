@@ -9,9 +9,10 @@ interface Event
     public function type() : int32;
 }
 
-interface EventListener
+class EventListener
 {
-    public function performed( event : Event ) : void;
+    public virtual function performed( event : Event ) : void
+    { }
 }
 
 var gEventQueue : thor.container.Vector<Event> = new thor.container.Vector<Event>;
@@ -24,6 +25,7 @@ var gMoveEventListeners : thor.container.Vector<EventListener> = new thor.contai
 // public interface for each sub-systems
 function pushEvent( event : Event ) : void
 {
+    print( "Common.pushEvent()\n" );
     gEventQueue.push_back( event );
 }
 
@@ -39,10 +41,7 @@ function addEventListener( eventType : int32, listener : EventListener ) : void
     }
 }
 
-var gEventDispatcher : Util.Timer = Util.Timer.loop( 500,
-                                                     lambda() : void {
-                                                         dispatchEvents();
-                                                     } );
+var gEventDispatcher : Util.Timer = null;
 
 // internal code to consume events in queue
 function dispatchEvents() : void
@@ -53,8 +52,9 @@ function dispatchEvents() : void
         var event : Event = gEventQueue.get( last );
         if ( event.type() == EVENT_MOVE )
         {
-            for ( var listener in gMoveEventListeners )
+            for( var listener in gMoveEventListeners )
                 listener.performed( event );
+
             gEventQueue.pop_back();
         }
         else

@@ -4,6 +4,7 @@ import .= thor.util;
 import .= Util;
 import .= Client;
 import .= Game;
+import Common;
 
 @server
 function initCmds() : void
@@ -40,4 +41,16 @@ function initCmdStrs() : void
     gAllCmdStrs.set( COMMAND_QUIT, "quit" );
 
     gCmdStrsWereInitialized = true;
+}
+
+@server
+function registerEventListeners()
+{
+    Common.addEventListener( Common.EVENT_MOVE, new MoveEventListener );
+
+    Common.gEventDispatcher = Util.Timer.loop( 500,
+                                               lambda() : void {
+                                                   Common.dispatchEvents();
+                                               } );
+    Common.gEventDispatcher.start();
 }
