@@ -25,7 +25,6 @@ var gMoveEventListeners : thor.container.Vector<EventListener> = new thor.contai
 // public interface for each sub-systems
 function pushEvent( event : Event ) : void
 {
-    print( "Common.pushEvent()\n" );
     gEventQueue.push_back( event );
 }
 

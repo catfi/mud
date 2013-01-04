@@ -45,7 +45,6 @@ class ObjectSystem
         return "map: " + VectorConverter.toString(gGameState.mAllObjects);
     }
 
-
     private static function getRandomPos() : Point
     {
         var rowGenerator : Random<int32, Uniform> = new Random<int32, Uniform>( 0, MAP_ROW_LIMIT-1 );
@@ -74,8 +73,6 @@ class ObjectSystem
 
     public static function move( object : ObjectInfo, direction : int32 ) : void
     {
-        print( "ObjectSystem.move()\n" );
-
         var offset : Point = new Point( 0, 0 );
 
         if( direction == DIRECT_NORTH )
@@ -89,13 +86,6 @@ class ObjectSystem
 
         var event : Common.Event = new Common.MoveEvent( object, offset );
         Common.pushEvent( event );
-/*
-        var msg : PlayerMessage = new PlayerMessage( player, "map: " + VectorConverter.toString(gGameState.mAllObjects) );
-        var msgs : Vector< PlayerMessage > = new Vector< PlayerMessage >;
-        msgs.push_back( msg );
-
-        ConnectionSystem.send( msgs );
-*/
     }
 
     public static function addPlayer( player : PlayerInfo )
