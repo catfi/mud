@@ -44,12 +44,19 @@ class ClientInput
 
             if ( command.length() != 0 )
             {
-                if(  CommandValidator.accept( command ) )
+                if ( CommandValidator.accept( command ) )
+                {
                     new SendStringToServer( command, gServer );
+
+                    if ( command.equals("quit") )
+                    {
+                        //print( "you want to quit\n" );
+                        return; // have no effect
+                    }
+                }
                 else
                     print( "invalid command!\n" );
             }
-
             sleep_for_msec( 50 );
         }
     }

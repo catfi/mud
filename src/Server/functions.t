@@ -11,6 +11,7 @@ function initCmds() : void
 {
     commands.push_back( new MoveCmd );
     commands.push_back( new SayCmd );
+    commands.push_back( new ExitCmd );
 
     commandFormats.push_back( "( n | s | w | e )" );
     commandFormats.push_back( "say [message]" );
@@ -52,5 +53,6 @@ function registerEventListeners()
                                                lambda() : void {
                                                    Common.dispatchEvents();
                                                } );
+
     Common.gEventDispatcher.start();
 }

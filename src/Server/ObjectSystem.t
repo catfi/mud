@@ -98,7 +98,7 @@ class ObjectSystem
         players.push_back( player );
         objects.push_back( player );
 
-        print( "add player A \n " );
+        print( "add player \n" );
         ConnectionSystem.send( player, getMapString() );
     }
 }

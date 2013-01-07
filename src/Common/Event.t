@@ -2,6 +2,7 @@ import thor.container;
 
 import Game;
 import Util;
+import Server;
 
 // event base
 class Event
@@ -11,7 +12,9 @@ class Event
 class EventListener
 {
     public virtual function performed( event : Event ) : void
-    { }
+    {
+        print( "EventListener.performed" );
+    }
 }
 
 var gEventQueue : thor.container.Vector<Event> = new thor.container.Vector<Event>;
@@ -55,6 +58,13 @@ function dispatchEvents() : void
 
             gEventQueue.pop_back();
         }
+        else if( isa<ExitEvent>(event) )
+        {
+            var listener : ExitEventListener = new ExitEventListener;
+            listener.performed( event );
+
+            gEventQueue.pop_back();
+        }
         else
         {
             print( "ERROR! unknown event type\n" );
@@ -74,5 +84,35 @@ class MoveEvent extends Event
     {
         mObject = object;
         mOffset = offset;
+    }
+}
+
+class ExitEvent extends Event
+{
+    public var mPlayer : Game.PlayerInfo;
+
+    public function new( player : Game.PlayerInfo )
+    {
+        mPlayer = player;
+    }
+}
+
+// real listeners
+class ExitEventListener// extends EventListener
+{
+    public virtual function performed( event : Event ) : void
+    {
+        print( "ExitEventListener.performed" );
+        var exitEvent : ExitEvent = cast<ExitEvent>(event);
+
+        var player : Game.PlayerInfo = exitEvent.mPlayer;
+        var domain : Domain = Server.ConnectionSystem.sPlayerDomainTable.get( player );
+
+        // remove player and mapped domain in connection system
+        Server.ConnectionSystem.sDomainPlayerTable.remove( domain );
+        Server.ConnectionSystem.sPlayerDomainTable.remove( player );
+
+        // remove player object from game
+        Server.gGameState.remove( player );
     }
 }

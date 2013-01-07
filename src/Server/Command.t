@@ -2,6 +2,7 @@ import .= thor.container;
 
 import .= Util;
 import .= Game;
+import .= Common;
 
 class Command
 {
@@ -56,10 +57,10 @@ class SayCmd extends Command
     {
         var tokens = split( str );
 
-        if( tokens.size() == 0 )
+        if ( tokens.size() == 0 )
             return false;
 
-        if( tokens[ 0 ].toLowerCase().equals( "say" ) )
+        if ( tokens[ 0 ].toLowerCase().equals( "say" ) )
             return true;
 
         return false;
@@ -86,6 +87,30 @@ class SayCmd extends Command
         msg = player.name + " says: " + msg;
         ConnectionSystem.broadcast( msg );
 
+        return true;
+    }
+}
+
+class ExitCmd extends Command
+{
+    public virtual function accept( str : String ) : bool
+    {
+        var tokens = split( str );
+
+        if ( tokens.size() != 1 )
+            return false;
+
+        if ( tokens[ 0 ].toLowerCase().equals( "quit" ) )
+            return true;
+
+        return false;
+    }
+
+    public virtual function execute( str : String, client : Domain ) : bool
+    {
+        var player : PlayerInfo = ConnectionSystem.getPlayer( client );
+        var exitEvent : Common.ExitEvent = new Common.ExitEvent( player );
+        Common.pushEvent( exitEvent );
         return true;
     }
 }

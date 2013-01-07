@@ -103,8 +103,8 @@ class ConnectionSystem
     private static var sConnectedPlayerCount : int32 = 0;
 
     // domain <=> player table
-    private static var sDomainPlayerTable : HashMap< Domain, PlayerInfo > = new HashMap< Domain, PlayerInfo >;
-    private static var sPlayerDomainTable : HashMap< PlayerInfo, Domain > = new HashMap< PlayerInfo, Domain >;
+    public static var sDomainPlayerTable : HashMap< Domain, PlayerInfo > = new HashMap< Domain, PlayerInfo >;
+    public static var sPlayerDomainTable : HashMap< PlayerInfo, Domain > = new HashMap< PlayerInfo, Domain >;
 
     // domain login state
     private static var sMaxDistchId : int32 = 0;
