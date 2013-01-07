@@ -57,7 +57,6 @@ function launchServices() : void
                                                lambda() : void {
                                                    Common.dispatchEvents();
                                                } );
-
     Common.gEventDispatcher.start();
     //
     Game.gMobGenerateIssuer = Util.Timer.loop( 500,
@@ -65,4 +64,10 @@ function launchServices() : void
                                                    Game.issueMobs();
                                                } );
     Game.gMobGenerateIssuer.start();
+    //
+    Game.gMobWalkIssuer = Util.Timer.loop( 500,
+                                           lambda() : void {
+                                               Game.issueMobWalks();
+                                           } );
+    Game.gMobWalkIssuer.start();
 }

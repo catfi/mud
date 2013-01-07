@@ -1,3 +1,5 @@
+import thor.util;
+
 import Util;
 import Server;
 import Common;
@@ -16,4 +18,21 @@ function issueMobs() : void
     }
 }
 
+var gMobWalkIssuer : Util.Timer = null;
 
+@server
+function issueMobWalks() : void
+{
+    if ( Server.gGameState.mMobCount == 0 )
+        return;
+
+    var gen = new thor.util.Random<int32, thor.util.Uniform>( -1, 2 );
+
+    var mobs = Server.gGameState.mobs();
+
+    for ( var mob in mobs )
+    {
+        var offset = new Point( gen.next(), gen.next() );
+        Common.pushEvent( new Common.MoveEvent(mob, offset) );
+    }
+}
