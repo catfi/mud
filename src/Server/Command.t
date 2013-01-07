@@ -26,11 +26,17 @@ class MoveCmd extends Command
         if( tokens.size() != 1 )
             return false;
 
-        for( var direction : int32 = DIRECT_NORTH; direction <= DIRECT_EAST; ++direction )
-        {
-            if( tokens[ 0 ].toLowerCase().equals( gDirectCmdStrs.get(direction) ) )
-                return true;
-        }
+        if( tokens[ 0 ].toLowerCase().equals( "n" ) )
+            return true;
+
+        if( tokens[ 0 ].toLowerCase().equals( "w" ) )
+            return true;
+
+        if( tokens[ 0 ].toLowerCase().equals( "e" ) )
+            return true;
+
+        if( tokens[ 0 ].toLowerCase().equals( "s" ) )
+            return true;
 
         return false;
     }
@@ -41,11 +47,22 @@ class MoveCmd extends Command
 
         var tokens = split( str );
 
-        for( var direction : int32 = DIRECT_NORTH; direction <= DIRECT_EAST; ++direction )
-        {
-            if( tokens[ 0 ].toLowerCase().equals( gDirectCmdStrs.get(direction) ) )
-                ObjectSystem.move( player, direction );
-        }
+        var rowOffset : int32 = 0;
+        var colOffset : int32 = 0;
+
+        if( tokens[ 0 ].toLowerCase().equals( "n" ) )
+            rowOffset = -1;
+
+        if( tokens[ 0 ].toLowerCase().equals( "s" ) )
+            rowOffset = 1;
+
+        if( tokens[ 0 ].toLowerCase().equals( "w" ) )
+            colOffset = -1;
+
+        if( tokens[ 0 ].toLowerCase().equals( "e" ) )
+            colOffset = 1;
+
+        Common.pushEvent( new MoveEvent(player, new Game.Point(rowOffset, colOffset)) );
 
         return true;
     }

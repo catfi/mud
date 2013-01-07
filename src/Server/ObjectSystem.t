@@ -71,23 +71,6 @@ class ObjectSystem
         return true;
     }
 
-    public static function move( object : ObjectInfo, direction : int32 ) : void
-    {
-        var offset : Point = new Point( 0, 0 );
-
-        if( direction == DIRECT_NORTH )
-            offset.row = -1;
-        else if( direction == DIRECT_SOUTH )
-            offset.row = 1;
-        else if( direction == DIRECT_WEST )
-            offset.col = -1;
-        else if( direction == DIRECT_EAST )
-            offset.col = 1;
-
-        var event : Common.Event = new Common.MoveEvent( object, offset );
-        Common.pushEvent( event );
-    }
-
     public static function addPlayer( player : PlayerInfo ) : void
     {
         player.position = getRandomPos();
