@@ -87,13 +87,13 @@ function dispatchEvents() : void
 // real event types
 class MoveEvent extends Event
 {
-    public var mObject : Game.ObjectInfo;
+    public var mLiving : Game.Living;
     public var mOffset : Game.Point;
 
-    public function new( object : Game.ObjectInfo,
+    public function new( living : Game.Living,
                          offset : Game.Point )
     {
-        mObject = object;
+        mLiving = living;
         mOffset = offset;
     }
 }
