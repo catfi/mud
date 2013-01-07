@@ -70,6 +70,12 @@ function dispatchEvents() : void
             listener.performed( event );
             gEventQueue.pop_back();
         }
+        else if ( isa<SayEvent>(event) )
+        {
+            var listener : EventListener = new SayEventListener;
+            listener.performed( event );
+            gEventQueue.pop_back();
+        }
         else
         {
             print( "ERROR! unknown event type\n" );
@@ -102,6 +108,18 @@ class ExitEvent extends Event
     }
 }
 
+class SayEvent extends Event
+{
+    public var mPlayer : Game.PlayerInfo;
+    public var mMsg : String;
+
+    public function new( player : Game.PlayerInfo, msg : String )
+    {
+        mPlayer = player;
+        mMsg = msg;
+    }
+}
+
 class GenerateMobEvent extends Event
 { }
 
@@ -131,5 +149,16 @@ class GenerateMobEventListener extends EventListener
         var mob = new Game.Mob( "mob" );
 
         Server.ObjectSystem.addMob( mob );
+    }
+}
+
+class SayEventListener extends EventListener
+{
+    public virtual function performed( event : Event ) : void
+    {
+        var sayEvent : SayEvent = cast<SayEvent>( event );
+
+        print( "broadcast: \"" + sayEvent.mMsg + "\"\n" );
+        Server.ConnectionSystem.broadcast( sayEvent.mPlayer.name + " says: " + sayEvent.mMsg );
     }
 }
