@@ -6,6 +6,10 @@ import .= Game;
 
 class GameState
 {
+    public var mPlayerCount : int32 = 0;
+
+    public var mMobCount : int32 = 0;
+
     // player information
     public var mPlayers : Vector< PlayerInfo > = new Vector< PlayerInfo >;
 
@@ -15,7 +19,43 @@ class GameState
     // all objects
     public var mAllObjects : Vector< ObjectInfo > = new Vector< ObjectInfo >;
 
-    public function remove( object : ObjectInfo )
+    public function players() : Vector< PlayerInfo >
+    {
+        var players = new Vector< PlayerInfo >;
+
+        for ( var object in mAllObjects )
+        {
+            if( isa<PlayerInfo>( object ) )
+                players.push_back( cast<PlayerInfo>(object) );
+        }
+
+        return players;
+    }
+
+    public function mobs() : Vector< Mob >
+    {
+        var mobs = new Vector< Mob >;
+
+        for ( var object in mAllObjects )
+        {
+            if( isa<Mob>( object ) )
+                mobs.push_back( cast<Mob>(object) );
+        }
+
+        return mobs;
+    }
+
+    public function add( object : ObjectInfo ) : void
+    {
+        if( isa<PlayerInfo>( object ) )
+            ++mPlayerCount;
+        else if( isa<Mob>( object ) )
+            ++mMobCount;
+
+        mAllObjects.push_back( object );
+    }
+
+    public function remove( object : ObjectInfo ) : void
     {
         // find obejct in all players
         var found : int32 = -1;

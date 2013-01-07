@@ -19,6 +19,7 @@ function server_entry() : int32
     initCmdStrs();
 
     registerEventListeners();
+    launchServices();
 
     Domain.watch( 0, lambda( client : Domain ) : void {
         handle_client_connect( client );

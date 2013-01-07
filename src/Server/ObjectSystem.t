@@ -88,17 +88,21 @@ class ObjectSystem
         Common.pushEvent( event );
     }
 
-    public static function addPlayer( player : PlayerInfo )
+    public static function addPlayer( player : PlayerInfo ) : void
     {
-        var players : Vector< PlayerInfo > = gGameState.mPlayers;
-        var objects : Vector< ObjectInfo > = gGameState.mAllObjects;
-
         player.position = getRandomPos();
 
-        players.push_back( player );
-        objects.push_back( player );
+        gGameState.add( player );
 
-        print( "add player \n" );
+        print( "add player\n" );
         ConnectionSystem.send( player, getMapString() );
+    }
+
+    public static function addMob( mob : Mob ) : void
+    {
+        mob.position = getRandomPos();
+
+        gGameState.add( mob );
+        print( "add mob\n" );
     }
 }

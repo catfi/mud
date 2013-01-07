@@ -51,6 +51,11 @@ class ObjectInfo
     {
         return Convert.toString(id) + "," + name + "," + Convert.toString(position);
     }
+
+    public function isEqual( object : ObjectInfo ) : bool
+    {
+        return id == object.id;
+    }
 }
 
 class PlayerInfo extends ObjectInfo
@@ -67,9 +72,13 @@ class PlayerInfo extends ObjectInfo
     {
         super( identifier, thePosition );
     }
+}
 
-    public function isEqual( p : PlayerInfo ) : bool
+class Mob extends ObjectInfo
+{
+    public function new( theName : String ) : void
     {
-        return id == p.id;
+        super( -1 );
+        this.name = theName;
     }
 }

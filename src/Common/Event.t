@@ -58,11 +58,16 @@ function dispatchEvents() : void
 
             gEventQueue.pop_back();
         }
-        else if( isa<ExitEvent>(event) )
+        else if ( isa<ExitEvent>(event) )
         {
             var listener : ExitEventListener = new ExitEventListener;
             listener.performed( event );
-
+            gEventQueue.pop_back();
+        }
+        else if ( isa<GenerateMobEvent>(event) )
+        {
+            var listener : EventListener = new GenerateMobEventListener;
+            listener.performed( event );
             gEventQueue.pop_back();
         }
         else
@@ -97,12 +102,14 @@ class ExitEvent extends Event
     }
 }
 
+class GenerateMobEvent extends Event
+{ }
+
 // real listeners
 class ExitEventListener// extends EventListener
 {
     public virtual function performed( event : Event ) : void
     {
-        print( "ExitEventListener.performed" );
         var exitEvent : ExitEvent = cast<ExitEvent>(event);
 
         var player : Game.PlayerInfo = exitEvent.mPlayer;
@@ -114,5 +121,15 @@ class ExitEventListener// extends EventListener
 
         // remove player object from game
         Server.gGameState.remove( player );
+    }
+}
+
+class GenerateMobEventListener extends EventListener
+{
+    public virtual function performed( event : Event ) : void
+    {
+        var mob = new Game.Mob( "mob" );
+
+        Server.ObjectSystem.addMob( mob );
     }
 }

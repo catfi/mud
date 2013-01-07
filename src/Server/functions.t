@@ -45,14 +45,24 @@ function initCmdStrs() : void
 }
 
 @server
-function registerEventListeners()
+function registerEventListeners() : void
 {
     Common.addEventListener( Common.EVENT_MOVE, new MoveEventListener );
+}
 
+@server
+function launchServices() : void
+{
     Common.gEventDispatcher = Util.Timer.loop( 500,
                                                lambda() : void {
                                                    Common.dispatchEvents();
                                                } );
 
     Common.gEventDispatcher.start();
+    //
+    Game.gMobGenerateIssuer = Util.Timer.loop( 500,
+                                               lambda() : void {
+                                                   Game.issueMobs();
+                                               } );
+    Game.gMobGenerateIssuer.start();
 }
