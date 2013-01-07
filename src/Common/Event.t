@@ -120,6 +120,18 @@ class SayEvent extends Event
     }
 }
 
+class AttackEvent extends Event
+{
+    public var mSource : Game.Living;
+    public var mTarget : Game.Living;
+
+    public function new( source : Game.Living, target : Game.Living ) : void
+    {
+        mSource = source;
+        mTarget = target;
+    }
+}
+
 class GenerateMobEvent extends Event
 { }
 
