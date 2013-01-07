@@ -9,25 +9,23 @@ class MoveEventListener extends Common.EventListener
         var moveEvent = cast<Common.MoveEvent>( event );
 
         var player : Game.PlayerInfo = null;
-        if( isa<Game.PlayerInfo>( moveEvent.mObject ) )
+        if ( isa<Game.PlayerInfo>( moveEvent.mObject ) )
             player = cast<Game.PlayerInfo>( moveEvent.mObject );
 
-        if ( ObjectSystem.move(moveEvent.mObject, moveEvent.mOffset) )
-        {
-            if( player != null )
-            {
-                var objects = gGameState.mAllObjects;
-                var msg : String = "map: " + Util.VectorConverter.toString(objects);
+        var successful : bool = ObjectSystem.move(moveEvent.mObject, moveEvent.mOffset);
+        if ( player == null )
+            return;
 
-                ConnectionSystem.send( player, msg );
-            }
+        if ( successful )
+        {
+            var objects = gGameState.mAllObjects;
+            var msg : String = "map: " + Util.VectorConverter.toString(objects);
+
+            ConnectionSystem.send( player, msg );
         }
         else
         {
-            if ( player != null )
-            {
-                ConnectionSystem.send( player, "invalid move" );
-            }
+            ConnectionSystem.send( player, "invalid move" );
         }
     }
 }

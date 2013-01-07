@@ -53,19 +53,19 @@ function registerEventListeners() : void
 @server
 function launchServices() : void
 {
-    Common.gEventDispatcher = Util.Timer.loop( 500,
+    Common.gEventDispatcher = Util.Timer.loop( 200,
                                                lambda() : void {
                                                    Common.dispatchEvents();
                                                } );
     Common.gEventDispatcher.start();
     //
-    Game.gMobGenerateIssuer = Util.Timer.loop( 500,
+    Game.gMobGenerateIssuer = Util.Timer.loop( 2000,
                                                lambda() : void {
                                                    Game.issueMobs();
                                                } );
     Game.gMobGenerateIssuer.start();
     //
-    Game.gMobWalkIssuer = Util.Timer.loop( 500,
+    Game.gMobWalkIssuer = Util.Timer.loop( 2000,
                                            lambda() : void {
                                                Game.issueMobWalks();
                                            } );
