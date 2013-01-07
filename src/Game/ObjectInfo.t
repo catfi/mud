@@ -58,27 +58,59 @@ class ObjectInfo
     }
 }
 
-class PlayerInfo extends ObjectInfo
+class Living extends ObjectInfo
+{
+    public var life : int32;
+    public var attack : int32;
+    public var defence : int32;
+
+    public function new( identifier : int32,
+                         theLife : int32,
+                         theAttack : int32,
+                         theDefence : int32 ) : void
+    {
+        super( identifier );
+
+        life = theLife;
+        attack = theAttack;
+        defence = theDefence;
+    }
+
+    public function new( identifier : int32,
+                         thePosition : Point,
+                         theLife : int32,
+                         theAttack : int32,
+                         theDefence : int32 ) : void
+    {
+        super( identifier, thePosition );
+
+        life = theLife;
+        attack = theAttack;
+        defence = theDefence;
+    }
+}
+
+class PlayerInfo extends Living
 {
     // client states
     public var isNameComplete : bool = false;
 
-    public function new( identifer : int32 ) : void
+    public function new( identifier : int32 ) : void
     {
-        super( identifer );
+        super( identifier, 100, 6, 4 );
     }
 
     public function new( identifier : int32, thePosition : Point ) : void
     {
-        super( identifier, thePosition );
+        super( identifier, thePosition, 100, 6, 4 );
     }
 }
 
-class Mob extends ObjectInfo
+class Mob extends Living
 {
     public function new( theName : String ) : void
     {
-        super( -1 );
+        super( -1, 100, 6, 5 );
         this.name = theName;
     }
 }
