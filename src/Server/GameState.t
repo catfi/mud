@@ -10,7 +10,8 @@ class GameState
 
     public var mMobCount : int32 = 0;
 
-    public var rooms : Array2D<Game.Room> = new Array2D<Game.Room>( MAP_ROW_LIMIT, MAP_COLUMN_LIMIT );
+    public var roomArea : Array2D<Game.Room> = new Array2D<Game.Room>( MAP_ROW_LIMIT+2, MAP_COLUMN_LIMIT+2 );
+
     // player information
     public var mPlayers : Vector< PlayerInfo > = new Vector< PlayerInfo >;
 
@@ -22,25 +23,41 @@ class GameState
 
     public function new() : void
     {
-        for ( var row = 0; row < MAP_ROW_LIMIT; ++row )
+        // initialize each blocks to null
+        for ( var realRow = 0; realRow < MAP_ROW_LIMIT+2; ++realRow )
         {
-            for ( var col = 0; col < MAP_COLUMN_LIMIT; ++col )
+            for ( var realCol = 0; realCol < MAP_COLUMN_LIMIT+2; ++realCol )
             {
-                rooms.set( row, col, new Room( new Point(row, col) ) );
-                rooms.get( row, col ).setNextDoors( null, null, null, null );
+                roomArea.set( realRow, realCol, null );
             }
         }
 
-        for ( var row = 1; row < MAP_ROW_LIMIT-1; ++row )
+        // new rooms in areas except borders
+        for ( var realRow = 1; realRow < MAP_ROW_LIMIT+1; ++realRow )
         {
-            for ( var col = 1; col < MAP_COLUMN_LIMIT-1; ++col )
+            for ( var realCol = 1; realCol < MAP_COLUMN_LIMIT+1; ++realCol )
             {
-                rooms.get( row, col ).setNextDoors( rooms.get(row-1, col),
-                                                    rooms.get(row+1, col),
-                                                    rooms.get(row, col+1),
-                                                    rooms.get(row, col-1) );
+                roomArea.set( realRow, realCol,
+                              new Game.Room( new Point(realRow-1, realCol-1) ) );
             }
         }
+
+        // set rooms to associate with their neighbors
+        for ( var realRow = 1; realRow < MAP_ROW_LIMIT+1; ++realRow )
+        {
+            for ( var realCol = 1; realCol < MAP_COLUMN_LIMIT+1; ++realCol )
+            {
+                roomArea.get( realRow, realCol ).setNextDoors( roomArea.get(realRow-1, realCol),
+                                                               roomArea.get(realRow+1, realCol),
+                                                               roomArea.get(realRow, realCol+1),
+                                                               roomArea.get(realRow, realCol-1) );
+            }
+        }
+    }
+
+    public function roomAt( row : int32, col : int32 ) : Game.Room
+    {
+        return roomArea.get( row + 1, col + 1 );
     }
 
     public function players() : Vector< PlayerInfo >
