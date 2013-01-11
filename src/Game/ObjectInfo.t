@@ -23,6 +23,11 @@ class ObjectInfo
         print( "id=\{id} name=\{name}\n" );
     }
 
+    public function setPos( pos : Point ) : void
+    {
+        position = pos;
+    }
+
     public static function from( str : String ) : ObjectInfo
     {
         str = str.trim();
@@ -52,7 +57,7 @@ class ObjectInfo
         return Convert.toString(id) + "," + name + "," + Convert.toString(position);
     }
 
-    public function isEqual( object : ObjectInfo ) : bool
+    public virtual function isEqual( object : ObjectInfo ) : bool
     {
         return id == object.id;
     }
@@ -104,6 +109,11 @@ class PlayerInfo extends Living
     {
         super( identifier, thePosition, 100, 6, 4 );
     }
+
+    public virtual function isEqual( object : ObjectInfo ) : bool
+    {
+        return isa<PlayerInfo>(object) && id == object.id;
+    }
 }
 
 class Mob extends Living
@@ -112,5 +122,10 @@ class Mob extends Living
     {
         super( -1, 100, 6, 5 );
         this.name = theName;
+    }
+
+    public virtual function isEqual( object : ObjectInfo ) : bool
+    {
+        return isa<Mob>(object) && id == object.id;
     }
 }
