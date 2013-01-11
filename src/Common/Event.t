@@ -89,12 +89,25 @@ class MoveEvent extends Event
 {
     public var mLiving : Game.Living;
     public var mOffset : Game.Point;
+    public var mDirection : int32;
+
+    public static var NORTH : int32 = 1;
+    public static var WEST : int32 = 2;
+    public static var SOUTH : int32 = 3;
+    public static var EAST : int32 = 4;
 
     public function new( living : Game.Living,
                          offset : Game.Point )
     {
         mLiving = living;
         mOffset = offset;
+    }
+
+    public function new( living : Game.Living,
+                         direction : int32 )
+    {
+        mLiving = living;
+        mDirection = direction;
     }
 }
 

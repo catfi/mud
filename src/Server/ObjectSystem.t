@@ -71,6 +71,31 @@ class ObjectSystem
         return true;
     }
 
+    public static function move( living : Living, direction : int32 ) : bool
+    {
+        var rowOffset = 0;
+        var colOffset = 0;
+
+        if ( direction == Common.MoveEvent.NORTH )
+            rowOffset = -1;
+        else if ( direction == Common.MoveEvent.SOUTH )
+            rowOffset = 1;
+        else if ( direction == Common.MoveEvent.WEST )
+            colOffset = -1;
+        else if ( direction == Common.MoveEvent.EAST )
+            colOffset = 1;
+        else
+            return false;
+
+        if ( !isValidMove( living, new Game.Point(rowOffset, colOffset) ) )
+            return false;
+
+        living.position.row += rowOffset;
+        living.position.col += colOffset;
+
+        return true;
+    }
+
     public static function addPlayer( player : PlayerInfo ) : void
     {
         player.position = getRandomPos();

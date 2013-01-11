@@ -24,7 +24,7 @@ class MoveEventListener extends Common.EventListener
             }
         }
 
-        var successful : bool = ObjectSystem.move(moveEvent.mLiving, moveEvent.mOffset);
+        var successful : bool = ObjectSystem.move(moveEvent.mLiving, moveEvent.mDirection);
         if ( isa<Game.Mob>( moveEvent.mLiving ) )
             return;
 

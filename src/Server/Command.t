@@ -47,22 +47,20 @@ class MoveCmd extends Command
 
         var tokens = split( str );
 
-        var rowOffset : int32 = 0;
-        var colOffset : int32 = 0;
-
+        var direction : int32 = 0;
         if( tokens[ 0 ].toLowerCase().equals( "n" ) )
-            rowOffset = -1;
+            direction = MoveEvent.NORTH;
 
         if( tokens[ 0 ].toLowerCase().equals( "s" ) )
-            rowOffset = 1;
+            direction = MoveEvent.SOUTH;
 
         if( tokens[ 0 ].toLowerCase().equals( "w" ) )
-            colOffset = -1;
+            direction = MoveEvent.WEST;
 
         if( tokens[ 0 ].toLowerCase().equals( "e" ) )
-            colOffset = 1;
+            direction = MoveEvent.EAST;
 
-        Common.pushEvent( new MoveEvent(player, new Game.Point(rowOffset, colOffset)) );
+        Common.pushEvent( new MoveEvent(player, direction) );
 
         return true;
     }
