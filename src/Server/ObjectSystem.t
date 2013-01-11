@@ -7,23 +7,13 @@ import Common;
 
 class ObjectSystem
 {
-    private static function isValidPos( point : Point ) : bool
+    private static function isValidPos( row : int32, col : int32 ) : bool
     {
-        if ( !( (0 <= point.row && point.row < MAP_ROW_LIMIT) &&
-                (0 <= point.col && point.col < MAP_COLUMN_LIMIT) ) )
-        {
+        if ( !(0 <= row && row < MAP_ROW_LIMIT) )
             return false;
-        }
 
-        var objects : Vector< ObjectInfo > = gGameState.mAllObjects;
-        for ( var i = 0; i != objects.size(); ++i )
-        {
-            if ( objects[ i ].position.row == point.row &&
-                 objects[ i ].position.col == point.col )
-            {
-                return false;
-            }
-        }
+        if ( !(0 <= col && col < MAP_COLUMN_LIMIT) )
+            return false;
 
         return true;
     }
@@ -34,7 +24,7 @@ class ObjectSystem
         var next : Point = new Point( object.position.row + offset.row,
                                       object.position.col + offset.col );
 
-        if( !isValidPos( next ) )
+        if( !isValidPos( next.row, next.col ) )
             return false;
 
         return true;
@@ -55,7 +45,7 @@ class ObjectSystem
         {
             result.row = rowGenerator.next();
             result.col = colGenerator.next();
-        } while ( !isValidPos(result) );
+        } while ( !isValidPos(result.row, result.col) );
 
         return result;
     }
