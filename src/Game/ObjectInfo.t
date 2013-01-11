@@ -5,6 +5,7 @@ class ObjectInfo
     public var id : int32;
     public var name : String;
     public var position : Point;
+    public var mRoom : Room = null;
 
     public function new( identifier : int32 ) : void
     {

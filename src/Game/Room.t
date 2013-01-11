@@ -50,6 +50,7 @@ class Room
     {
         // update living's state, all livings in the same room share a extinct position object
         living.position = mPos;
+        living.mRoom = this;
 
         if ( isa<PlayerInfo>(living) )
             mPlayers.push_back( cast<PlayerInfo>(living) );
@@ -61,13 +62,9 @@ class Room
     public function leave( living : Living ) : void
     {
         living.position = null;
+        living.mRoom = null;
 
         remove( living );
-    }
-
-    public function add( living : Living ) : void
-    {
-
     }
 
     public function remove( living : Living ) : void
@@ -84,11 +81,11 @@ class Room
 
     public function hasPlayers() : bool
     {
-        return mPlayers.size() == 0;
+        return mPlayers.size() != 0;
     }
 
     public function hasMobs() : bool
     {
-        return mMobs.size() == 0;
+        return mMobs.size() != 0;
     }
 }

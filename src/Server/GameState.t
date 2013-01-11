@@ -24,18 +24,18 @@ class GameState
     public function new() : void
     {
         // initialize each blocks to null
-        for ( var realRow = 0; realRow < MAP_ROW_LIMIT+2; ++realRow )
+        for ( var realRow : int32 = 0; realRow < MAP_ROW_LIMIT+2; ++realRow )
         {
-            for ( var realCol = 0; realCol < MAP_COLUMN_LIMIT+2; ++realCol )
+            for ( var realCol : int32 = 0; realCol < MAP_COLUMN_LIMIT+2; ++realCol )
             {
                 roomArea.set( realRow, realCol, null );
             }
         }
 
         // new rooms in areas except borders
-        for ( var realRow = 1; realRow < MAP_ROW_LIMIT+1; ++realRow )
+        for ( var realRow : int32 = 1; realRow < MAP_ROW_LIMIT+1; ++realRow )
         {
-            for ( var realCol = 1; realCol < MAP_COLUMN_LIMIT+1; ++realCol )
+            for ( var realCol : int32 = 1; realCol < MAP_COLUMN_LIMIT+1; ++realCol )
             {
                 roomArea.set( realRow, realCol,
                               new Game.Room( new Point(realRow-1, realCol-1) ) );
@@ -43,9 +43,9 @@ class GameState
         }
 
         // set rooms to associate with their neighbors
-        for ( var realRow = 1; realRow < MAP_ROW_LIMIT+1; ++realRow )
+        for ( var realRow : int32 = 1; realRow < MAP_ROW_LIMIT+1; ++realRow )
         {
-            for ( var realCol = 1; realCol < MAP_COLUMN_LIMIT+1; ++realCol )
+            for ( var realCol : int32 = 1; realCol < MAP_COLUMN_LIMIT+1; ++realCol )
             {
                 roomArea.get( realRow, realCol ).setNextDoors( roomArea.get(realRow-1, realCol),
                                                                roomArea.get(realRow+1, realCol),
@@ -86,14 +86,35 @@ class GameState
         return mobs;
     }
 
-    public function add( object : ObjectInfo ) : void
+    public function randomPos() : Game.Point
     {
-        if( isa<PlayerInfo>( object ) )
+        var rowGen : Random<int32, Uniform> = new Random<int32, Uniform>( 0, MAP_ROW_LIMIT-1 );
+        var colGen : Random<int32, Uniform> = new Random<int32, Uniform>( 0, MAP_COLUMN_LIMIT-1 );
+
+        var row = 0;
+        do {
+            row = rowGen.next();
+        } while ( !(0 <= row && row < MAP_ROW_LIMIT) );
+
+        var col = 0;
+        do {
+            col = colGen.next();
+        } while ( !(0 <= col && col < MAP_COLUMN_LIMIT) );
+
+        return new Game.Point( row, col );
+    }
+
+    public function add( living : Living ) : void
+    {
+        if( isa<PlayerInfo>( living ) )
             ++mPlayerCount;
-        else if( isa<Mob>( object ) )
+        else if( isa<Mob>( living ) )
             ++mMobCount;
 
-        mAllObjects.push_back( object );
+        var pos = randomPos();
+        roomAt( pos.row, pos.col ).enter( living );
+
+        mAllObjects.push_back( living );
     }
 
     public function remove( object : ObjectInfo ) : void

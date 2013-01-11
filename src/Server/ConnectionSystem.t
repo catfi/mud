@@ -30,7 +30,7 @@ class ConnectionSystem
         sDomainPlayerTable.set( domain, newPlayer );
         sPlayerDomainTable.set( newPlayer, domain );
 
-        ObjectSystem.addPlayer( newPlayer );
+        ObjectSystem.add( newPlayer );
     }
 
     public static function isLogin( domain : Domain ) : bool

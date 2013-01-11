@@ -15,6 +15,8 @@ function client_entry() : int32
 @server
 function server_entry() : int32
 {
+    gGameState = new GameState;
+
     initCmds();
     initCmdStrs();
 

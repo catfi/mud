@@ -63,33 +63,31 @@ class ObjectSystem
 
     public static function move( living : Living, direction : int32 ) : bool
     {
-        var rowOffset = 0;
-        var colOffset = 0;
+        var current = living.mRoom;
+        var next : Room = null;
 
         if ( direction == Common.MoveEvent.NORTH )
-            rowOffset = -1;
+            next = current.mNorth;
         else if ( direction == Common.MoveEvent.SOUTH )
-            rowOffset = 1;
+            next = current.mSouth;
         else if ( direction == Common.MoveEvent.WEST )
-            colOffset = -1;
+            next = current.mWest;
         else if ( direction == Common.MoveEvent.EAST )
-            colOffset = 1;
+            next = current.mEast;
         else
             return false;
 
-        if ( !isValidMove( living, new Game.Point(rowOffset, colOffset) ) )
+        if ( next == null )
             return false;
 
-        living.position.row += rowOffset;
-        living.position.col += colOffset;
+        current.leave( living );
+        next.enter( living );
 
         return true;
     }
 
-    public static function addPlayer( player : PlayerInfo ) : void
+    public static function add( player : PlayerInfo ) : void
     {
-        player.position = getRandomPos();
-
         gGameState.add( player );
 
         print( "add player\n" );
@@ -98,9 +96,8 @@ class ObjectSystem
 
     public static function addMob( mob : Mob ) : void
     {
-        mob.position = getRandomPos();
-
         gGameState.add( mob );
+
         print( "add mob\n" );
     }
 }
