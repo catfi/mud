@@ -50,32 +50,35 @@ function dispatchEvents() : void
 {
     while ( gEventQueue.size() != 0 )
     {
+        // pop out the last event
         var last : int64 = gEventQueue.size() - 1;
         var event : Event = gEventQueue.get( last );
+        gEventQueue.pop_back();
+
         if ( isa<MoveEvent>(event) )
         {
             for( var listener in gMoveEventListeners )
                 listener.performed( event );
-
-            gEventQueue.pop_back();
         }
         else if ( isa<ExitEvent>(event) )
         {
             var listener : ExitEventListener = new ExitEventListener;
             listener.performed( event );
-            gEventQueue.pop_back();
         }
         else if ( isa<GenerateMobEvent>(event) )
         {
             var listener : EventListener = new GenerateMobEventListener;
             listener.performed( event );
-            gEventQueue.pop_back();
         }
         else if ( isa<SayEvent>(event) )
         {
             var listener : EventListener = new SayEventListener;
             listener.performed( event );
-            gEventQueue.pop_back();
+        }
+        else if ( isa<MobEnterRoomEvent>(event) )
+        {
+            var listener : EventListener = new MobEnterRoomEventListener;
+            listener.performed( event );
         }
         else
         {
@@ -148,6 +151,19 @@ class AttackEvent extends Event
 
 class GenerateMobEvent extends Event
 { }
+
+class MobEnterRoomEvent extends Event
+{
+    public var mMob : Game.Mob;
+    public var mRoom : Game.Room;
+
+    public function new( mob : Game.Mob,
+                         room : Game.Room ) : void
+    {
+        mMob = mob;
+        mRoom = room;
+    }
+}
 
 // real listeners
 class ExitEventListener// extends EventListener
@@ -229,3 +245,13 @@ class MoveEventListener extends EventListener
     }
 }
 
+class MobEnterRoomEventListener extends EventListener
+{
+    public virtual function performed( event : Event ) : void
+    {
+        var e = cast<MobEnterRoomEvent>( event );
+
+        var mob = e.mMob;
+        var room = e.mRoom;
+    }
+}

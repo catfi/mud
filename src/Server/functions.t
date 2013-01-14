@@ -59,13 +59,13 @@ function launchServices() : void
                                                } );
     Common.gEventDispatcher.start();
     //
-    Game.gMobGenerateIssuer = Util.Timer.loop( 2000,
+    Game.gMobGenerateIssuer = Util.Timer.loop( 500,
                                                lambda() : void {
                                                    Game.issueMobs();
                                                } );
     Game.gMobGenerateIssuer.start();
     //
-    Game.gMobWalkIssuer = Util.Timer.loop( 2000,
+    Game.gMobWalkIssuer = Util.Timer.loop( 1000,
                                            lambda() : void {
                                                Game.issueMobWalks();
                                            } );

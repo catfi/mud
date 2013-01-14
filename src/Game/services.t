@@ -11,7 +11,6 @@ var gMobGenerateIssuer : Util.Timer = null;
 function issueMobs() : void
 {
     //print( "issueMobs()\n" );
-
     if ( Server.gGameState.mMobCount < Server.gGameState.mPlayerCount )
     {
         Common.pushEvent( new Common.GenerateMobEvent );

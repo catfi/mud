@@ -55,8 +55,11 @@ class Room
         if ( isa<PlayerInfo>(living) )
             mPlayers.push_back( cast<PlayerInfo>(living) );
 
-        else if ( isa<Mob>(living) )
-            mMobs.push_back( cast<Mob>(living) );
+        else if ( isa<Mob>(living) ) {
+            var mob = cast<Mob>(living);
+            mMobs.push_back( mob );
+            Common.pushEvent( new Common.MobEnterRoomEvent(mob, this) );
+        }
     }
 
     public function leave( living : Living ) : void
