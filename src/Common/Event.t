@@ -91,6 +91,16 @@ function dispatchEvents() : void
             var listener : EventListener = new MobAttackEventListener;
             listener.performed( event );
         }
+        else if ( isa<PlayerDeadEvent>(event) )
+        {
+            var listener : EventListener = new PlayerDeadEventListener;
+            listener.performed( event );
+        }
+        else if ( isa<PlayerRebirthEvent>(event) )
+        {
+            var listener : EventListener = new PlayerRebirthEventListener;
+            listener.performed( event );
+        }
         else
         {
             print( "ERROR! unknown event type\n" );
@@ -198,6 +208,27 @@ class MobAttackEvent extends Event
                          player : Game.PlayerInfo ) : void
     {
         mMob = mob;
+        mPlayer = player;
+    }
+}
+
+class PlayerDeadEvent extends Event
+{
+
+    public var mPlayer : Game.PlayerInfo;
+
+    public function new( player : Game.PlayerInfo ) : void
+    {
+        mPlayer = player;
+    }
+}
+
+class PlayerRebirthEvent extends Event
+{
+    public var mPlayer : Game.PlayerInfo;
+
+    public function new( player : Game.PlayerInfo ) : void
+    {
         mPlayer = player;
     }
 }
@@ -340,7 +371,10 @@ class PlayerAttackEventListener extends EventListener
 
         // mob was dead by attack
         if ( displayHp == 0 )
+        {
+            found.mRoom.leave( found );
             Server.gGameState.remove( found );
+        }
     }
 }
 
@@ -361,5 +395,49 @@ class MobAttackEventListener extends EventListener
 
         @remote { domain = dest }
         Client.attackedByMobMsg( mob.getNameId(), displayHp, mob.attack );
+
+        // player was dead
+        if ( displayHp == 0 )
+            pushEvent( new PlayerDeadEvent(player) );
+    }
+}
+
+class PlayerDeadEventListener extends EventListener
+{
+    public virtual function performed( event : Event ) : void
+    {
+        print( "player dead\n" );
+        var e = cast<PlayerDeadEvent>(event);
+
+        var player = e.mPlayer;
+        var room = player.mRoom;
+
+        room.leave( player );
+        Server.gGameState.remove( player );
+
+        var rebirthIssuer = Util.Timer.oneShot( 5000,
+                                                lambda() : void {
+                                                    pushEvent( new PlayerRebirthEvent(player) );
+                                                });
+        rebirthIssuer.start();
+    }
+}
+
+class PlayerRebirthEventListener extends EventListener
+{
+    public virtual function performed( event : Event ) : void
+    {
+        print( "player rebirth\n" );
+
+        var e = cast<PlayerRebirthEvent>(event);
+
+        var player = e.mPlayer;
+
+        player.life = 20;
+        Server.gGameState.add( player );
+
+        var dest = Server.ConnectionSystem.getDomain(player);
+        @remote { domain = dest }
+        Client.RebirthMsg();
     }
 }

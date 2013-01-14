@@ -78,6 +78,5 @@ function launchServices() : void
                                              lambda() : void {
                                                  Game.issueMobAttacks();
                                              } );
-
     Game.gMobAttackIssuer.start();
 }

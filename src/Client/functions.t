@@ -53,3 +53,9 @@ function client_receive_encoded_char( encoded_char : int64 ):void
         }
     }
 }
+
+@client
+function RebirthMsg() : void
+{
+    print( "RebirthMsg\n" );
+}

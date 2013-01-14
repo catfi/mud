@@ -1,5 +1,9 @@
+import thor.container;
+
 import .= Server;
 import .= Util;
+
+import Game;
 
 @entry
 @client
@@ -16,6 +20,7 @@ function client_entry() : int32
 function server_entry() : int32
 {
     gGameState = new GameState;
+    gRebirthRequests = new thor.container.Vector<Server.RebirthRequest>;
 
     initCmds();
     initCmdStrs();

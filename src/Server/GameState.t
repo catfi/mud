@@ -142,6 +142,7 @@ class GameState
                 mAllObjects[ idx - 1 ] = mAllObjects[ idx ];
 
             mAllObjects.pop_back();
+            --mPlayerCount;
         }
     }
 
@@ -170,6 +171,7 @@ class GameState
                 mAllObjects[ idx - 1 ] = mAllObjects[ idx ];
 
             mAllObjects.pop_back();
+            --mMobCount;
         }
     }
 }
