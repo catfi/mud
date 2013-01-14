@@ -1,7 +1,8 @@
 import .= thor.lang;
 import .= thor.container;
-import .= Game;
 import .= Util;
+import .= Game;
+import Game;
 
 class CommandHandler
 {
@@ -19,14 +20,13 @@ class CommandHandler
     private static function showMap( objectInfo : Vector<ObjectInfo> ) : void
     {
         var myName : String = gClientGame.getMyName();
-        var map : GameMap = gClientGame.getMap();
-        var canvas = new Canvas( map.height() + 2, 75 );
+        var canvas = new Canvas( Game.MAP_ROW_LIMIT + 2, 200 );
 
         // draw map border
-        canvas.drawHVLine( new Point( 0, 0 ), new Point( 0, map.width() + 2 ), "-" );
-        canvas.drawHVLine( new Point( map.height() + 1, 0 ), new Point( map.height() + 1, map.width() + 2 ), "-" );
-        canvas.drawHVLine( new Point( 1, 0 ), new Point( map.height(), 0 ), "|" );
-        canvas.drawHVLine( new Point( 1, map.width() + 2 ), new Point( map.height(), map.width() + 2 ), "|" );
+        canvas.drawHVLine( new Point( 0, 0 ), new Point( 0, Game.MAP_COLUMN_LIMIT + 2 ), "-" );
+        canvas.drawHVLine( new Point( Game.MAP_ROW_LIMIT + 1, 0 ), new Point( Game.MAP_ROW_LIMIT + 1, Game.MAP_COLUMN_LIMIT + 2 ), "-" );
+        canvas.drawHVLine( new Point( 1, 0 ), new Point( Game.MAP_ROW_LIMIT, 0 ), "|" );
+        canvas.drawHVLine( new Point( 1, Game.MAP_COLUMN_LIMIT + 2 ), new Point( Game.MAP_ROW_LIMIT, Game.MAP_COLUMN_LIMIT + 2 ), "|" );
 
         // draw player token in map
         for( var i : int32 = 0; i < objectInfo.size(); ++i )
@@ -48,7 +48,7 @@ class CommandHandler
 
         // draw player info
         var showedObjectCount : int32 = 0;
-        const ROW_COUNT : int32 = map.height() + 2; // +2 for border
+        const ROW_COUNT : int32 = Game.MAP_ROW_LIMIT + 2; // +2 for border
         const COL_WIDTH : int32 = 18;
         const GAP : int32 = 3;
         for( var i : int32 = 0; i < objectInfo.size(); ++i )
@@ -58,7 +58,7 @@ class CommandHandler
                 var r : int32 = showedObjectCount % ROW_COUNT;
                 var c : int32 = showedObjectCount / ROW_COUNT;
 
-                var pos : Point = new Point( r, map.width() + 2 + GAP + c * COL_WIDTH );
+                var pos : Point = new Point( r, Game.MAP_COLUMN_LIMIT + 2 + GAP + c * COL_WIDTH );
                 var token : IndexableString = new IndexableString();
                 token.addAscii( 97 + objectInfo[i].id ); // 97 is 'a' ascii
                 token.concate( "." );
