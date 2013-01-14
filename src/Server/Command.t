@@ -1,4 +1,5 @@
 import .= thor.container;
+import thor.util;
 
 import .= Util;
 import .= Game;
@@ -126,6 +127,35 @@ class ExitCmd extends Command
         var player : PlayerInfo = ConnectionSystem.getPlayer( client );
         var exitEvent : Common.ExitEvent = new Common.ExitEvent( player );
         Common.pushEvent( exitEvent );
+        return true;
+    }
+}
+
+class AttackCmd extends Command
+{
+    public virtual function accept( str : String ) : bool
+    {
+        var tokens = split( str );
+
+        if ( tokens.size() != 2 )
+            return false;
+
+        if ( tokens[ 0 ].toLowerCase().equals( "attack" ) )
+            return true;
+
+        return false;
+    }
+
+    public virtual function execute( str : String, client : Domain ) : bool
+    {
+        var tokens = split( str );
+
+        var player : PlayerInfo = ConnectionSystem.getPlayer( client );
+
+        var mobId = thor.util.Convert.toInt32( tokens[ 1 ] );
+
+        Common.pushEvent( new Common.PlayerAttackEvent(player, mobId) );
+
         return true;
     }
 }

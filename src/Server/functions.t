@@ -41,6 +41,8 @@ function initCmdStrs() : void
 
     gAllCmdStrs.set( COMMAND_QUIT, "quit" );
 
+    gAllCmdStrs.set( COMMAND_ATTACK, "attack" );
+
     gCmdStrsWereInitialized = true;
 }
 

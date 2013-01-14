@@ -9,7 +9,8 @@ var DIRECT_EAST : int32 = 4;
 var COMMAND_SAY : int32 = 5;
 var COMMAND_TALK : int32 = 6;
 var COMMAND_QUIT : int32 = 7;
-var COMMAND_END : int32 = 7;
+var COMMAND_ATTACK : int32 = 8;
+var COMMAND_END : int32 = 8;
 
 // map setting
 var MAP_ROW_LIMIT : int32 = 12;

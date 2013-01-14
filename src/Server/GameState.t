@@ -106,7 +106,7 @@ class GameState
 
     public function add( living : Living ) : void
     {
-        if( isa<PlayerInfo>( living ) )
+        if ( isa<PlayerInfo>( living ) )
             ++mPlayerCount;
         else if( isa<Mob>( living ) )
             ++mMobCount;
@@ -117,46 +117,51 @@ class GameState
         mAllObjects.push_back( living );
     }
 
-    public function remove( object : ObjectInfo ) : void
+    public function remove( target : PlayerInfo ) : void
     {
-        // find obejct in all players
         var found : int32 = -1;
-        for ( var idx : int32 = 0; idx != mPlayers.size(); ++idx )
+
+        for ( var idx = 0; idx != mAllObjects.size(); ++idx )
         {
-            if ( object.id == mPlayers[ idx ].id )
-                found = idx;
+            var object = mAllObjects[ idx ];
+
+            if ( isa<PlayerInfo>(object) )
+            {
+                var player = cast<PlayerInfo>(object);
+                if ( player.id == target.id )
+                {
+                    found = idx;
+                    break;
+                }
+            }
         }
 
         if ( found != -1 )
         {
-            for( var idx : int32 = found + 1; idx != mPlayers.size(); ++idx )
-                mPlayers[ idx - 1 ] = mPlayers[ idx ];
+            for( var idx : int32 = found + 1; idx != mAllObjects.size(); ++idx )
+                mAllObjects[ idx - 1 ] = mAllObjects[ idx ];
 
-            mPlayers.pop_back();
+            mAllObjects.pop_back();
         }
+    }
 
-        // find object in all mobs
-        found = -1;
-        for ( var idx : int32 = 0; idx != mMobs.size(); ++idx )
+    public function remove( target : Mob ) : void
+    {
+        var found : int32 = -1;
+
+        for ( var idx = 0; idx != mAllObjects.size(); ++idx )
         {
-            if ( object.id == mMobs[ idx ].id )
-                found = idx;
-        }
+            var object = mAllObjects[ idx ];
 
-        if ( found != -1 )
-        {
-            for( var idx : int32 = found + 1; idx != mMobs.size(); ++idx )
-                mMobs[ idx - 1 ] = mMobs[ idx ];
-
-            mMobs.pop_back();
-        }
-
-        // find object in all objects collection
-        found = -1;
-        for ( var idx : int32 = 0; idx != mAllObjects.size(); ++idx )
-        {
-            if ( object.id == mAllObjects[ idx ].id )
-                found = idx;
+            if ( isa<Mob>(object) )
+            {
+                var mob = cast<Mob>(object);
+                if ( mob.id == target.id )
+                {
+                    found = idx;
+                    break;
+                }
+            }
         }
 
         if ( found != -1 )

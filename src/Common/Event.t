@@ -81,6 +81,11 @@ function dispatchEvents() : void
             var listener : EventListener = new MobEnterRoomEventListener;
             listener.performed( event );
         }
+        else if ( isa<PlayerAttackEvent>(event) )
+        {
+            var listener : EventListener = new PlayerAttackEventListener;
+            listener.performed( event );
+        }
         else
         {
             print( "ERROR! unknown event type\n" );
@@ -166,6 +171,19 @@ class MobEnterRoomEvent extends Event
     }
 }
 
+class PlayerAttackEvent extends Event
+{
+    public var mPlayer : Game.PlayerInfo;
+    public var mMobId : int32;
+
+    public function new( player : Game.PlayerInfo,
+                         mobId : int32 ) : void
+    {
+        mPlayer = player;
+        mMobId = mobId;
+    }
+}
+
 // real listeners
 class ExitEventListener// extends EventListener
 {
@@ -213,18 +231,18 @@ class MoveEventListener extends EventListener
         var moveEvent = cast<MoveEvent>( event );
 
         // if mob is nearby a player, don't move
-        if ( isa<Game.Mob>( moveEvent.mLiving ) )
-        {
-            var players = Server.gGameState.players();
-            for ( var p in players )
-            {
-                var dist = thor.math.fabs(moveEvent.mLiving.position.row - p.position.row) +
-                           thor.math.fabs(moveEvent.mLiving.position.col - p.position.col);
+        //if ( isa<Game.Mob>( moveEvent.mLiving ) )
+        //{
+        //    var players = Server.gGameState.players();
+        //    for ( var p in players )
+        //    {
+        //        var dist = thor.math.fabs(moveEvent.mLiving.position.row - p.position.row) +
+        //                   thor.math.fabs(moveEvent.mLiving.position.col - p.position.col);
 
-                if ( dist < 2.0 )
-                    return;
-            }
-        }
+        //        if ( dist < 2.0 )
+        //            return;
+        //    }
+        //}
 
         var successful : bool = Server.ObjectSystem.move(moveEvent.mLiving, moveEvent.mDirection);
         if ( isa<Game.Mob>( moveEvent.mLiving ) )
@@ -262,5 +280,42 @@ class MobEnterRoomEventListener extends EventListener
             @remote { domain = dest }
             Client.enterSameRoom( mob.getNameId(), mob.id );
         }
+    }
+}
+
+class PlayerAttackEventListener extends EventListener
+{
+    public virtual function performed( event : Event ) : void
+    {
+        var e = cast<PlayerAttackEvent>(event);
+
+        var player = e.mPlayer;
+        var room = player.mRoom;
+        var mobId = e.mMobId;
+
+        // find mob to attack in room
+        var found : Game.Mob = null;
+        for ( var mob in room.mMobs )
+        {
+            if ( mob.id == mobId )
+            {
+                found = mob;
+                break;
+            }
+        }
+
+        if ( found == null )
+            return;
+
+        var displayHp : int32 = ( player.attack > displayHp ? displayHp - player.attack : 0 );
+
+        var dest = Server.ConnectionSystem.getDomain(player);
+
+        @remote { domain = dest }
+        Client.attackMobMsg( found.getNameId(), displayHp, 0 - player.attack );
+
+        // mob was dead by attack
+        if ( displayHp == 0 )
+            Server.gGameState.remove( found );
     }
 }
