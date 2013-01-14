@@ -4,6 +4,7 @@ import thor.math;
 import Game;
 import Util;
 import Server;
+import Client;
 
 // event base
 class Event
@@ -253,5 +254,13 @@ class MobEnterRoomEventListener extends EventListener
 
         var mob = e.mMob;
         var room = e.mRoom;
+
+        for ( var player in room.mPlayers )
+        {
+            // notify player
+            var dest = Server.ConnectionSystem.getDomain( player );
+            @remote { domain = dest }
+            Client.enterSameRoom( mob.getNameId(), mob.id );
+        }
     }
 }

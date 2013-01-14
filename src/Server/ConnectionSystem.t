@@ -72,7 +72,7 @@ class ConnectionSystem
         }
     }
 
-    private static function getDomain( player : PlayerInfo ) : Domain
+    public static function getDomain( player : PlayerInfo ) : Domain
     {
         return sPlayerDomainTable.get( player );
     }

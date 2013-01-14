@@ -53,3 +53,9 @@ function client_receive_encoded_char( encoded_char : int64 ):void
         }
     }
 }
+
+@client
+function enterSameRoom( nameId : int32, mobId : int32 ) : void
+{
+    print( "enterSameRoom( \{nameId}, \{mobId} )\n" );
+}

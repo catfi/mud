@@ -65,7 +65,7 @@ function launchServices() : void
                                                } );
     Game.gMobGenerateIssuer.start();
     //
-    Game.gMobWalkIssuer = Util.Timer.loop( 1000,
+    Game.gMobWalkIssuer = Util.Timer.loop( 500,
                                            lambda() : void {
                                                Game.issueMobWalks();
                                            } );
