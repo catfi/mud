@@ -21,11 +21,7 @@ class MobName
 
     public static function gen() : MobName
     {
-        if ( sAllMobName.size() == 0 )
-        {
-            initMobName();
-            sGen = new thor.util.Random<int32, thor.util.Uniform>( 0, sAllMobName.size() - 1 );
-        }
+        if ( sAllMobName.size() == 0 ) init();
 
         var id : int32 = sGen.next();
         var string : String = sAllMobName.get( id );
@@ -33,10 +29,24 @@ class MobName
         return new MobName( id, string );
     }
 
+    public static function getString( id : int32 ) : String
+    {
+        if ( sAllMobName.size() == 0 ) init();
+
+        return sAllMobName.get( id );
+    }
+
     private function new( id : int32, string : String )
     {
         mId = id;
         mString = string;
+    }
+
+    private static function init()
+    {
+        // assert( sAllMobName.size() == 0 );
+        initMobName();
+        sGen = new thor.util.Random<int32, thor.util.Uniform>( 0, sAllMobName.size() - 1 );
     }
 
     private static function initMobName() : void
