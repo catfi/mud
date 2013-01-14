@@ -34,3 +34,22 @@ function issueMobWalks() : void
         Common.pushEvent( new Common.MoveEvent(mob, gen.next()) );
 
 }
+
+var gMobAttackIssuer : Util.Timer = null;
+
+@server
+function issueMobAttacks() : void
+{
+    var mobs = Server.gGameState.mobs();
+
+    for ( var mob in mobs )
+    {
+        if ( !mob.mRoom.hasPlayers() )
+            continue;
+
+        var players = Server.gGameState.players();
+        var rand = new thor.util.Random<int32, thor.util.Uniform>( 0, players.size()-1 );
+
+        Common.pushEvent( new Common.MobAttackEvent(mob, players[rand.next()]) );
+    }
+}

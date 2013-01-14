@@ -86,6 +86,11 @@ function dispatchEvents() : void
             var listener : EventListener = new PlayerAttackEventListener;
             listener.performed( event );
         }
+        else if ( isa<MobAttackEvent>(event) )
+        {
+            var listener : EventListener = new MobAttackEventListener;
+            listener.performed( event );
+        }
         else
         {
             print( "ERROR! unknown event type\n" );
@@ -181,6 +186,19 @@ class PlayerAttackEvent extends Event
     {
         mPlayer = player;
         mMobId = mobId;
+    }
+}
+
+class MobAttackEvent extends Event
+{
+    public var mMob : Game.Mob;
+    public var mPlayer : Game.PlayerInfo;
+
+    public function new( mob : Game.Mob,
+                         player : Game.PlayerInfo ) : void
+    {
+        mMob = mob;
+        mPlayer = player;
     }
 }
 
@@ -323,5 +341,25 @@ class PlayerAttackEventListener extends EventListener
         // mob was dead by attack
         if ( displayHp == 0 )
             Server.gGameState.remove( found );
+    }
+}
+
+class MobAttackEventListener extends EventListener
+{
+    public virtual function performed( event : Event ) : void
+    {
+        var e = cast<MobAttackEvent>(event);
+
+        var player = e.mPlayer;
+        var mob = e.mMob;
+
+        // update mob's hp
+        var displayHp : int32 = ( mob.attack > player.life ? 0 : player.life - mob.attack );
+        player.life = displayHp;
+
+        var dest = Server.ConnectionSystem.getDomain(player);
+
+        @remote { domain = dest }
+        Client.attackedByMobMsg( mob.getNameId(), displayHp, mob.attack );
     }
 }

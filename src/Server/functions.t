@@ -73,4 +73,11 @@ function launchServices() : void
                                                Game.issueMobWalks();
                                            } );
     Game.gMobWalkIssuer.start();
+    //
+    Game.gMobAttackIssuer = Util.Timer.loop( 1000,
+                                             lambda() : void {
+                                                 Game.issueMobAttacks();
+                                             } );
+
+    Game.gMobAttackIssuer.start();
 }
