@@ -35,3 +35,8 @@ function attackedByMobMsg( nameId : int32, hp : int32, dmg : int32 )
         print( " You are damaged by \{dmg}. Now, you have \{hp} HP.\n" );
     }
 }
+
+function rebirthMsg()
+{
+    print( " You are rebirth!!!" );
+}
