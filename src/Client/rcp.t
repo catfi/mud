@@ -10,6 +10,14 @@ function enterSameRoom( nameId : int32, id : int32 )
 
 function attackMobMsg( nameId : int32, hp: int32, dmg: int32 )
 {
-    print( Game.MobName.getString( nameId ) );
-    print( " was damaged by \{dmg}. Now, it has \{hp} HP. And, It is very angry!\n" );
+    if ( hp != 0 )
+    {
+        print( Game.MobName.getString( nameId ) );
+        print( " was damaged by \{dmg}. Now, it has \{hp} HP. And, It is very angry!\n" );
+    }
+    else
+    {
+        print( Game.MobName.getString( nameId ) );
+        print( " was killed!\n" );
+    }
 }
