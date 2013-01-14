@@ -5,6 +5,6 @@ class MobGenerator
 
     public static function gen() : Mob
     {
-        return new Mob( ++id, MobNameGenerator.gen() );
+        return new Mob( ++id, MobName.gen() );
     }
 }

@@ -53,7 +53,7 @@ class ObjectInfo
         return result;
     }
 
-    public function toString() : String
+    public virtual function toString() : String
     {
         return Convert.toString(id) + "," + name + "," + Convert.toString(position);
     }
@@ -94,6 +94,11 @@ class Living extends ObjectInfo
         attack = theAttack;
         defence = theDefence;
     }
+
+    public virtual function toString() : String
+    {
+        return Convert.toString(id) + "," + name + "," + Convert.toString(position);
+    }
 }
 
 class PlayerInfo extends Living
@@ -119,14 +124,31 @@ class PlayerInfo extends Living
 
 class Mob extends Living
 {
-    public function new( theId : int32, theName : String ) : void
+    private var mMobName : MobName;
+
+    public function new( theId : int32, mobName : MobName ) : void
     {
         super( theId, 100, 6, 5 );
-        this.name = theName;
+        mMobName = mobName;
     }
 
     public virtual function isEqual( object : ObjectInfo ) : bool
     {
         return isa<Mob>(object) && id == object.id;
+    }
+
+    public function getNameString() : String
+    {
+        return mMobName.getString();
+    }
+
+    public function getNameId() : int32
+    {
+        return mMobName.getId();
+    }
+
+    public virtual function toString() : String
+    {
+        return Convert.toString(id) + "," + getNameString() + "," + Convert.toString(position);
     }
 }

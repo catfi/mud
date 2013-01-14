@@ -39,10 +39,10 @@ class VectorConverter
         if( objects.size() == 0 )
             return "";
 
-        var result = Convert.toString( objects[ 0 ] );
+        var result = objects[0].toString();
 
         for( var i = 1; i < objects.size(); ++i )
-            result = result + ":" + Convert.toString( objects[ i ] );
+            result = result + ":" + objects[ i ].toString();
 
         return result;
     }

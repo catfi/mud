@@ -1,9 +1,25 @@
 import thor.container;
 import thor.util;
 
-class MobNameGenerator
+class MobName
 {
-    public static function gen() : String
+    private var mString : String;
+    private var mId : int32;
+
+    private static var sAllMobName : thor.container.Vector<String> = new thor.container.Vector<String>;
+    private static var sGen : thor.util.Random<int32, thor.util.Uniform>;
+
+    public function getString() : String
+    {
+        return mString;
+    }
+
+    public function getId() : int32
+    {
+        return mId;
+    }
+
+    public static function gen() : MobName
     {
         if ( sAllMobName.size() == 0 )
         {
@@ -11,19 +27,20 @@ class MobNameGenerator
             sGen = new thor.util.Random<int32, thor.util.Uniform>( 0, sAllMobName.size() - 1 );
         }
 
-        return sAllMobName.get( sGen.next() );
+        var id : int32 = sGen.next();
+        var string : String = sAllMobName.get( id );
+
+        return new MobName( id, string );
     }
 
-    private static var sAllMobName : thor.container.Vector<String> = new thor.container.Vector<String>;
-    private static var sGen : thor.util.Random<int32, thor.util.Uniform>;
+    private function new( id : int32, string : String )
+    {
+        mId = id;
+        mString = string;
+    }
 
     private static function initMobName() : void
     {
-        sAllMobName.push_back( "Enkidu" );
-        sAllMobName.push_back( "Werebat" );
-        sAllMobName.push_back( "Gelso" );
-        sAllMobName.push_back( "Nominon" );
-        sAllMobName.push_back( "Banshee" );
         sAllMobName.push_back( "Abiondarg" );
         sAllMobName.push_back( "Alastor" );
         sAllMobName.push_back( "Aliorumnas" );
@@ -32,12 +49,13 @@ class MobNameGenerator
         sAllMobName.push_back( "Amphisbaena" );
         sAllMobName.push_back( "Anaconda" );
         sAllMobName.push_back( "Andras" );
-        sAllMobName.push_back( "Arachne" );
         sAllMobName.push_back( "Arabaki" );
+        sAllMobName.push_back( "Arachne" );
         sAllMobName.push_back( "Archer" );
         sAllMobName.push_back( "Azaghal" );
         sAllMobName.push_back( "Bael" );
         sAllMobName.push_back( "Balloon" );
+        sAllMobName.push_back( "Banshee" );
         sAllMobName.push_back( "Barbariccia" );
         sAllMobName.push_back( "Basilisk" );
         sAllMobName.push_back( "Bats" );
@@ -75,6 +93,7 @@ class MobNameGenerator
         sAllMobName.push_back( "Ectoplasm" );
         sAllMobName.push_back( "Efreet" );
         sAllMobName.push_back( "Elgiza" );
+        sAllMobName.push_back( "Enkidu" );
         sAllMobName.push_back( "Erinys" );
         sAllMobName.push_back( "Executioner" );
         sAllMobName.push_back( "Fenrir" );
@@ -84,6 +103,7 @@ class MobNameGenerator
         sAllMobName.push_back( "Gaap" );
         sAllMobName.push_back( "Gaibon" );
         sAllMobName.push_back( "Gargoyles" );
+        sAllMobName.push_back( "Gelso" );
         sAllMobName.push_back( "Ghosts" );
         sAllMobName.push_back( "Ghouls" );
         sAllMobName.push_back( "Gi-Lee" );
@@ -106,9 +126,9 @@ class MobNameGenerator
         sAllMobName.push_back( "Larva" );
         sAllMobName.push_back( "Laura" );
         sAllMobName.push_back( "Lerajie" );
-        sAllMobName.push_back( "Lilith" );
-        sAllMobName.push_back( "Lilim" );
         sAllMobName.push_back( "Lightkeeper" );
+        sAllMobName.push_back( "Lilim" );
+        sAllMobName.push_back( "Lilith" );
         sAllMobName.push_back( "Lion" );
         sAllMobName.push_back( "Lossoth" );
         sAllMobName.push_back( "Lubicant" );
@@ -132,6 +152,7 @@ class MobNameGenerator
         sAllMobName.push_back( "Needles" );
         sAllMobName.push_back( "Nemesis" );
         sAllMobName.push_back( "Nightmare" );
+        sAllMobName.push_back( "Nominon" );
         sAllMobName.push_back( "Nyx" );
         sAllMobName.push_back( "Orc" );
         sAllMobName.push_back( "Orobourous" );
@@ -182,6 +203,7 @@ class MobNameGenerator
         sAllMobName.push_back( "Vapula" );
         sAllMobName.push_back( "Vassago" );
         sAllMobName.push_back( "Warg" );
+        sAllMobName.push_back( "Werebat" );
         sAllMobName.push_back( "Werecat" );
         sAllMobName.push_back( "Werejaguar" );
         sAllMobName.push_back( "Wereskeleton" );
@@ -193,8 +215,8 @@ class MobNameGenerator
         sAllMobName.push_back( "Wraith" );
         sAllMobName.push_back( "Wyrm" );
         sAllMobName.push_back( "Wyvern" );
-        sAllMobName.push_back( "Yorick" );
         sAllMobName.push_back( "Yeti" );
+        sAllMobName.push_back( "Yorick" );
         sAllMobName.push_back( "Zacchino" );
         sAllMobName.push_back( "Zombie" );
     }
