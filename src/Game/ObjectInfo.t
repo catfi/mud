@@ -108,7 +108,7 @@ class PlayerInfo extends Living
 
     public function new( identifier : int32 ) : void
     {
-        super( identifier, 100, 6, 4 );
+        super( identifier, 500, 6, 4 );
     }
 
     public function new( identifier : int32, thePosition : Point ) : void
@@ -128,7 +128,7 @@ class Mob extends Living
 
     public function new( theId : int32, mobName : MobName ) : void
     {
-        super( theId, 100, 6, 5 );
+        super( theId, 17, 6, 5 );
         mMobName = mobName;
     }
 

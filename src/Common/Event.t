@@ -311,12 +311,14 @@ class PlayerAttackEventListener extends EventListener
         if ( found == null )
             return;
 
+        // update mob's hp
         var displayHp : int32 = ( player.attack > found.life ? 0 : found.life - player.attack );
+        found.life = displayHp;
 
         var dest = Server.ConnectionSystem.getDomain(player);
 
         @remote { domain = dest }
-        Client.attackMobMsg( found.getNameId(), displayHp, 0 - player.attack );
+        Client.attackMobMsg( found.getNameId(), displayHp, player.attack );
 
         // mob was dead by attack
         if ( displayHp == 0 )
