@@ -171,7 +171,7 @@ class GenerateMobEventListener extends EventListener
 {
     public virtual function performed( event : Event ) : void
     {
-        var mob = new Game.Mob( "mob" );
+        var mob = Game.MobGenerator.gen();
 
         Server.ObjectSystem.addMob( mob );
     }

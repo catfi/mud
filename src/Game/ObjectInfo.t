@@ -119,9 +119,9 @@ class PlayerInfo extends Living
 
 class Mob extends Living
 {
-    public function new( theName : String ) : void
+    public function new( theId : int32, theName : String ) : void
     {
-        super( -1, 100, 6, 5 );
+        super( theId, 100, 6, 5 );
         this.name = theName;
     }
 
