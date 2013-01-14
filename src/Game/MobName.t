@@ -36,6 +36,16 @@ class MobName
         return sAllMobName.get( id );
     }
 
+    public static function isMobName( name : String ) : bool
+    {
+        for ( var i = 0; i < sAllMobName.size(); ++i )
+        {
+            if ( sAllMobName.get( i ).isEqual( name ) )
+                return true;
+        }
+        return false;
+    }
+
     private function new( id : int32, string : String )
     {
         mId = id;

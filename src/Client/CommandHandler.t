@@ -20,6 +20,40 @@ class CommandHandler
     private static function showMap( objectInfo : Vector<ObjectInfo> ) : void
     {
         var myName : String = gClientGame.getMyName();
+        var canvas = new Canvas( Game.MAP_ROW_LIMIT + 2, 160 );
+
+        // draw map border
+        canvas.drawHVLine( new Point( 0, 0 ), new Point( 0, Game.MAP_COLUMN_LIMIT + 2 ), "-" );
+        canvas.drawHVLine( new Point( Game.MAP_ROW_LIMIT + 1, 0 ), new Point( Game.MAP_ROW_LIMIT + 1, Game.MAP_COLUMN_LIMIT + 2 ), "-" );
+        canvas.drawHVLine( new Point( 1, 0 ), new Point( Game.MAP_ROW_LIMIT, 0 ), "|" );
+        canvas.drawHVLine( new Point( 1, Game.MAP_COLUMN_LIMIT + 2 ), new Point( Game.MAP_ROW_LIMIT, Game.MAP_COLUMN_LIMIT + 2 ), "|" );
+
+        // draw object token in map
+        for( var i : int32 = 0; i < objectInfo.size(); ++i )
+        {
+            var r : int32 = objectInfo[i].position.row + 1;
+            var c : int32 = objectInfo[i].position.col + 1;
+            var pos : Point = new Point( r, c );
+            if ( objectInfo[i].name.isEqual( myName ) )
+            {
+                canvas.draw( pos, "@" );
+            }
+            else if ( Game.MobName.isMobName( objectInfo[i].name ) )
+            {
+                canvas.draw( pos, "&" );
+            }
+            else
+            {
+                canvas.draw( pos, "#" );
+            }
+        }
+
+        canvas.show();
+    }
+    /*
+    private static function showMap( objectInfo : Vector<ObjectInfo> ) : void
+    {
+        var myName : String = gClientGame.getMyName();
         var canvas = new Canvas( Game.MAP_ROW_LIMIT + 2, 140 );
 
         // draw map border
@@ -71,4 +105,5 @@ class CommandHandler
 
         canvas.show();
     }
+    */
 }
