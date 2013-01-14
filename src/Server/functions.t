@@ -47,7 +47,7 @@ function initCmdStrs() : void
 @server
 function registerEventListeners() : void
 {
-    Common.addEventListener( Common.EVENT_MOVE, new MoveEventListener );
+    Common.addEventListener( Common.EVENT_MOVE, new Common.MoveEventListener );
 }
 
 @server

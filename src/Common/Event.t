@@ -1,4 +1,5 @@
 import thor.container;
+import thor.math;
 
 import Game;
 import Util;
@@ -187,3 +188,44 @@ class SayEventListener extends EventListener
         Server.ConnectionSystem.broadcast( sayEvent.mPlayer.name + " says: " + sayEvent.mMsg );
     }
 }
+
+class MoveEventListener extends EventListener
+{
+    public virtual function performed( event : Event ) : void
+    {
+        var moveEvent = cast<MoveEvent>( event );
+
+        // if mob is nearby a player, don't move
+        if ( isa<Game.Mob>( moveEvent.mLiving ) )
+        {
+            var players = Server.gGameState.players();
+            for ( var p in players )
+            {
+                var dist = thor.math.fabs(moveEvent.mLiving.position.row - p.position.row) +
+                           thor.math.fabs(moveEvent.mLiving.position.col - p.position.col);
+
+                if ( dist < 2.0 )
+                    return;
+            }
+        }
+
+        var successful : bool = Server.ObjectSystem.move(moveEvent.mLiving, moveEvent.mDirection);
+        if ( isa<Game.Mob>( moveEvent.mLiving ) )
+            return;
+
+        var player = cast<Game.PlayerInfo>( moveEvent.mLiving );
+
+        if ( successful )
+        {
+            var objects = Server.gGameState.mAllObjects;
+            var msg : String = "map: " + Util.VectorConverter.toString(objects);
+
+            Server.ConnectionSystem.send( player, msg );
+        }
+        else
+        {
+            Server.ConnectionSystem.send( player, "invalid move" );
+        }
+    }
+}
+
