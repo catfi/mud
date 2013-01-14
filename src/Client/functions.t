@@ -53,9 +53,3 @@ function client_receive_encoded_char( encoded_char : int64 ):void
         }
     }
 }
-
-@client
-function attackMobMsg( mobNameId : int32, hp : int32, decrease : int32 ) : void
-{
-
-}

@@ -229,6 +229,11 @@ class MoveEventListener extends EventListener
     public virtual function performed( event : Event ) : void
     {
         var moveEvent = cast<MoveEvent>( event );
+        var living = moveEvent.mLiving;
+
+        // if there any players in room, then mob don't leave
+        if ( isa<Game.Mob>(living) && living.mRoom.hasPlayers() )
+            return;
 
         // if mob is nearby a player, don't move
         //if ( isa<Game.Mob>( moveEvent.mLiving ) )
@@ -244,12 +249,11 @@ class MoveEventListener extends EventListener
         //    }
         //}
 
-        var successful : bool = Server.ObjectSystem.move(moveEvent.mLiving, moveEvent.mDirection);
-        if ( isa<Game.Mob>( moveEvent.mLiving ) )
+        var successful : bool = Server.ObjectSystem.move(living, moveEvent.mDirection);
+        if ( isa<Game.Mob>( living ) )
             return;
 
-        var player = cast<Game.PlayerInfo>( moveEvent.mLiving );
-
+        var player = cast<Game.PlayerInfo>( living );
         if ( successful )
         {
             var objects = Server.gGameState.mAllObjects;
@@ -307,7 +311,7 @@ class PlayerAttackEventListener extends EventListener
         if ( found == null )
             return;
 
-        var displayHp : int32 = ( player.attack > displayHp ? displayHp - player.attack : 0 );
+        var displayHp : int32 = ( player.attack > found.life ? 0 : found.life - player.attack );
 
         var dest = Server.ConnectionSystem.getDomain(player);
 
