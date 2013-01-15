@@ -20,6 +20,7 @@ class EventListener
 }
 
 var gEventQueue : thor.container.Vector<Event> = new thor.container.Vector<Event>;
+var gEventQueueMutex : Util.Mutex = new Util.Mutex;
 
 // event type codes
 var EVENT_MOVE : int32 = 0;
@@ -29,7 +30,15 @@ var gMoveEventListeners : thor.container.Vector<EventListener> = new thor.contai
 // public interface for each sub-systems
 function pushEvent( event : Event ) : void
 {
-    gEventQueue.push_back( event );
+    while ( true )
+    {
+        if ( gEventQueueMutex.tryLock() )
+        {
+            gEventQueue.push_back( event );
+            gEventQueueMutex.release();
+            break;
+        }
+    }
 }
 
 function addEventListener( eventType : int32, listener : EventListener ) : void
