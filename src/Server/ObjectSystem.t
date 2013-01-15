@@ -98,6 +98,7 @@ class ObjectSystem
     {
         gGameState.add( mob );
 
-        print( "add mob\n" );
+        var mobcount : int32 = gGameState.mMobCount;
+        print( "add 1 mob, now there are \{mobcount} mobs.\n" );
     }
 }

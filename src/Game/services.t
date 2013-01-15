@@ -14,9 +14,9 @@ function issueMobs() : void
 {
     //print( "issueMobs()\n" );
     //if ( Server.gGameState.mMobCount < Server.gGameState.mPlayerCount )
-    if ( Server.gGameState.mMobCount < 20 )
+    if ( Server.gGameState.mMobCount < 1000 )
     {
-        Common.pushEvent( new Common.GenerateMobEvent );
+        Common.pushEvent( new Common.GenerateMobEvent( 250 ) );
     }
 }
 

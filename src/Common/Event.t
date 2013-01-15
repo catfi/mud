@@ -180,7 +180,14 @@ class AttackEvent extends Event
 }
 
 class GenerateMobEvent extends Event
-{ }
+{
+    public var mCount : int32;
+
+    public function new( count: int32 ) : void
+    {
+        mCount = count;
+    }
+}
 
 class MobEnterRoomEvent extends Event
 {
@@ -265,9 +272,12 @@ class GenerateMobEventListener extends EventListener
 {
     public virtual function performed( event : Event ) : void
     {
-        var mob = Game.MobGenerator.gen();
-
-        Server.ObjectSystem.addMob( mob );
+        var generateMobEvent : GenerateMobEvent = cast<GenerateMobEvent>(event);
+        for ( var i = 0; i < generateMobEvent.mCount; ++i )
+        {
+            var mob = Game.MobGenerator.gen();
+            Server.ObjectSystem.addMob( mob );
+        }
     }
 }
 
