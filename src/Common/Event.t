@@ -324,10 +324,7 @@ class MoveEventListener extends EventListener
         var player = cast<Game.PlayerInfo>( living );
         if ( successful )
         {
-            var objects = Server.gGameState.mAllObjects;
-            var msg : String = "map: " + Util.VectorConverter.toString(objects);
-
-            Server.ConnectionSystem.send( player, msg );
+            Server.ConnectionSystem.send( player, "\n" + Server.ObjectSystem.getMapString( player ) );
         }
         else
         {

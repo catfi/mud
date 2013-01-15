@@ -49,14 +49,22 @@ class Canvas
 
     public function show()
     {
+        print( getSerializedString() );
+    }
+
+    public function getSerializedString() : String
+    {
+        var result : String = new String;
         for ( var r : int32 = 0; r < height(); ++r )
         {
             for ( var c : int32 = 0; c < width(); ++c )
             {
-                print( canvas.get( r, c ).substring( 0, 1 ) );
+                result = result + canvas.get( r, c ).substring( 0, 1 );
             }
-            print( "\n" );
+            result = result + "\n";
         }
+
+        return result;
     }
 
     private function drawChar( point : Point, str : String )

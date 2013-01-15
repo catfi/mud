@@ -4,6 +4,7 @@ import .= thor.util;
 import .= Game;
 import .= Util;
 import Common;
+import .= Client;
 
 class ObjectSystem
 {
@@ -30,9 +31,38 @@ class ObjectSystem
         return true;
     }
 
-    private static function getMapString() : String
+    public static function getMapString( clientPlayer : PlayerInfo ) : String
     {
-        return "map: " + VectorConverter.toString(gGameState.mAllObjects);
+        var objects = gGameState.mAllObjects;
+
+        var canvas = new Client.Canvas( Game.MAP_ROW_LIMIT + 2, 15 );
+
+        // draw map border
+        canvas.drawHVLine( new Game.Point( 0, 0 ), new Game.Point( 0, Game.MAP_COLUMN_LIMIT + 2 ), "-" );
+        canvas.drawHVLine( new Game.Point( Game.MAP_ROW_LIMIT + 1, 0 ), new Game.Point( Game.MAP_ROW_LIMIT + 1, Game.MAP_COLUMN_LIMIT + 2 ), "-" );
+        canvas.drawHVLine( new Game.Point( 1, 0 ), new Game.Point( Game.MAP_ROW_LIMIT, 0 ), "|" );
+        canvas.drawHVLine( new Game.Point( 1, Game.MAP_COLUMN_LIMIT + 2 ), new Game.Point( Game.MAP_ROW_LIMIT, Game.MAP_COLUMN_LIMIT + 2 ), "|" );
+
+        // draw object token in map
+        for( var mob in gGameState.mobs() )
+        {
+            var r : int32 = mob.position.row + 1;
+            var c : int32 = mob.position.col + 1;
+            var pos : Point = new Point( r, c );
+            canvas.draw( pos, "&" );
+        }
+        for( var player in gGameState.players() )
+        {
+            var r : int32 = player.position.row + 1;
+            var c : int32 = player.position.col + 1;
+            var pos : Point = new Point( r, c );
+            if ( player.isEqual( clientPlayer ) )
+                canvas.draw( pos, "@" );
+            else
+                canvas.draw( pos, "#" );
+        }
+
+        return canvas.getSerializedString();
     }
 
     private static function getRandomPos() : Point
@@ -91,7 +121,7 @@ class ObjectSystem
         gGameState.add( player );
 
         print( "add player\n" );
-        ConnectionSystem.send( player, getMapString() );
+        ConnectionSystem.send( player, "\n" + getMapString( player ) );
     }
 
     public static function addMob( mob : Mob ) : void
