@@ -111,12 +111,12 @@ class PlayerInfo extends Living
 
     public function new( identifier : int32 ) : void
     {
-        super( identifier, 10, 6, 4 );
+        super( identifier, gPlayerDefaultHp, 6, 4 );
     }
 
     public function new( identifier : int32, thePosition : Point ) : void
     {
-        super( identifier, thePosition, 100, 6, 4 );
+        super( identifier, thePosition, gPlayerDefaultHp, 6, 4 );
     }
 
     public virtual function isEqual( object : ObjectInfo ) : bool

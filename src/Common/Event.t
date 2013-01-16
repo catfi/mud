@@ -452,7 +452,7 @@ class PlayerRebirthEventListener extends EventListener
         var player = e.mPlayer;
         player.isAlive = true;
 
-        player.life = 20;
+        player.life = Game.gPlayerDefaultHp;
         Server.gGameState.add( player );
 
         var dest = Server.ConnectionSystem.getDomain(player);
