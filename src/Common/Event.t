@@ -400,6 +400,8 @@ class MobAttackEventListener extends EventListener
         var player = e.mPlayer;
         var mob = e.mMob;
 
+        if ( !player.isAlive ) return;
+
         // update mob's hp
         var displayHp : int32 = ( mob.attack > player.life ? 0 : player.life - mob.attack );
         player.life = displayHp;
@@ -411,7 +413,10 @@ class MobAttackEventListener extends EventListener
 
         // player was dead
         if ( displayHp == 0 )
+        {
             pushEvent( new PlayerDeadEvent(player) );
+            player.isAlive = false;
+        }
     }
 }
 
@@ -445,6 +450,7 @@ class PlayerRebirthEventListener extends EventListener
         var e = cast<PlayerRebirthEvent>(event);
 
         var player = e.mPlayer;
+        player.isAlive = true;
 
         player.life = 20;
         Server.gGameState.add( player );

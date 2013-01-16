@@ -69,6 +69,7 @@ class Living extends ObjectInfo
     public var life : int32;
     public var attack : int32;
     public var defence : int32;
+    public var isAlive : bool;
 
     public function new( identifier : int32,
                          theLife : int32,
@@ -80,6 +81,7 @@ class Living extends ObjectInfo
         life = theLife;
         attack = theAttack;
         defence = theDefence;
+        isAlive = true;
     }
 
     public function new( identifier : int32,
@@ -93,6 +95,7 @@ class Living extends ObjectInfo
         life = theLife;
         attack = theAttack;
         defence = theDefence;
+        isAlive = true;
     }
 
     public virtual function toString() : String
