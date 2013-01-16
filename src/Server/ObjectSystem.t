@@ -35,7 +35,8 @@ class ObjectSystem
     {
         var objects = gGameState.mAllObjects;
 
-        var canvas = new Client.Canvas( Game.MAP_ROW_LIMIT + 2, 15 );
+        // var canvas = new Client.Canvas( Game.MAP_ROW_LIMIT + 2, 15 ); ok
+        var canvas = new Client.Canvas( Game.MAP_ROW_LIMIT + 2, 60 );
 
         // draw map border
         canvas.drawHVLine( new Game.Point( 0, 0 ), new Game.Point( 0, Game.MAP_COLUMN_LIMIT + 2 ), "-" );

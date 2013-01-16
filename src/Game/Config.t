@@ -14,7 +14,7 @@ var COMMAND_END : int32 = 8;
 
 // map setting
 var MAP_ROW_LIMIT : int32 = 10;
-var MAP_COLUMN_LIMIT : int32 = 10;
+var MAP_COLUMN_LIMIT : int32 = 40;
 
 // maps to store command strings
 var gAllCmdStrs : HashMap< int32, String > = new HashMap< int32, String>;
