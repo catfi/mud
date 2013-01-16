@@ -35,8 +35,7 @@ class ObjectSystem
     {
         var objects = gGameState.mAllObjects;
 
-        // var canvas = new Client.Canvas( Game.MAP_ROW_LIMIT + 2, 15 ); ok
-        var canvas = new Client.Canvas( Game.MAP_ROW_LIMIT + 2, 60 );
+        var canvas = new Client.Canvas( Game.MAP_ROW_LIMIT + 2, 140 );
 
         // draw map border
         canvas.drawHVLine( new Game.Point( 0, 0 ), new Game.Point( 0, Game.MAP_COLUMN_LIMIT + 2 ), "-" );
@@ -122,7 +121,7 @@ class ObjectSystem
         gGameState.add( player );
 
         print( "add player\n" );
-        ConnectionSystem.send( player, "\n" + getMapString( player ) );
+        // ConnectionSystem.send( player, "\n" + getMapString( player ) );
     }
 
     public static function addMob( mob : Mob ) : void
