@@ -20,7 +20,7 @@ class CommandHandler
     private static function showMap( objectInfo : Vector<ObjectInfo> ) : void
     {
         var myName : String = gClientGame.getMyName();
-        var canvas = new Canvas( Game.MAP_ROW_LIMIT + 2, 50 );
+        var canvas = new Canvas( Game.MAP_ROW_LIMIT + 2, Game.MAP_COLUMN_LIMIT + 2 );
 
         // draw map border
         canvas.drawHVLine( new Point( 0, 0 ), new Point( 0, Game.MAP_COLUMN_LIMIT + 2 ), "-" );
