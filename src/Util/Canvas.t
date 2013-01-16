@@ -1,5 +1,4 @@
-import .= Util;
-import .= Game;
+import .= Game; // for Point
 
 class Canvas
 {

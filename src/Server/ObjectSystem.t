@@ -4,7 +4,6 @@ import .= thor.util;
 import .= Game;
 import .= Util;
 import Common;
-import .= Client;
 
 class ObjectSystem
 {
@@ -35,7 +34,7 @@ class ObjectSystem
     {
         var objects = gGameState.mAllObjects;
 
-        var canvas = new Client.Canvas( Game.MAP_ROW_LIMIT + 2, 140 );
+        var canvas = new Util.Canvas( Game.MAP_ROW_LIMIT + 2, 140 );
 
         // draw map border
         canvas.drawHVLine( new Game.Point( 0, 0 ), new Game.Point( 0, Game.MAP_COLUMN_LIMIT + 2 ), "-" );
