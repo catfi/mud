@@ -21,8 +21,8 @@ class MsgBuffer
     public function add_encoded_char( encoded_char : int64 ) : void
     {
         // assert the receive buffer is clear
-        var index : int32 = encoded_char / power32;
-        var decoded_char : int32 = encoded_char % power32;
+        var index : int32 = cast<int32>( encoded_char / power32 );
+        var decoded_char : int32 = cast<int32>( encoded_char % power32 );
 
         // remember that index 0 is real message's length
         buffer.set( index, decoded_char );
@@ -50,7 +50,7 @@ class MsgBuffer
 
             for ( var i:int32 = 1; i <= msg_length; ++i )
             {
-                msg.addAscii( buffer.get(i) );
+                msg.addAscii( cast<int8>( buffer.get(i) ) );
             }
 
             // handle it ( a command or something )

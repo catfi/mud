@@ -1,7 +1,7 @@
 import .= thor.container;
 import .= thor.util;
 
-var foo : Array<int32>;
+var foo : Array<int32> = null;
 const foosize : int32 = 1000;
 
 var gMutex : TestMutex = new TestMutex;

@@ -50,7 +50,7 @@ function issueMobAttacks() : void
             continue;
 
         var players = Server.gGameState.players();
-        var max = players.size()-1;
+        var max = cast<int32>( players.size()-1 );
         var rand = new thor.util.Random<int32, thor.util.Uniform>( 0, max );
 
         Common.pushEvent( new Common.MobAttackEvent(mob, players[rand.next()]) );

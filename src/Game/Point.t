@@ -21,8 +21,8 @@ class Point
 
     public function new( encodedPos : int64 ) : void
     {
-        this.row = encodedPos / power32;
-        this.col = encodedPos % power32;
+        this.row = cast<int32>( encodedPos / power32 );
+        this.col = cast<int32>( encodedPos % power32 );
     }
 
     public function toEncodedPos() : int64

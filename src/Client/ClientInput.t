@@ -2,7 +2,7 @@ import .= Util;
 
 class ClientInput
 {
-    private static var input_in_native_thread : NativeThreadInput;
+    private static var input_in_native_thread : NativeThreadInput = null;
 
     public static function create(): void
     {

@@ -389,7 +389,8 @@ class PlayerEnterRoomEventListener extends EventListener
 
         var dest = Server.ConnectionSystem.getDomain( player );
         @remote { domain = dest }
-        Client.showRoomInfo( room.mPlayers.size(), room.mMobs.size() );
+        Client.showRoomInfo( cast<int32>( room.mPlayers.size() ),
+                             cast<int32>( room.mMobs.size() ) );
     }
 }
 

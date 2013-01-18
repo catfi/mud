@@ -93,9 +93,10 @@ class ConnectionSystem
         @remote { domain = target }
         Client.client_receive_encoded_char( msg.length() );
 
-        for ( var i:int64 = 0; i < msg.length(); ++i )
+        for ( var i:int32 = 0; i < msg.length(); ++i )
         {
-            @remote { domain = target } Client.client_receive_encoded_char( (i+1) * Common.power32 + msg[ i ] );
+            @remote { domain = target }
+            Client.client_receive_encoded_char( (i+1) * Common.power32 + msg[ i ] );
         }
     }
 

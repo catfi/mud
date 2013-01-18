@@ -7,7 +7,7 @@ class MobName
     private var mId : int32;
 
     private static var sAllMobName : thor.container.Vector<String> = new thor.container.Vector<String>;
-    private static var sGen : thor.util.Random<int32, thor.util.Uniform>;
+    private static var sGen : thor.util.Random<int32, thor.util.Uniform> = null;
 
     public function getString() : String
     {
@@ -56,7 +56,7 @@ class MobName
     {
         // assert( sAllMobName.size() == 0 );
         initMobName();
-        sGen = new thor.util.Random<int32, thor.util.Uniform>( 0, sAllMobName.size() - 1 );
+        sGen = new thor.util.Random<int32, thor.util.Uniform>( 0, cast<int32>(sAllMobName.size()-1) );
     }
 
     private static function initMobName() : void

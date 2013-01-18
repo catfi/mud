@@ -32,8 +32,6 @@ class ObjectSystem
 
     public static function getMapString( clientPlayer : PlayerInfo, radius : int32 ) : String
     {
-        var objects = gGameState.mAllObjects;
-
         var canvas = new Util.Canvas( Game.MAP_ROW_LIMIT + 2, Game.MAP_COLUMN_LIMIT + 2 );
         canvas.crop( new Point( 2,2 ), 3,3 );
 

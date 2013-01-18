@@ -4,9 +4,9 @@ import .= thor.container;
 import Game;
 import .= Util;
 
-var gServer : Domain;
+var gServer : Domain = null;
 var gClientMsgBuffer : MsgBuffer = new MsgBuffer(1000);
-var gClientGame : ClientGame;
+var gClientGame : ClientGame = null;
 
 function welcome( user_count:int32 ):void
 {

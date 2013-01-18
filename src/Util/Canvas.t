@@ -14,12 +14,12 @@ class Canvas
 
     public function height() : int32
     {
-        return canvas.size( 0 );
+        return cast<int32>( canvas.size(0) );
     }
 
     public function width() : int32
     {
-        return canvas.size( 1 );
+        return cast<int32>( canvas.size(1) );
     }
 
     public function drawHVLine( from : Point, to : Point, str : String )

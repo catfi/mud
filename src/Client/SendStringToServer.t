@@ -18,9 +18,9 @@ class SendStringToServer
         @remote { domain = target }
         server_receive_encoded_char( msg.length() );
 
-        for ( var i:int64 = 0; i < msg.length(); ++i )
+        for ( var i:int32 = 0; i < msg.length(); ++i )
         {
-            var value : int16 = msg[ i ];
+            var value = msg[ i ];
             @remote { domain = target } server_receive_encoded_char( (i+1) * power32 + value );
         }
     }

@@ -27,12 +27,12 @@ class GameMap
 
     public function height() : int32
     {
-        return map.size(0);
+        return cast<int32>( map.size(0) );
     }
 
     public function width() : int32
     {
-        return map.size(1);
+        return cast<int32>( map.size(1) );
     }
 
     public function valid( r : int32, c : int32 ) : bool
