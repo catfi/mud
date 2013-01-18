@@ -248,7 +248,6 @@ class MobAttackEvent extends Event
 
 class PlayerDeadEvent extends Event
 {
-
     public var mPlayer : Game.PlayerInfo;
 
     public function new( player : Game.PlayerInfo ) : void
@@ -316,6 +315,10 @@ class MoveEventListener extends EventListener
     {
         var moveEvent = cast<MoveEvent>( event );
         var living = moveEvent.mLiving;
+
+        // dead livings can not move
+        if ( !living.isAlive )
+            return;
 
         // if there any players in room, then mob don't leave
         if ( isa<Game.Mob>(living) && living.mRoom.hasPlayers() )
@@ -404,6 +407,10 @@ class PlayerAttackEventListener extends EventListener
         var room = player.mRoom;
         var mobId = e.mMobId;
 
+        // dead players are not allowed to attack
+        if ( !player.isAlive )
+            return;
+
         // find mob to attack in room
         var found : Game.Mob = null;
         for ( var mob in room.mMobs )
@@ -459,8 +466,8 @@ class MobAttackEventListener extends EventListener
         // player was dead
         if ( displayHp == 0 )
         {
-            pushEvent( new PlayerDeadEvent(player) );
             player.isAlive = false;
+            pushEvent( new PlayerDeadEvent(player) );
         }
     }
 }
@@ -472,15 +479,9 @@ class PlayerDeadEventListener extends EventListener
         print( "player dead\n" );
         var e = cast<PlayerDeadEvent>(event);
 
-        var player = e.mPlayer;
-        var room = player.mRoom;
-
-        room.leave( player );
-        Server.gGameState.remove( player );
-
         var rebirthIssuer = Util.Timer.oneShot( 5000,
                                                 lambda() : void {
-                                                    pushEvent( new PlayerRebirthEvent(player) );
+                                                    pushEvent( new PlayerRebirthEvent(e.mPlayer) );
                                                 });
         rebirthIssuer.start();
     }
@@ -493,12 +494,10 @@ class PlayerRebirthEventListener extends EventListener
         print( "player rebirth\n" );
 
         var e = cast<PlayerRebirthEvent>(event);
-
         var player = e.mPlayer;
-        player.isAlive = true;
 
         player.life = Game.gPlayerDefaultHp;
-        Server.gGameState.add( player );
+        player.isAlive = true;
 
         var dest = Server.ConnectionSystem.getDomain(player);
         @remote { domain = dest }
