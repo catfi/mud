@@ -30,11 +30,12 @@ class ObjectSystem
         return true;
     }
 
-    public static function getMapString( clientPlayer : PlayerInfo ) : String
+    public static function getMapString( clientPlayer : PlayerInfo, radius : int32 ) : String
     {
         var objects = gGameState.mAllObjects;
 
-        var canvas = new Util.Canvas( Game.MAP_ROW_LIMIT + 2, 140 );
+        var canvas = new Util.Canvas( Game.MAP_ROW_LIMIT + 2, Game.MAP_COLUMN_LIMIT + 2 );
+        canvas.crop( new Point( 2,2 ), 3,3 );
 
         // draw map border
         canvas.drawHVLine( new Game.Point( 0, 0 ), new Game.Point( 0, Game.MAP_COLUMN_LIMIT + 2 ), "-" );
@@ -61,7 +62,19 @@ class ObjectSystem
                 canvas.draw( pos, "#" );
         }
 
-        return canvas.getSerializedString();
+        // calculate crop pos and size
+        // assert ( radius * 2 + 1 ) >= max( width of canvas, height of canvas )
+        var diameter : int32 = radius * 2 + 1;
+        var playerR : int32 = clientPlayer.position.row + 1;
+        var playerC : int32 = clientPlayer.position.col + 1;
+        var posR : int32 = playerR - radius;
+        if ( playerR - radius < 0 ) posR = 0;
+        if ( playerR + radius >= canvas.height() ) posR = canvas.height() - diameter;
+        var posC : int32 = playerC - radius;
+        if ( playerC - radius < 0 ) posC = 0;
+        if ( playerC + radius >= canvas.width()  ) posC = canvas.width()  - diameter;
+
+        return canvas.crop( new Point( posR, posC ), diameter, diameter ).getSerializedString();
     }
 
     private static function getRandomPos() : Point
@@ -120,7 +133,7 @@ class ObjectSystem
         gGameState.add( player );
 
         print( "add player\n" );
-        // ConnectionSystem.send( player, "\n" + getMapString( player ) );
+        ConnectionSystem.send( player, "\n" + getMapString( player, 3 ) );
     }
 
     public static function addMob( mob : Mob ) : void

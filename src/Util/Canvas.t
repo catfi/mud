@@ -46,6 +46,21 @@ class Canvas
         }
     }
 
+    public function crop( point : Point, h : int32, w : int32 ) : Canvas
+    {
+        // assert h and w > 0
+        var new_canvas : Canvas = new Canvas( h, w );
+        for ( var r : int32 = 0; r < h; ++r )
+        {
+            for ( var c : int32 = 0; c < w; ++c )
+            {
+                var canvasChar : String = canvas.get( point.row + r, point.col + c ).substring( 0, 1 );
+                new_canvas.drawChar( new Point( r, c ), canvasChar );
+            }
+        }
+        return new_canvas;
+    }
+
     public function show()
     {
         print( getSerializedString() );

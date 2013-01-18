@@ -322,10 +322,13 @@ class MoveEventListener extends EventListener
             return;
 
         var player = cast<Game.PlayerInfo>( living );
-        if ( !successful )
+        if ( successful )
+        {
+            Server.ConnectionSystem.send( player, "\n" + Server.ObjectSystem.getMapString( player, 3 ) );
+        }
+        else
         {
             Server.ConnectionSystem.send( player, "invalid move" );
-            //Server.ConnectionSystem.send( player, "\n" + Server.ObjectSystem.getMapString( player ) );
         }
         else
         {
