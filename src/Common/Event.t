@@ -324,14 +324,6 @@ class MoveEventListener extends EventListener
         var player = cast<Game.PlayerInfo>( living );
         if ( successful )
         {
-            Server.ConnectionSystem.send( player, "\n" + Server.ObjectSystem.getMapString( player, 3 ) );
-        }
-        else
-        {
-            Server.ConnectionSystem.send( player, "invalid move" );
-        }
-        else
-        {
             var notifies = new thor.container.HashMap<int32,String>;
             var header = "You Go ";
             notifies.set( MoveEvent.NORTH, header + "North" );
@@ -340,6 +332,11 @@ class MoveEventListener extends EventListener
             notifies.set( MoveEvent.EAST, header + "East" );
 
             Server.ConnectionSystem.send( player, notifies[moveEvent.mDirection] );
+            Server.ConnectionSystem.send( player, "\n" + Server.ObjectSystem.getMapString( player, 3 ) );
+        }
+        else
+        {
+            Server.ConnectionSystem.send( player, "invalid move" );
         }
     }
 }
