@@ -90,6 +90,26 @@ function attackMobMsg( nameId : int32, hp : int32, dmg : int32 )
     }
 }
 
+function showRoomInfo( playerCount : int32, mobCount : int32 ) : void
+{
+    var are_or_is = ( 1 < playerCount + mobCount ? "are" : "is");
+
+    var message = "In this room, there \{are_or_is} ";
+
+    var playerPostfix = ( 1 < playerCount ? "s" : "" );
+
+    message = message + "\{playerCount} player\{playerPostfix}";
+
+    if ( mobCount != 0 )
+    {
+        var mobPostfix = ( 1 < mobCount ? "s" : "" );
+        message = message + " and \{mobCount} mob\{mobPostfix}";
+    }
+
+    message = message + ".\n";
+    print( message );
+}
+
 function attackedByMobMsg( nameId : int32, hp : int32, dmg : int32 )
 {
     print( "You are attacked by " );

@@ -90,6 +90,11 @@ function dispatchEvents() : void
             var listener : EventListener = new MobEnterRoomEventListener;
             listener.performed( event );
         }
+        else if ( isa<PlayerEnterRoomEvent>(event) )
+        {
+            var listener : EventListener = new PlayerEnterRoomEventListener;
+            listener.performed( event );
+        }
         else if ( isa<PlayerAttackEvent>(event) )
         {
             var listener : EventListener = new PlayerAttackEventListener;
@@ -198,6 +203,19 @@ class MobEnterRoomEvent extends Event
                          room : Game.Room ) : void
     {
         mMob = mob;
+        mRoom = room;
+    }
+}
+
+class PlayerEnterRoomEvent extends Event
+{
+    public var mPlayer : Game.PlayerInfo;
+    public var mRoom : Game.Room;
+
+    public function new( player : Game.PlayerInfo,
+                         room : Game.Room ) : void
+    {
+        mPlayer = player;
         mRoom = room;
     }
 }
@@ -357,6 +375,21 @@ class MobEnterRoomEventListener extends EventListener
             @remote { domain = dest }
             Client.enterSameRoom( mob.getNameId(), mob.id );
         }
+    }
+}
+
+class PlayerEnterRoomEventListener extends EventListener
+{
+    public virtual function performed( event : Event ) : void
+    {
+        var e = cast<PlayerEnterRoomEvent>( event );
+
+        var player = e.mPlayer;
+        var room = e.mRoom;
+
+        var dest = Server.ConnectionSystem.getDomain( player );
+        @remote { domain = dest }
+        Client.showRoomInfo( room.mPlayers.size(), room.mMobs.size() );
     }
 }
 
